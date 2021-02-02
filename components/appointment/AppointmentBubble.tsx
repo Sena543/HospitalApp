@@ -6,7 +6,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
 
     const colors = [
         {name:'kindOfRed', dateColor:'#5D002E', bgColor:"#F6E7EC"},
-        {name:'kindOfGreen', dateColor:'#ECFAEE', bgColor:"#ECFAEE"},
+        {name:'kindOfGreen', dateColor:'#07B20D', bgColor:"#ECFAEE"},
         {name:'kindOfPurple', dateColor:'#5B4A8C', bgColor:"#E9E9FF"},
 ]
     return (
@@ -17,7 +17,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
             <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <View style={{flexDirection:"row"}}>
                 <View style={styles.bubbleText}>
-                    <Ionicons name="location-outline" color={`${colors[chosenColor].dateColor}`}/>
+                    <Ionicons name="location-outline" color={`${colors[chosenColor].dateColor}`} style={styles.icon}/>
                     <Text>{location}</Text>
                 </View>
                 <View style={styles.bubbleText}>
