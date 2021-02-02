@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Appointment from '../screens/Appointment';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { BottomTabParamList, ProfileParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -20,16 +20,23 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Appointment"
-        component={TabOneNavigator}
+        component={AppointmentNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="business-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="Booking"
         component={TabTwoNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="book-outline" color={color} />,
+        }}
+      />
+       <BottomTab.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="book-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -46,13 +53,26 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const AppointmentStack = createStackNavigator<TabOneParamList>();
 
-function TabOneNavigator() {
+function AppointmentNavigator() {
   return (
     <AppointmentStack.Navigator>
       <AppointmentStack.Screen
-        name="Appointment"
+        name="AppointmentScreen"
         component={Appointment}
-        options={{ headerTitle: 'Tab One Title' }}
+        options={{ headerTitle: 'Appointment History' }}
+      />
+    </AppointmentStack.Navigator>
+  );
+}
+
+const ProfileStack = createStackNavigator<ProfileParamList>()
+function ProfileNavigator() {
+  return (
+    <AppointmentStack.Navigator>
+      <AppointmentStack.Screen
+        name="AppointmentScreen"
+        component={Appointment}
+        options={{ headerTitle: 'Appointment History' }}
       />
     </AppointmentStack.Navigator>
   );

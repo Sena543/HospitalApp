@@ -10,14 +10,14 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
         {name:'kindOfPurple', dateColor:'#5B4A8C', bgColor:"#E9E9FF"},
 ]
     return (
-        <View style={{flex:1, backgroundColor:`${colors[chosenColor].bgColor}`, borderRadius:20, alignItems:'center', justifyContent:"center", margin:20}}>
+        <View style={{flex:1, backgroundColor:`${colors[Number(chosenColor)].bgColor}`, borderRadius:20, alignItems:'center', justifyContent:"center", margin:20}}>
             <View style={{display:"flex", justifyContent:"center"}}>
                 <Text style={{color:'#a39bc6', fontSize:15, fontWeight:'bold'}}>{date}</Text>
             </View>
             <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <View style={{flexDirection:"row"}}>
                 <View style={styles.bubbleText}>
-                    <Ionicons name="location-outline" color={`${colors[chosenColor].dateColor}`} style={styles.icon}/>
+                    <Ionicons name="location-outline" color={`${colors[Number(chosenColor)].dateColor}`} style={styles.icon}/>
                     <Text>{location}</Text>
                 </View>
                 <View style={styles.bubbleText}>
@@ -27,7 +27,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
             </View>
             <View style={{flexDirection:"row"}}>
                 <View style={styles.bubbleText}>
-                    <Fontisto name="doctor" color={`${colors[chosenColor].dateColor}`} style={styles.icon}/>
+                    <Fontisto name="doctor" color={`${colors[Number(chosenColor)].dateColor}`} style={styles.icon}/>
                     <Text>{doctor}</Text>
                 </View>
                 <View style={styles.bubbleText}>

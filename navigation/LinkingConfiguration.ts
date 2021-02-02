@@ -6,12 +6,12 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          AppointmentScreen: {
             screens: {
               Appointment: 'one',
             },
           },
-          TabTwo: {
+          BookingScreen: {
             screens: {
               TabTwoScreen: 'two',
             },
