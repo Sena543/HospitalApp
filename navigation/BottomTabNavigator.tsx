@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import Profile from '../components/Profile';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -36,7 +37,7 @@ export default function BottomTabNavigator() {
         name="Profile"
         component={ProfileNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="book-outline" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="person-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -68,13 +69,13 @@ function AppointmentNavigator() {
 const ProfileStack = createStackNavigator<ProfileParamList>()
 function ProfileNavigator() {
   return (
-    <AppointmentStack.Navigator>
+    <ProfileStack.Navigator>
       <AppointmentStack.Screen
-        name="AppointmentScreen"
-        component={Appointment}
-        options={{ headerTitle: 'Appointment History' }}
+        name="Profile"
+        component={Profile}
+        options={{ headerTitle: 'User Profile' }}
       />
-    </AppointmentStack.Navigator>
+    </ProfileStack.Navigator>
   );
 }
 
