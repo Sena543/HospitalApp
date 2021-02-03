@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     },
     profileDetails:{
         flex:2,
-        alignItems:"space-around",
+        // alignItems:"space-around",
         justifyContent:"space-between",
         marginTop:20,
         flexDirection:'row'},

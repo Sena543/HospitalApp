@@ -1,21 +1,23 @@
 import { Ionicons } from '@expo/vector-icons'
-import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import React, { useState } from 'react'
+import { View, Text, Alert, StyleSheet, SafeAreaView, Modal, ScrollView, TouchableOpacity } from 'react-native'
+// import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import Confirm from './booking/Confirm'
 import Purpose from './booking/Purpose'
 
 function Booking() {
+    const [showModal, setShowModal] = useState(false)
     const appointmentList = [
+        {appTime:"1:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"2:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"3:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"4:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"5:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        // {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        // {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
         {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"9:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"10:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
 ]
 
     const AvailabeAppointments = ({appTime, doctorName, duration}: {appTime:String, doctorName:String, duration:String})=>{
@@ -42,21 +44,51 @@ function Booking() {
                     <Text style={styles.text}>Available Doctors</Text>
                 </View>
                 <View style={{flex:1, flexDirection:'row'}}>
-
+                    <View style={{flex:1, flexDirection:'row'}}>
+                        <Ionicons name="radio-button-on-outline" size={10} color="#FF0000" style={{marginTop:3, marginRight:5}}/>
+                        <Text >Full Booked</Text>
+                    </View>
+                     <View style={{flex:1, flexDirection:'row'}}>
+                        <Ionicons name="radio-button-on-outline" size={10} color="#FF6F00" style={{marginTop:3, marginRight:5}}/>
+                        <Text >Almost Full</Text>
+                    </View>
+                     <View style={{flex:1, flexDirection:'row', marginLeft:10}}>
+                        <Ionicons name="radio-button-on-outline" size={10} color="#23FF1B" style={{marginTop:3, marginRight:5}}/>
+                        <Text >Available</Text>
+                    </View>
                 </View>
                 <ScrollView>
                 {
                     (appointmentList || []).map(({appTime, doctorName, duration}: {appTime:String, doctorName:String, duration:String})=>{
-                        return <AvailabeAppointments appTime={appTime} doctorName={doctorName} duration={duration}/>
+                        return (
+                            <>
+                            <TouchableOpacity
+                            onPress={()=> {setShowModal(true)}}
+                            >
+                                <AvailabeAppointments appTime={appTime} doctorName={doctorName} duration={duration}/>
+                            </TouchableOpacity>
+                             <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={showModal}
+                                onRequestClose={() => {
+                                    Alert.alert("Modal has been closed.");
+                                 }}
+                                >
+                        <Confirm doctorName={doctorName} time={appTime} showModal={showModal} setShowModal={setShowModal}/>
+                  </Modal>
+                            </>
+                            )
                     })
                 }
                 </ScrollView>
+
             </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    text:{fontSize:20, fontStyle:"normal", fontWeight:"bold", marginRight:20}
+    text:{fontSize:20, fontStyle:"normal", fontWeight:"bold", marginRight:20},
 })
 
 export default Booking
