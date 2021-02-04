@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import Colors from '../constants/Colors';
 import AppoitmentList from './appointment/AppoitmentList';
@@ -10,11 +10,11 @@ import { Text, View } from './Themed';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ImageComp/>
         <AppoitmentList/>
 
-    </View>
+    </ScrollView>
   );
 }
 
