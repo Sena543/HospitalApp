@@ -2,7 +2,7 @@ import { Fontisto, Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View ,StyleSheet, Text} from 'react-native'
 
-function AppointmentBubble({date, time, doctor, officeNumber, location, chosenColor}:{date: String, location:String, officeNumber: String, doctor: String, time: String, chosenColor:Number}) {
+function AppointmentBubble({date, time, doctor, officeNumber, location, chosenColor, index, endTime}:{endTime:String, date: String, location:String, officeNumber: String, doctor: String, time: String, chosenColor:Number, index:Number}) {
 
     const colors = [
         {name:'kindOfRed', dateColor:'#5D002E', bgColor:"#F6E7EC"},
@@ -10,7 +10,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
         {name:'kindOfPurple', dateColor:'#5B4A8C', bgColor:"#E9E9FF"},
 ]
     return (
-        <View style={{flex:1, backgroundColor:`${colors[Number(chosenColor)].bgColor}`, borderRadius:20, alignItems:'center', justifyContent:"center", margin:20}}>
+        <View style={{flex:1, backgroundColor:`${colors[Number(chosenColor)].bgColor}`, borderRadius:20, alignItems:'center', justifyContent:"center", margin:20}} key={index}>
             <View style={{display:"flex", justifyContent:"center"}}>
                 <Text style={{color:'#a39bc6', fontSize:15, fontWeight:'bold'}}>{date}</Text>
             </View>
@@ -22,7 +22,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
                 </View>
                 <View style={styles.bubbleText}>
                     {/* <Ionicons name="location-outline"/> */}
-                    <Text>{officeNumber}</Text>
+                    <Text>Room { officeNumber}</Text>
                 </View>
             </View>
             <View style={{flexDirection:"row"}}>
@@ -32,7 +32,7 @@ function AppointmentBubble({date, time, doctor, officeNumber, location, chosenCo
                 </View>
                 <View style={styles.bubbleText}>
                     {/* <Ionicons name="location-outline"/> */}
-                    <Text>{time}</Text>
+                    <Text>{time} - {endTime}</Text>
                 </View>
             </View>
             </View>

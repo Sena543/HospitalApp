@@ -41,8 +41,8 @@ function Profile() {
         <Text>Error</Text>
         <Text>{error.message}</Text>
         </>)
-    }
-console.log(studentData)
+	}
+	
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageView}>
