@@ -19,20 +19,20 @@ function Booking() {
 
 
     const appointmentList = [
-        {appTime:"1:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        {appTime:"2:00", doctorName:"Dr. Eren Yeager", duration:"8:00-9:00"},
-        {appTime:"3:00", doctorName:"Dr. Levi Ackerman", duration:"8:00-9:00"},
-        {appTime:"4:00", doctorName:"Dr. Annie Leonhart", duration:"8:00-9:00"},
-        {appTime:"5:00", doctorName:"Dr. Reiner Frimpong", duration:"8:00-9:00"},
-        {appTime:"8:00", doctorName:"Dr. Michael Jackson", duration:"8:00-9:00"},
-        {appTime:"9:00", doctorName:"Dr. Lionel Messi", duration:"8:00-9:00"},
-        {appTime:"10:00", doctorName:"Dr. Cristiano Ronaldo", duration:"8:00-9:00"},
+        {appTime:"1:00", doctorName:"Michael Frimpong", duration:"8:00-9:00"},
+        {appTime:"2:00", doctorName:"Eren Yeager", duration:"8:00-9:00"},
+        {appTime:"3:00", doctorName:"Levi Ackerman", duration:"8:00-9:00"},
+        {appTime:"4:00", doctorName:"Annie Leonhart", duration:"8:00-9:00"},
+        {appTime:"5:00", doctorName:"Reiner Frimpong", duration:"8:00-9:00"},
+        {appTime:"8:00", doctorName:"Michael Jackson", duration:"8:00-9:00"},
+        {appTime:"9:00", doctorName:"Lionel Messi", duration:"8:00-9:00"},
+        {appTime:"10:00", doctorName:"Cristiano Ronaldo", duration:"8:00-9:00"},
 ]
 
 const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Results Collection"]
-    const AvailabeAppointments = ({appTime, doctorName, duration}: {appTime:String, doctorName:String, duration:String})=>{
+    const AvailabeAppointments = ({appTime, doctorName, duration, key}: {appTime:String, doctorName:String, key:Number, duration:String})=>{
         return(
-         <View style={{flex:1, flexDirection:"row", marginTop:10}}>
+         <View style={{flex:1, flexDirection:"row", marginTop:10}} key={key}>
                     <Text style={{color:"#B5B7BB"}}>{appTime}</Text>
                     <View style={{flexDirection:'row', flex:1}}>
                         <View style={{marginBottom:10, backgroundColor:'#E9E9FF', marginLeft:50, width:30, borderRadius:5, alignItems:"center", justifyContent:'flex-end'}}>
@@ -113,13 +113,13 @@ const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Resul
                 </View>
                 <ScrollView style={{flex:2}}>
                 {
-                    (appointmentList || []).map(({appTime, doctorName, duration}: {appTime:String, doctorName:String, duration:String})=>{
+                    (appointmentList || []).map((data,index)=>{
                         return (
                             <>
                             <TouchableOpacity
                             onPress={()=> {setShowModal(true)}}
                             >
-                                <AvailabeAppointments appTime={appTime} doctorName={doctorName} duration={duration}/>
+                                <AvailabeAppointments appTime={data.appTime} doctorName={data.doctorName} duration={data.duration} key={index}/>
                             </TouchableOpacity>
                             <Modal
                                 animationType="slide"
@@ -129,7 +129,7 @@ const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Resul
                                     Alert.alert("Modal has been closed.");
                                  }}
                                 >
-                                    <Confirm doctorName={doctorName} time={appTime} showModal={showModal} setShowModal={setShowModal}/>
+                                    <Confirm doctorName={data.doctorName} time={data.appTime} key={index} showModal={showModal} setShowModal={setShowModal}/>
                             </Modal>
                             </>
                             )

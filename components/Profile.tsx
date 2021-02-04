@@ -56,33 +56,33 @@ console.log(studentData)
 					</View>
 					<View>
 						<Text style={styles.title}>Gender</Text>
-						<Text style={styles.data}>Female</Text>
+						<Text style={styles.data}>{studentData?.gender}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Student Level</Text>
-						<Text style={styles.data}>300</Text>
+						<Text style={styles.data}>{studentData?.level}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Student Level</Text>
-						<Text style={styles.data}>Cape Coast</Text>
+						<Text style={styles.data}>{studentData?.hometown}</Text>
 					</View>
 				</View>
 				<View style={{ marginRight: 40 }}>
 					<View>
-						<Text style={styles.title}>Student Type</Text>
-						<Text style={styles.data}>Undergraduate</Text>
+						<Text style={styles.title}>Hometown</Text>
+						<Text style={styles.data}>{studentData?.studentType}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Residential Status</Text>
-						<Text style={styles.data}>Hilla Liman Hall</Text>
+						<Text style={styles.data}>{studentData?.hallOfResidence}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Room Number</Text>
-						<Text style={styles.data}>B35</Text>
+						<Text style={styles.data}>{studentData?.roomNumber}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Last Appointment</Text>
-						<Text style={styles.data}>21/21/21</Text>
+						<Text style={styles.data}>{studentData?.lastApointment}</Text>
 					</View>
 				</View>
 			</View>
