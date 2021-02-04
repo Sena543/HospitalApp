@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import RNPickerSelect from 'react-native-picker-select';
 
 
 function Purpose() {
@@ -18,10 +17,6 @@ function Purpose() {
     return (
         <View>
             <View>
-                <RNPickerSelect
-                items ={purposes}
-                onchange={(purpose:any)=> console.log(purpose.value)}
-                />
             </View>
         </View>
     )

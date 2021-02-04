@@ -4,10 +4,10 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 function Confirm({doctorName, time, showModal, setShowModal}:{doctorName:String, time:String, showModal:Boolean, setShowModal:Function}) {
     return (
         <View style={styles.modalView}>
-          <View>
+          <View style={{}}>
               <Text style={{fontSize:20, fontWeight:"bold", fontStyle:'normal', textDecorationLine:"underline"}}>Confirm Appointment</Text>
           </View>
-          <View>
+          <View style={{marginTop:20}}>
               <Text>Confirm appointment with Dr. {doctorName} at {time}</Text>
           </View>
           <View style={{flex:1, flexDirection:'row', marginTop:25}}>

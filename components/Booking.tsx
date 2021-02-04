@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { View, Text, Alert, StyleSheet, SafeAreaView, Modal, ScrollView, TouchableOpacity,} from 'react-native'
-// import DatePicker from 'react-native-datepicker';
 import {Picker} from '@react-native-picker/picker';
+// import DatePicker from 'react-native-date-picker'
 import Confirm from './booking/Confirm'
 import Purpose from './booking/Purpose'
 
@@ -24,8 +24,6 @@ function Booking() {
         {appTime:"3:00", doctorName:"Dr. Levi Ackerman", duration:"8:00-9:00"},
         {appTime:"4:00", doctorName:"Dr. Annie Leonhart", duration:"8:00-9:00"},
         {appTime:"5:00", doctorName:"Dr. Reiner Frimpong", duration:"8:00-9:00"},
-        // {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
-        // {appTime:"8:00", doctorName:"Dr. Michael Frimpong", duration:"8:00-9:00"},
         {appTime:"8:00", doctorName:"Dr. Michael Jackson", duration:"8:00-9:00"},
         {appTime:"9:00", doctorName:"Dr. Lionel Messi", duration:"8:00-9:00"},
         {appTime:"10:00", doctorName:"Dr. Cristiano Ronaldo", duration:"8:00-9:00"},
@@ -71,7 +69,7 @@ const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Resul
 
                     <View style={styles.modalView}>
                         <View>
-                            <Text>Select Appointment Purpose</Text>
+                            <Text style={{textDecorationLine:'underline'}}>Select Appointment Purpose</Text>
                         </View>
                         <Picker
                             style={{height: 50, width: 100, position:'relative', bottom:70}}
@@ -103,17 +101,10 @@ const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Resul
                         <Text >Available</Text>
                     </View>
                 </View>
-                <View style={{flex:.5}}>
-                    {/* <DatePicker
-                    style={{width: 200,}}
-                     mode="date"
-                    placeholder="select date"
-                    format="YYYY-MM-DD"
-                    minDate="2016-05-01"
-                    maxDate="2016-06-01"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    /> */}
+                <View style={{flex:1}}>
+                {/* <DatePicker
+                    date={new Date()}
+                /> */}
                 </View>
                 <View style={{flex:2}}>
                 <View style={{flex:.1, flexDirection:"row", marginBottom:20}}>
