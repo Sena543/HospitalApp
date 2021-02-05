@@ -1,11 +1,24 @@
+import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
+const LOGIN = gql`
+	mutation($studentID: ID!, $password: String!) {
+		login(studentID: $studentID, password: $password) {
+			token
+		}
+	}
+`;
 
 function Login() {
 	const [studentDetails, setStudentDetails] = useState({
 		studentID: "",
 		password: "",
+	});
+
+	const [login, { data }] = useMutation(LOGIN, {
+		onError: (e) => {},
+		onCompleted: (d) => {},
 	});
 
 	return (
@@ -49,7 +62,7 @@ function Login() {
 					color="#5254E0"
 					title="Sign In"
 					onPress={() => {
-						console.log(studentDetails);
+						login({ variables: { ...studentDetails } });
 					}}
 				/>
 			</View>
