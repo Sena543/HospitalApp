@@ -4,16 +4,16 @@ import { Image, StyleSheet } from "react-native";
 import { View, Text } from "./Themed";
 
 const GET_STUDENT_PROFILE = gql`
-query($studentID:ID!){
-    getStudentProfile(studentID:$studentID){
-        studentID
-        studentName
-        email
-        dateOfBirth
-        hallOfResidence
-        residentialStatus
-    }
-}
+	query($studentID: ID!) {
+		getStudentProfile(studentID: $studentID) {
+			studentID
+			studentName
+			email
+			dateOfBirth
+			hallOfResidence
+			residentialStatus
+		}
+	}
 `;
 
 function Profile() {
@@ -23,26 +23,27 @@ function Profile() {
 			console.error(error);
 		},
 		onCompleted: (data) => {
-			setStudentData(data?.getStudentProfile)
+			setStudentData(data?.getStudentProfile);
 			// console.log(data.getStudentProfile)
 		},
 	});
-    const [studentData, setStudentData] = useState(null);
+	const [studentData, setStudentData] = useState(null);
 
-    useEffect(()=>{},[studentData])
+	useEffect(() => {}, [studentData]);
 
-    if(loading){
-        return <Text>Loading...</Text>
-    }
-
-    if(error){
-        return(
-        <>
-        <Text>Error</Text>
-        <Text>{error.message}</Text>
-        </>)
+	if (loading) {
+		return <Text>Loading...</Text>;
 	}
-	
+
+	if (error) {
+		return (
+			<>
+				<Text>Error</Text>
+				<Text>{error.message}</Text>
+			</>
+		);
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageView}>
@@ -63,13 +64,13 @@ function Profile() {
 						<Text style={styles.data}>{studentData?.level}</Text>
 					</View>
 					<View>
-						<Text style={styles.title}>Student Level</Text>
+						<Text style={styles.title}>Hometown</Text>
 						<Text style={styles.data}>{studentData?.hometown}</Text>
 					</View>
 				</View>
 				<View style={{ marginRight: 40 }}>
 					<View>
-						<Text style={styles.title}>Hometown</Text>
+						<Text style={styles.title}>Student Type</Text>
 						<Text style={styles.data}>{studentData?.studentType}</Text>
 					</View>
 					<View>
