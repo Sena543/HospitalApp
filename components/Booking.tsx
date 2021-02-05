@@ -12,11 +12,9 @@ import {
 	Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 import Confirm from "./booking/Confirm";
 import moment from "moment";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const BOOK_APPOINTMENT = gql`
@@ -52,10 +50,22 @@ const BOOK_APPOINTMENT = gql`
 	}
 `;
 
+const GET_AVAILABLE_DOCTORS = gql`
+	query($timeSelected: String) {
+		getAvailableDoctors(timeSelected: $timeSelected) {
+			doctorID
+			doctorName
+			email
+			officeNumber
+			timesAvailable
+		}
+	}
+`;
+
 function Booking() {
 	const [showModal, setShowModal] = useState(false);
 	const [showPurpose, setShowPurpose] = useState(false);
-	const [showDatePicker, setShowDatePicker] = useState(false);
+	// const [showDatePicker, setShowDatePicker] = useState(false);
 	const [showComponents, setShowComponents] = useState({
 		datePicker: false,
 		pupropsePicker: false,
@@ -66,9 +76,18 @@ function Booking() {
 		checkupType: "Regular Checkup",
 		appointmentDate: moment(new Date()).format("DD/MM/YYYY"),
 		startTime: moment(new Date().getTime()).format("hh:mm"),
-		// startTime: new Date().getTime(),
 		endTime: "",
 		doctorID: "",
+	});
+	const [docList, setDocList] = useState(null);
+	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
+		// variables: { timeSelected: bookAppointment.startTime },
+		onCompleted: (d) => {
+			setDocList(d.getAvailableDoctors);
+		},
+		onError: (e) => {
+			console.error(e);
+		},
 	});
 
 	const [confirmAppointment, { data }] = useMutation(BOOK_APPOINTMENT, {
@@ -93,36 +112,19 @@ function Booking() {
 		{ appTime: "10:00", doctorName: "Cristiano Ronaldo", duration: "8:00-9:00" },
 	];
 
-	const onChange = (event: any, selectedDate: any) => {
-		const currentDate = moment(selectedDate).format("DD/MM/YYYY");
-		setBookAppointment({ ...bookAppointment, appointmentDate: currentDate });
-	};
-
-	// const onTimeChange = (event: any, selectedTime: any) => {
-	// 	const currentTime = moment(selectedTime).format("hh:mm");
-	// 	console.log(currentTime);
-	// 	setBookAppointment({ ...bookAppointment, startTime: currentTime });
-	// };
-
-	// const showDatePicker = () => {
-	// 	setShowComponents({ ...showComponents, timePicker: true });
-	// };
-
 	const hideDatePicker = () => {
-		// setDatePickerVisibility(false);
 		setShowComponents({ ...showComponents, timePicker: false });
 	};
 
 	const handleConfirm = (time: any) => {
-		// console.warn("A date has been picked: ", date)
 		setBookAppointment({ ...bookAppointment, startTime: moment(time).format("hh:mm") });
 		hideDatePicker();
+		getDocs({ variables: { timeSelected: bookAppointment.startTime } });
 	};
 
 	const handleDateConfirm = (date: any) => {
 		const currentDate = moment(date).format("DD/MM/YYYY");
 		setBookAppointment({ ...bookAppointment, appointmentDate: currentDate });
-		// hideDatePicker();
 		setShowComponents({ ...showComponents, datePicker: false });
 	};
 
@@ -165,6 +167,21 @@ function Booking() {
 						</Text>
 						<Text style={{ marginLeft: 10 }}>{duration}</Text>
 					</View>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={showModal}
+						onRequestClose={() => {
+							Alert.alert("Modal has been closed.");
+						}}>
+						<Confirm
+							doctorID={doctorName}
+							time={appTime}
+							// key={index}
+							showModal={showModal}
+							setShowModal={setShowModal}
+						/>
+					</Modal>
 				</View>
 			</View>
 		);
@@ -198,7 +215,7 @@ function Booking() {
 						<Picker
 							style={{ height: 50, width: 100, position: "relative", bottom: 70 }}
 							onValueChange={(itemValue, itemIndex) => {
-								setBookAppointment({ ...bookAppointment, checkupType: itemValue });
+								setBookAppointment({ ...bookAppointment, checkupType: `${itemValue}` });
 								setShowPurpose(!showPurpose);
 							}}>
 							{purposes.map((purpose) => {
@@ -283,7 +300,6 @@ function Booking() {
 					</View>
 				</TouchableOpacity>
 			</View>
-			{/* {!showDatePicker && !showComponents.timePicker ? ( */}
 			<View style={{ flex: 2 }}>
 				<View style={{ flex: 0.1, flexDirection: "row", marginBottom: 10 }}>
 					<Text style={styles.text}>Time</Text>
@@ -304,7 +320,7 @@ function Booking() {
 										key={index}
 									/>
 								</TouchableOpacity>
-								<Modal
+								{/* <Modal
 									animationType="slide"
 									transparent={true}
 									visible={showModal}
@@ -312,13 +328,13 @@ function Booking() {
 										Alert.alert("Modal has been closed.");
 									}}>
 									<Confirm
-										doctorName={data.doctorName}
+										doctorID={data.doctorName}
 										time={data.appTime}
 										key={index}
 										showModal={showModal}
 										setShowModal={setShowModal}
 									/>
-								</Modal>
+								</Modal> */}
 							</>
 						);
 					})}
