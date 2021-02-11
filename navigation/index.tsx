@@ -46,7 +46,13 @@ function RootNavigator() {
 			{getData ? (
 				<>
 					<Stack.Screen name="Root" component={BottomTabNavigator} />
-					<Stack.Screen name="Settings" component={SettingScreen} />
+					<Stack.Screen
+						name="Settings"
+						component={SettingScreen}
+						options={{
+							title: "Settings",
+						}}
+					/>
 				</>
 			) : (
 				<Stack.Screen name="Auth" component={Login} />
