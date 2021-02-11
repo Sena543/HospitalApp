@@ -9,6 +9,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Appointment from "../screens/Appointment";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import { BottomTabParamList, ProfileParamList, TabOneParamList, TabTwoParamList } from "../types";
+import Navigation from ".";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -54,7 +55,7 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>["name"]
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const AppointmentStack = createStackNavigator<TabOneParamList>();
 
-function AppointmentNavigator() {
+function AppointmentNavigator({ navigation }) {
 	return (
 		<AppointmentStack.Navigator>
 			<AppointmentStack.Screen
@@ -65,7 +66,9 @@ function AppointmentNavigator() {
 					headerRight: () => {
 						return (
 							<TouchableOpacity
-								onPress={() => console.log("setting icon pressed")}
+								onPress={() => {
+									navigation.navigate("Settings");
+								}}
 								style={{ marginRight: 10 }}>
 								<Ionicons name="settings-outline" size={20} />
 							</TouchableOpacity>

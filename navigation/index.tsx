@@ -44,11 +44,13 @@ function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			{getData ? (
-				<Stack.Screen name="Root" component={BottomTabNavigator} />
+				<>
+					<Stack.Screen name="Root" component={BottomTabNavigator} />
+					<Stack.Screen name="Settings" component={SettingScreen} />
+				</>
 			) : (
 				<Stack.Screen name="Auth" component={Login} />
 			)}
-			<Stack.Screen name="Settiings" component={SettingScreen} />
 			<Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
 		</Stack.Navigator>
 	);
