@@ -40,7 +40,16 @@ function Confirm({
 					Confirm appointment with Dr. {doctorID} at {time}
 				</Text>
 			</View>
-			<View style={{ flex: 1, flexDirection: "row", marginTop: 25 }}>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: "row",
+					marginTop: 25,
+					height: 40,
+					justifyContent: "space-around",
+					alignItems: "center",
+					alignContent: "space-around",
+				}}>
 				<Button
 					title="Cancel"
 					color="#FF0000"
@@ -51,7 +60,7 @@ function Confirm({
 				<Button
 					title="Confirm Appointment"
 					onPress={() => {
-						console.log(doctorID);
+						// console.log(doctorID);
 						setShowModal(!showModal);
 					}}
 					//   color='#FF0000'

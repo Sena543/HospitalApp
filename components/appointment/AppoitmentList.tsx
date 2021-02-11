@@ -56,7 +56,7 @@ function AppoitmentList() {
         {date:"Monday, 18 January 2021", location:"Legon Hospital", officeNumber:"B201", doctor:"Eren Owusu", time:"9:00-10:00"},
     ]
 
-    console.log(appointmentHistory)
+    // console.log(appointmentHistory)
     return (
         <ScrollView>
             <View style={styles.warning}>

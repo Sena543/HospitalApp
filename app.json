@@ -8,8 +8,8 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/HospitalSplash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -29,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

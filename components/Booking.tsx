@@ -133,11 +133,15 @@ function Booking() {
 		appTime,
 		doctorName,
 		duration,
+		key,
 	}: {
 		appTime: String;
 		doctorName: String;
 		duration: String;
+		key: Number;
 	}) => {
+		// console.log(key);
+		const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
 		return (
 			<View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
 				<Text style={{ color: "#B5B7BB" }}>{appTime}</Text>
@@ -152,7 +156,7 @@ function Booking() {
 							alignItems: "center",
 							justifyContent: "flex-end",
 						}}>
-						<Ionicons name="refresh-circle-outline" color="red" size={15} />
+						<Ionicons name="refresh-circle-outline" color={colors[2]} size={15} />
 					</View>
 					<View>
 						<Text
@@ -165,7 +169,7 @@ function Booking() {
 							}}>
 							{doctorName}
 						</Text>
-						<Text style={{ marginLeft: 10 }}>{duration}</Text>
+						{/* <Text style={{ marginLeft: 10 }}>{duration}</Text> */}
 					</View>
 					<Modal
 						animationType="slide"

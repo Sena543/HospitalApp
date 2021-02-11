@@ -12,6 +12,11 @@ const GET_STUDENT_PROFILE = gql`
 			dateOfBirth
 			hallOfResidence
 			residentialStatus
+			gender
+			roomNumber
+			hometown
+			yearAdmitted
+			studentType
 		}
 	}
 `;
@@ -61,7 +66,7 @@ function Profile() {
 					</View>
 					<View>
 						<Text style={styles.title}>Student Level</Text>
-						<Text style={styles.data}>{studentData?.level}</Text>
+						<Text style={styles.data}>{studentData?.yearAdmitted}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Hometown</Text>

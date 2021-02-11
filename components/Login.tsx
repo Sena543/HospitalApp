@@ -1,6 +1,7 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
@@ -9,6 +10,14 @@ const LOGIN = gql`
 		}
 	}
 `;
+
+const storeData = async (value) => {
+	try {
+		await AsyncStorage.setItem("loogedIn", value);
+	} catch (e) {
+		// saving error
+	}
+};
 
 function Login() {
 	const [studentDetails, setStudentDetails] = useState({
@@ -35,7 +44,7 @@ function Login() {
 					Sign In
 				</Text>
 			</View>
-			<View style={{ flex: 0.4 }}>
+			<View style={{ flex: 0.4, width: 150 }}>
 				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.3 }}>
 					<TextInput
 						style={styles.input}
@@ -57,12 +66,15 @@ function Login() {
 					/>
 				</View>
 			</View>
-			<View style={{ position: "relative", bottom: 100 }}>
+			<View style={{ position: "relative", bottom: 160, top: 0 }}>
 				<Button
 					color="#5254E0"
 					title="Sign In"
 					onPress={() => {
-						login({ variables: { ...studentDetails } });
+						// login({ variables: { ...studentDetails } });
+						if (studentDetails.studentID === "12345678" && studentDetails.password === "1234") {
+							storeData(true);
+						}
 					}}
 				/>
 			</View>
