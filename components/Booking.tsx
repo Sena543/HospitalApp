@@ -9,7 +9,6 @@ import {
 	Modal,
 	ScrollView,
 	TouchableOpacity,
-	Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Confirm from "./booking/Confirm";

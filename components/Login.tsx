@@ -2,6 +2,8 @@ import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import Navigation from "../navigation";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
@@ -11,15 +13,16 @@ const LOGIN = gql`
 	}
 `;
 
-const storeData = async (value) => {
+const storeToken = async (value) => {
 	try {
-		await AsyncStorage.setItem("loogedIn", value);
+		await AsyncStorage.setItem("authToken", value);
 	} catch (e) {
 		// saving error
+		alert("Failed to process requests");
 	}
 };
 
-function Login() {
+function Login({ navigation }) {
 	const [studentDetails, setStudentDetails] = useState({
 		studentID: "",
 		password: "",
@@ -27,7 +30,12 @@ function Login() {
 
 	const [login, { data }] = useMutation(LOGIN, {
 		onError: (e) => {},
-		onCompleted: (d) => {},
+		onCompleted: (response) => {
+			if (response) {
+				storeToken(response);
+			}
+			navigation.navigate("Appointment");
+		},
 	});
 
 	return (
@@ -45,7 +53,7 @@ function Login() {
 				</Text>
 			</View>
 			<View style={{ flex: 0.4, width: 150 }}>
-				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.3 }}>
+				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.5 }}>
 					<TextInput
 						style={styles.input}
 						value={studentDetails.studentID}
@@ -55,7 +63,7 @@ function Login() {
 						}
 					/>
 				</View>
-				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.3 }}>
+				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.5 }}>
 					<TextInput
 						style={styles.input}
 						value={studentDetails.password}
@@ -66,15 +74,12 @@ function Login() {
 					/>
 				</View>
 			</View>
-			<View style={{ position: "relative", bottom: 160, top: 0 }}>
+			<View style={{ flex: 0.5, position: "relative", bottom: 5, top: 0 }}>
 				<Button
 					color="#5254E0"
 					title="Sign In"
 					onPress={() => {
-						// login({ variables: { ...studentDetails } });
-						if (studentDetails.studentID === "12345678" && studentDetails.password === "1234") {
-							storeData(true);
-						}
+						login({ variables: { ...studentDetails } });
 					}}
 				/>
 			</View>
@@ -82,13 +87,15 @@ function Login() {
 				style={{
 					justifyContent: "center",
 					alignItems: "center",
-					flex: 0.4,
+					flex: 0.5,
 					flexDirection: "row",
 					position: "relative",
-					bottom: "30%",
+					bottom: "0%",
 				}}>
 				<Text style={{ color: "#CCCCCC", marginLeft: 20 }}>Don't have an account?</Text>
-				<Text style={{ color: "#5254E0" }}>Sign Up</Text>
+				<TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+					<Text style={{ color: "#5254E0" }}>Sign Up</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

@@ -16,6 +16,11 @@ export default {
               TabTwoScreen: 'two',
             },
           },
+          SignInScreen:{
+            screens:{
+              Login: "three"
+            }
+          }
         },
       },
       NotFound: '*',

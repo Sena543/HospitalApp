@@ -20,6 +20,10 @@ export type ProfileParamList = {
 	ProfileScreen: undefined;
 };
 
+export type SignInParamsList = {
+	Login: undefined;
+};
+
 export type SettingsParameterList = {
 	SettingsScreen: undefined;
 };

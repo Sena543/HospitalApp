@@ -9,6 +9,7 @@ import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 import SettingScreen from "../screens/SettingScreen";
+import SignUp from "../screens/SignUp";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -27,15 +28,15 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-	// const isLoggedIn = localStorage.getItem("loggedIn") !== null;
-	// let isLoggedIn;
 	const getData = async () => {
 		try {
-			const value = await AsyncStorage.getItem("loggedIn");
-			if (value !== null) {
-				// value previously stored
-				return value;
-			}
+			// const value = await AsyncStorage.getItem("authToken");
+			// if (value !== null) {
+			// 	// value previously stored
+			// 	console.log(value);
+			// 	return value;
+			// }
+			await AsyncStorage.clear();
 		} catch (e) {
 			// error reading value
 		}
@@ -43,7 +44,7 @@ function RootNavigator() {
 
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			{getData ? (
+			{false ? (
 				<>
 					<Stack.Screen name="Root" component={BottomTabNavigator} />
 					<Stack.Screen
@@ -55,7 +56,23 @@ function RootNavigator() {
 					/>
 				</>
 			) : (
-				<Stack.Screen name="Auth" component={Login} />
+				<>
+					<Stack.Screen name="SignIn" component={Login} options={{ title: "Sign In" }} />
+					<Stack.Screen
+						name="SignUp"
+						component={SignUp}
+						options={{
+							title: "Sign Up",
+							// headerStyle: {
+							// 	backgroundColor: "#f4511e",
+							// },
+							// headerTintColor: "#fff",
+							// headerTitleStyle: {
+							// 	fontWeight: "bold",
+							// },
+						}}
+					/>
+				</>
 			)}
 			<Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
 		</Stack.Navigator>

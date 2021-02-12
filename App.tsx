@@ -10,15 +10,15 @@ import Navigation from "./navigation";
 
 // https://evening-stream-45742.herokuapp.com/
 
-// const client = new ApolloClient({
-// 	uri: "https://evening-stream-45742.herokuapp.com/",
-// 	cache: new InMemoryCache(),
-// });
-
 const client = new ApolloClient({
-	uri: "http://localhost:8000/gql",
+	uri: "https://immense-savannah-88207.herokuapp.com/",
 	cache: new InMemoryCache(),
 });
+
+// const client = new ApolloClient({
+// 	uri: "http://localhost:8000/gql",
+// 	cache: new InMemoryCache(),
+// });
 export default function App() {
 	const isLoadingComplete = useCachedResources();
 	const colorScheme = useColorScheme();
