@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import {
 	SafeAreaView,
@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RadioGroup from "react-native-radio-buttons-group";
+import moment from "moment";
 
 const SIGNUP_STUDENT = gql`
 	mutation(
@@ -23,6 +24,7 @@ const SIGNUP_STUDENT = gql`
 		$gender: String!
 		$residentialStatus: String
 		$studentType: String!
+		$password: String!
 		$dateOfBirth: String!
 		$yearAdmitted: String!
 		$hallOfResidence: String
@@ -64,64 +66,70 @@ function SignUp({ navigation }) {
 		email: "",
 		studentID: "",
 		password: "",
+		confirmPass: "",
 		phoneNumber: "",
 		gender: "",
-		dateOfBirth: "",
+		dateOfBirth: moment(new Date()).format("DD/MM/YYYY"),
 		residentialStatus: "Non Resident",
 		hallOfResidence: "",
 	});
+	const [addNewStudent, { data }] = useMutation(SIGNUP_STUDENT, {
+		onCompleted: () => {
+			navigation.navigate("SignIn");
+		},
+		onError: (e) => console.error(e),
+	});
 	const [selectItems, setSelectItem] = useState({
 		selectHall: false,
+		pickDOB: false,
 	});
 	const genderOptions = [
 		{ label: "Male", value: "Male" },
 		{ label: "Female", value: "Female" },
 	];
 	const hideDatePicker = () => {
-		// setShowComponents({ ...showComponents, timePicker: false });
+		setSelectItem({ ...selectItems, pickDOB: false });
 	};
 
 	const handleConfirm = (time: any) => {
-		// setBookAppointment({ ...bookAppointment, startTime: moment(time).format("hh:mm") });
+		setStudentData({ ...studentData, dateOfBirth: moment(time).format("hh:mm") });
 		hideDatePicker();
 		// getDocs({ variables: { timeSelected: bookAppointment.startTime } });
 	};
 
 	const handleDateConfirm = (date: any) => {
-		// const currentDate = moment(date).format("DD/MM/YYYY");
-		// setBookAppointment({ ...bookAppointment, appointmentDate: currentDate });
-		// setShowComponents({ ...showComponents, datePicker: false });
+		setStudentData({ ...studentData, dateOfBirth: moment(date).format("DD/MM/YYYY") });
+		hideDatePicker();
 	};
 	const halls = [
-		{ name: "Akuaffo" },
+		{ name: "Alexander Kwapong Hall" },
+		{ name: "Akuafo Hall" },
+		{ name: "Bani Hostel" },
+		{ name: "Commonwealth Hall" },
+		{ name: "Elizabeth Hall" },
+		{ name: "Evandy Hostel" },
+		{ name: "Hilla Limann hall" },
+		{ name: "Jubilee Hall" },
+		{ name: "James Topp Nelson (TF Hostel)" },
+		{ name: "Jean Nelson Ackah Hall" },
 		{ name: "Legon hall" },
 		{ name: "Mensah Sarbah Hall" },
-		// "Akuafo Hall",
-		// "Commonwealth Hall",
-		// "Volta Hall",
-		// "Jubilee Hall",
-		// "Hilla Limann hall",
-		// "Alexander Kwapong Hall",
-		// "Jean Nelson Ackah Hall",
-		// "Elizabeth Hall",
-		// "Pentagon (African Union Hostel)",
-		// "James Topp Nelson (TF Hostel)",
-		// "Bani Hostel",
-		// "Evandy Hostel",
-		// "International Student Hostel",
+		{ name: "Pentagon (African Union Hostel)" },
+		{ name: "Volta Hall" },
+		{ name: "International Student Hostel" },
 	];
 
 	const renderHalls = ({ item }) => {
 		return (
-			// <View>
-			<TouchableOpacity
-				onPress={() => {
-					setStudentData({ ...studentData, hallOfResidence: item.name });
-					setSelectItem({ ...selectItems, selectHall: false });
-				}}>
-				<Text>{item.name}</Text>
-			</TouchableOpacity>
-			// </View>
+			<View style={{ height: 25, borderBottomWidth: 0.4 }}>
+				<TouchableOpacity
+					onPress={() => {
+						setStudentData({ ...studentData, hallOfResidence: item.name });
+						setSelectItem({ ...selectItems, selectHall: false });
+					}}>
+					<Text>{item.name}</Text>
+				</TouchableOpacity>
+			</View>
 		);
 	};
 	return (
@@ -182,12 +190,15 @@ function SignUp({ navigation }) {
 						<TextInput
 							value={studentData.fullName}
 							onChange={(e: any) =>
-								setStudentData({ ...studentData, fullName: e.target.value })
+								setStudentData({ ...studentData, confirmPass: e.target.value })
 							}
 							placeholder="Confirm Password"
 							textContentType="password"
 							style={styles.input}
 						/>
+						{studentData.password !== studentData.confirmPass ? (
+							<Text style={{ color: "red" }}>Passwords not equal</Text>
+						) : null}
 						<TextInput
 							value={studentData.phoneNumber}
 							onChange={(e: any) =>
@@ -218,16 +229,23 @@ function SignUp({ navigation }) {
 						</View>
 					</View>
 					<View>
-						<TouchableOpacity>
-							<Text>dateOfBirth</Text>
-							<DateTimePickerModal
-								mode="date"
-								onConfirm={handleDateConfirm}
-								onCancel={() => {
-									// setShowComponents({ ...showComponents, datePicker: false });
-								}}
-							/>
-						</TouchableOpacity>
+						<View style={{ flexDirection: "row" }}>
+							<Text>Date of Birth: </Text>
+							<TouchableOpacity
+								onPress={() => {
+									setSelectItem({ ...selectItems, pickDOB: true });
+								}}>
+								<Text>{studentData.dateOfBirth}</Text>
+							</TouchableOpacity>
+						</View>
+						<DateTimePickerModal
+							isVisible={selectItems.pickDOB}
+							mode="date"
+							onConfirm={handleDateConfirm}
+							onCancel={() => {
+								setSelectItem({ ...selectItems, pickDOB: false });
+							}}
+						/>
 					</View>
 					<View>
 						<View>
@@ -283,7 +301,7 @@ function SignUp({ navigation }) {
 						color="#5254E0"
 						title="Sign Up"
 						onPress={() => {
-							// login({ variables: { ...studentDetails } });
+							addNewStudent({ variables: { ...studentData } });
 						}}
 					/>
 				</View>
