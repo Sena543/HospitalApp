@@ -92,9 +92,9 @@ function Login({ navigation }) {
 					position: "relative",
 					bottom: "0%",
 				}}>
-				<Text style={{ color: "#CCCCCC", marginLeft: 20 }}>Don't have an account?</Text>
+				<Text style={{ color: "#CCCCCC", marginLeft: 20, fontSize: 20 }}>Don't have an account?</Text>
 				<TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-					<Text style={{ color: "#5254E0" }}>Sign Up</Text>
+					<Text style={{ color: "#5254E0", fontSize: 20 }}>Sign Up</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

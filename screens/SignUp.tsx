@@ -10,7 +10,9 @@ import {
 	Modal,
 	FlatList,
 	TouchableOpacity,
+	Platform,
 	Button,
+	KeyboardAvoidingView,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RadioGroup from "react-native-radio-buttons-group";
@@ -28,7 +30,8 @@ const SIGNUP_STUDENT = gql`
 		$dateOfBirth: String!
 		$yearAdmitted: String!
 		$hallOfResidence: String
-		$studentID: String!
+		$phoneNumber: String
+		$roomNumber: String
 	) {
 		addNewStudent(
 			input: {
@@ -43,6 +46,7 @@ const SIGNUP_STUDENT = gql`
 				roomNumber: $roomNumber
 				yearAdmitted: $yearAdmitted
 				hallOfResidence: $hallOfResidence
+				phoneNumber: $phoneNumber
 			}
 		) {
 			dateOfBirth
@@ -62,39 +66,34 @@ const SIGNUP_STUDENT = gql`
 
 function SignUp({ navigation }) {
 	const [studentData, setStudentData] = useState({
-		fullName: "",
+		studentName: "",
 		email: "",
 		studentID: "",
 		password: "",
 		confirmPass: "",
+		studentType: "",
 		phoneNumber: "",
-		gender: "",
+		yearAdmitted: "",
+		gender: "Male",
+		roomNumber: "",
 		dateOfBirth: moment(new Date()).format("DD/MM/YYYY"),
 		residentialStatus: "Non Resident",
 		hallOfResidence: "",
 	});
 	const [addNewStudent, { data }] = useMutation(SIGNUP_STUDENT, {
-		onCompleted: () => {
-			navigation.navigate("SignIn");
+		onCompleted: (d) => {
+			console.log(d);
+			// navigation.navigate("SignIn");
 		},
-		onError: (e) => console.error(e),
+		onError: (e) => console.error(e.message),
 	});
 	const [selectItems, setSelectItem] = useState({
 		selectHall: false,
 		pickDOB: false,
 	});
-	const genderOptions = [
-		{ label: "Male", value: "Male" },
-		{ label: "Female", value: "Female" },
-	];
+
 	const hideDatePicker = () => {
 		setSelectItem({ ...selectItems, pickDOB: false });
-	};
-
-	const handleConfirm = (time: any) => {
-		setStudentData({ ...studentData, dateOfBirth: moment(time).format("hh:mm") });
-		hideDatePicker();
-		// getDocs({ variables: { timeSelected: bookAppointment.startTime } });
 	};
 
 	const handleDateConfirm = (date: any) => {
@@ -133,14 +132,10 @@ function SignUp({ navigation }) {
 		);
 	};
 	return (
-		<SafeAreaView
-			style={{
-				backgroundColor: "#fff",
-				flex: 1,
-				justifyContent: "center",
-				alignItems: "center",
-			}}>
-			<View style={{ margin: 20, padding: 0 }}>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			style={styles.container}>
+			<View style={{ marginTop: 30, padding: 0, marginBottom: 10 }}>
 				<Text
 					style={{
 						color: "#5254E0",
@@ -152,48 +147,49 @@ function SignUp({ navigation }) {
 					Sign up
 				</Text>
 			</View>
-			<ScrollView contentContainerStyle={styles.container}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					// flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
+					// marginHorizontal: 20,
+				}}>
 				<View style={styles.formView}>
 					<View>
 						<TextInput
 							placeholder="Full Name"
 							style={styles.input}
-							value={studentData.fullName}
-							onChange={(e: any) =>
-								setStudentData({ ...studentData, fullName: e.target.value })
-							}
+							value={studentData.studentName}
+							onChangeText={(text) => setStudentData({ ...studentData, studentName: text })}
 						/>
 						<TextInput
 							value={studentData.studentID}
-							onChange={(e: any) =>
-								setStudentData({ ...studentData, studentID: e.target.value })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, studentID: text })}
 							placeholder="Student ID"
+							keyboardType="number-pad"
 							style={styles.input}
 						/>
 
 						<TextInput
 							value={studentData.email}
-							onChange={(e: any) => setStudentData({ ...studentData, email: e.target.value })}
+							onChangeText={(text) => setStudentData({ ...studentData, email: text })}
 							placeholder="Email"
 							style={styles.input}
 						/>
 						<TextInput
 							value={studentData.password}
-							onChange={(e: any) =>
-								setStudentData({ ...studentData, password: e.target.value })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, password: text })}
 							placeholder="Password"
-							textContentType="password"
+							secureTextEntry={true}
 							style={styles.input}
 						/>
 						<TextInput
-							value={studentData.fullName}
-							onChange={(e: any) =>
-								setStudentData({ ...studentData, confirmPass: e.target.value })
-							}
+							value={studentData.confirmPass}
+							onChangeText={(text) => setStudentData({ ...studentData, confirmPass: text })}
 							placeholder="Confirm Password"
-							textContentType="password"
+							secureTextEntry={true}
+							// textContentType="password"
 							style={styles.input}
 						/>
 						{studentData.password !== studentData.confirmPass ? (
@@ -201,10 +197,24 @@ function SignUp({ navigation }) {
 						) : null}
 						<TextInput
 							value={studentData.phoneNumber}
-							onChange={(e: any) =>
-								setStudentData({ ...studentData, phoneNumber: e.target.value })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, phoneNumber: text })}
 							placeholder="Phone Number"
+							keyboardType="number-pad"
+							maxLength={10}
+							style={styles.input}
+						/>
+						<TextInput
+							value={studentData.studentType}
+							onChangeText={(text) => setStudentData({ ...studentData, studentType: text })}
+							placeholder="Degree Type eg Bachelors, Masters, Phd"
+							maxLength={10}
+							style={styles.input}
+						/>
+						<TextInput
+							value={studentData.yearAdmitted}
+							onChangeText={(text) => setStudentData({ ...studentData, yearAdmitted: text })}
+							placeholder="Year Admitted"
+							keyboardType="number-pad"
 							maxLength={10}
 							style={styles.input}
 						/>
@@ -292,16 +302,25 @@ function SignUp({ navigation }) {
 										/>
 									</View>
 								</Modal>
+								<TextInput
+									value={studentData.roomNumber}
+									onChangeText={(text) =>
+										setStudentData({ ...studentData, roomNumber: text })
+									}
+									placeholder="Room Number"
+									style={styles.input}
+								/>
 							</View>
 						) : null}
 					</View>
 				</View>
-				<View style={{ flex: 0.2, position: "relative", top: "25%" }}>
+				<View style={{ position: "relative", top: "0%", marginBottom: 30 }}>
 					<Button
 						color="#5254E0"
 						title="Sign Up"
 						onPress={() => {
 							addNewStudent({ variables: { ...studentData } });
+							console.log(studentData);
 						}}
 					/>
 				</View>
@@ -309,18 +328,20 @@ function SignUp({ navigation }) {
 					style={{
 						justifyContent: "center",
 						alignItems: "center",
-						flex: 0.5,
 						flexDirection: "row",
 						position: "relative",
-						top: "15%",
 					}}>
-					<Text style={{ color: "#CCCCCC", marginLeft: 20 }}>Already have an account?</Text>
+					<Text style={{ color: "#CCCCCC", marginLeft: 20, fontSize: 20, marginBottom: 30 }}>
+						Already have an account?
+					</Text>
 					<TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-						<Text style={{ color: "#5254E0", marginLeft: 5 }}>Sign In</Text>
+						<Text style={{ color: "#5254E0", marginLeft: 5, fontSize: 20, marginBottom: 30 }}>
+							Sign In
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>
-		</SafeAreaView>
+		</KeyboardAvoidingView>
 	);
 }
 
@@ -331,16 +352,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		// marginTop: "30%",
 		backgroundColor: "#fff",
 	},
 	input: {
-		width: 250,
+		width: 260,
 		height: 30,
 		borderRadius: 5,
 		borderWidth: 1,
 		marginBottom: 20,
-		// borderColor: "blue",
 	},
 	formView: {
 		flex: 1,
@@ -349,7 +368,7 @@ const styles = StyleSheet.create({
 	},
 	modalView: {
 		position: "relative",
-		top: "50%",
+		top: "10%",
 		margin: 20,
 		backgroundColor: "white",
 		borderRadius: 20,
@@ -364,7 +383,6 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5,
 		justifyContent: "flex-start",
-		height: "30%",
-		// width:"70%"
+		height: "50%",
 	},
 });
