@@ -13,6 +13,7 @@ import {
 	Platform,
 	Button,
 	KeyboardAvoidingView,
+	ActivityIndicator,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RadioGroup from "react-native-radio-buttons-group";
@@ -21,17 +22,17 @@ import moment from "moment";
 const SIGNUP_STUDENT = gql`
 	mutation(
 		$studentName: String!
-		$studentID: String!
+		$studentID: ID!
 		$email: String!
-		$gender: String!
-		$residentialStatus: String
-		$studentType: String!
-		$password: String!
 		$dateOfBirth: String!
-		$yearAdmitted: String!
-		$hallOfResidence: String
-		$phoneNumber: String
+		$gender: String!
 		$roomNumber: String
+		$yearAdmitted: String
+		$studentType: String!
+		$residentialStatus: String!
+		$hallOfResidence: String
+		$password: String!
+		$phoneNumber: String
 	) {
 		addNewStudent(
 			input: {
@@ -49,44 +50,50 @@ const SIGNUP_STUDENT = gql`
 				phoneNumber: $phoneNumber
 			}
 		) {
-			dateOfBirth
+			studentName
+			studentID
 			email
 			gender
-			hallOfResidence
-			hometown
-			residentialStatus
-			roomNumber
-			studentID
-			studentName
 			studentType
+			residentialStatus
+			dateOfBirth
+			roomNumber
 			yearAdmitted
+			hallOfResidence
+			phoneNumber
+			# hometown
 		}
 	}
 `;
 
 function SignUp({ navigation }) {
 	const [studentData, setStudentData] = useState({
-		studentName: "",
+		dateOfBirth: moment(new Date()).format("DD/MM/YYYY"),
 		email: "",
+		gender: "Male",
+		hallOfResidence: "",
+		residentialStatus: "",
+		roomNumber: "",
 		studentID: "",
+		studentName: "",
+		studentType: "",
+		yearAdmitted: "",
 		password: "",
 		confirmPass: "",
-		studentType: "",
 		phoneNumber: "",
-		yearAdmitted: "",
-		gender: "Male",
-		roomNumber: "",
-		dateOfBirth: moment(new Date()).format("DD/MM/YYYY"),
-		residentialStatus: "Non Resident",
-		hallOfResidence: "",
 	});
+	const [loading, setLoading] = useState(false);
 	const [addNewStudent, { data }] = useMutation(SIGNUP_STUDENT, {
 		onCompleted: (d) => {
-			console.log(d);
-			// navigation.navigate("SignIn");
+			console.trace("data", d);
+			setLoading(false);
+			navigation.navigate("SignIn");
 		},
-		onError: (e) => console.error(e.message),
+		onError: (e) => {
+			console.error(e.message);
+		},
 	});
+
 	const [selectItems, setSelectItem] = useState({
 		selectHall: false,
 		pickDOB: false,
@@ -117,6 +124,11 @@ function SignUp({ navigation }) {
 		{ name: "Volta Hall" },
 		{ name: "International Student Hostel" },
 	];
+
+	const validateEmail = (email) => {
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(email);
+	};
 
 	const renderHalls = ({ item }) => {
 		return (
@@ -315,14 +327,18 @@ function SignUp({ navigation }) {
 					</View>
 				</View>
 				<View style={{ position: "relative", top: "0%", marginBottom: 30 }}>
-					<Button
-						color="#5254E0"
-						title="Sign Up"
-						onPress={() => {
-							addNewStudent({ variables: { ...studentData } });
-							console.log(studentData);
-						}}
-					/>
+					{loading ? (
+						<ActivityIndicator size="large" color="#5254E0" />
+					) : (
+						<Button
+							color="#5254E0"
+							title="Sign Up"
+							onPress={() => {
+								setLoading(true);
+								addNewStudent({ variables: { ...studentData } });
+							}}
+						/>
+					)}
 				</View>
 				<View
 					style={{
