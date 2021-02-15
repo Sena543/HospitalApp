@@ -20,6 +20,11 @@ export default {
             screens:{
               Login: "three"
             }
+          },
+          Settings:{
+            screens:{
+              Settings:"Settings"
+            }
           }
         },
       },

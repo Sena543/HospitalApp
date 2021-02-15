@@ -30,21 +30,22 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
 	const getData = async () => {
 		try {
-			// const value = await AsyncStorage.getItem("authToken");
-			// if (value !== null) {
-			// 	// value previously stored
-			// 	console.log(value);
-			// 	return value;
-			// }
-			await AsyncStorage.clear();
+			const value = await AsyncStorage.getItem("authToken");
+			if (value !== null) {
+				// value previously stored
+				console.log(value);
+				return value;
+			}
+			// await AsyncStorage.clear();
 		} catch (e) {
 			// error reading value
 		}
 	};
 
+	// console.log(getData());
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			{false ? (
+			{getData() ? (
 				<>
 					<Stack.Screen name="Root" component={BottomTabNavigator} />
 					<Stack.Screen
@@ -62,14 +63,7 @@ function RootNavigator() {
 						name="SignUp"
 						component={SignUp}
 						options={{
-							title: "Sign Up",
-							// headerStyle: {
-							// 	backgroundColor: "#f4511e",
-							// },
-							// headerTintColor: "#fff",
-							// headerTitleStyle: {
-							// 	fontWeight: "bold",
-							// },
+							headerTitle: "Sign Up",
 						}}
 					/>
 				</>

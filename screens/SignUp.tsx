@@ -82,11 +82,11 @@ function SignUp({ navigation }) {
 		confirmPass: "",
 		phoneNumber: "",
 	});
-	const [loading, setLoading] = useState(false);
-	const [addNewStudent, { data }] = useMutation(SIGNUP_STUDENT, {
+	// const [loading, setLoading] = useState(false);
+	const [addNewStudent, { loading, _, data }] = useMutation(SIGNUP_STUDENT, {
 		onCompleted: (d) => {
-			console.trace("data", d);
-			setLoading(false);
+			// console.trace("data", d);
+			// setLoading(false);
 			navigation.navigate("SignIn");
 		},
 		onError: (e) => {
@@ -334,7 +334,7 @@ function SignUp({ navigation }) {
 							color="#5254E0"
 							title="Sign Up"
 							onPress={() => {
-								setLoading(true);
+								// setLoading(true);
 								addNewStudent({ variables: { ...studentData } });
 							}}
 						/>
