@@ -1,13 +1,13 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Navigation from "../navigation";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
-		login(studentID: $studentID, password: $password) {
+		loginUser(studentID: $studentID, password: $password) {
 			token
 		}
 	}
@@ -28,15 +28,22 @@ function Login({ navigation }) {
 		password: "",
 	});
 
-	const [login, { data }] = useMutation(LOGIN, {
-		onError: (e) => {},
+	const [login, { loading, error, data }] = useMutation(LOGIN, {
+		onError: (e) => {
+			console.trace(e);
+		},
 		onCompleted: (response) => {
 			if (response) {
-				storeToken(response);
+				storeToken(response.loginUser.token);
 			}
-			navigation.navigate("Appointment");
+			// navigation.navigate("Appointment");
+			// console.trace(response.loginUser.token);
 		},
 	});
+
+	// const handleLogin = () => {
+	// 	login({ variables: { ...studentDetails } });
+	// };
 
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
@@ -58,9 +65,8 @@ function Login({ navigation }) {
 						style={styles.input}
 						value={studentDetails.studentID}
 						placeholder="Student ID"
-						onChange={(e: any) =>
-							setStudentDetails({ ...studentDetails, studentID: e.target.value })
-						}
+						keyboardType="number-pad"
+						onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
 					/>
 				</View>
 				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.5 }}>
@@ -68,20 +74,24 @@ function Login({ navigation }) {
 						style={styles.input}
 						value={studentDetails.password}
 						placeholder="Password"
-						onChange={(e: any) =>
-							setStudentDetails({ ...studentDetails, password: e.target.value })
-						}
+						secureTextEntry={true}
+						onChangeText={(text) => setStudentDetails({ ...studentDetails, password: text })}
 					/>
 				</View>
 			</View>
 			<View style={{ flex: 0.5, position: "relative", bottom: 5, top: 0 }}>
-				<Button
-					color="#5254E0"
-					title="Sign In"
-					onPress={() => {
-						login({ variables: { ...studentDetails } });
-					}}
-				/>
+				{loading ? (
+					<ActivityIndicator size="large" color="#5254E0" />
+				) : (
+					<Button
+						color="#5254E0"
+						title="Sign In"
+						onPress={() => {
+							console.log(studentDetails);
+							login({ variables: { ...studentDetails } });
+						}}
+					/>
+				)}
 			</View>
 			<View
 				style={{
