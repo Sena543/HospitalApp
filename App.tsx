@@ -30,15 +30,12 @@ const authLink = setContext(async (_, { headers }) => {
 	return {
 		headers: {
 			...headers,
-			// auth_token: token
-			// 	? `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTIzNDU2NzgiLCJpYXQiOjE2MTM0MTk0MzQsImV4cCI6MTYxNjAxMTQzNH0.gJMQvTLbWhty0DKGsTVg6LbovEx_gM7EsWRxal05FrU`
-			// 	: "",
 			auth_token: token,
 		},
 	};
 });
 
-const httpLink = new HttpLink({ uri: "https://immense-savannah-88207.herokuapp.com/" });
+const httpLink = new HttpLink({ uri: "https://immense-savannah-88207.herokuapp.com" });
 const securedLink = authLink.concat(httpLink);
 const client = new ApolloClient({
 	link: concat(errorLink, securedLink),
