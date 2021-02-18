@@ -1,9 +1,11 @@
 import { useMutation, gql } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Navigation from "../navigation";
+import { signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LoggedInContext from "../context/loggedInContext";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
@@ -13,16 +15,8 @@ const LOGIN = gql`
 	}
 `;
 
-const storeToken = async (value) => {
-	try {
-		await AsyncStorage.setItem("authToken", value);
-	} catch (e) {
-		// saving error
-		alert("Failed to process requests");
-	}
-};
-
 function Login({ navigation }) {
+	const { setIsLogged } = useContext(LoggedInContext);
 	const [studentDetails, setStudentDetails] = useState({
 		studentID: "",
 		password: "",
@@ -34,16 +28,12 @@ function Login({ navigation }) {
 		},
 		onCompleted: (response) => {
 			if (response) {
-				storeToken(response.loginUser.token);
+				signIn(response.loginUser.token);
+				setIsLogged(true);
 			}
-			// navigation.navigate("Appointment");
-			// console.trace(response.loginUser.token);
+			// console.log(response);
 		},
 	});
-
-	// const handleLogin = () => {
-	// 	login({ variables: { ...studentDetails } });
-	// };
 
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
@@ -87,7 +77,6 @@ function Login({ navigation }) {
 						color="#5254E0"
 						title="Sign In"
 						onPress={() => {
-							console.log(studentDetails);
 							login({ variables: { ...studentDetails } });
 						}}
 					/>
@@ -119,6 +108,5 @@ const styles = StyleSheet.create({
 		height: 30,
 		borderRadius: 5,
 		borderWidth: 1,
-		// margin: 30,
 	},
 });

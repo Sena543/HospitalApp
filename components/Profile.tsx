@@ -6,30 +6,29 @@ import { View, Text } from "./Themed";
 const GET_STUDENT_PROFILE = gql`
 	query($studentID: ID!) {
 		getStudentProfile(studentID: $studentID) {
+			dateOfBirth
+			email
+			gender
+			hallOfResidence
+			phoneNumber
+			residentialStatus
+			roomNumber
 			studentID
 			studentName
-			email
-			dateOfBirth
-			hallOfResidence
-			residentialStatus
-			gender
-			roomNumber
-			hometown
-			yearAdmitted
 			studentType
+			yearAdmitted
 		}
 	}
 `;
 
 function Profile() {
 	const { loading, error, data } = useQuery(GET_STUDENT_PROFILE, {
-		variables: { studentID: 87654321 },
+		variables: { studentID: 12345678 },
 		onError: (error) => {
 			console.error(error);
 		},
 		onCompleted: (data) => {
 			setStudentData(data?.getStudentProfile);
-			// console.log(data.getStudentProfile)
 		},
 	});
 	const [studentData, setStudentData] = useState(null);

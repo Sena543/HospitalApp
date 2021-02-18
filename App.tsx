@@ -1,14 +1,18 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
+import { setContext } from "@apollo/client/link/context";
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, ApolloLink, concat } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
-
+import jwtDecode from "jwt-decode";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Nav from "./navigation/Nav";
+import { getToken } from "./util";
+import { LoggedInProvider } from "./context/loggedInContext";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors)
@@ -18,26 +22,47 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
+const authLink = setContext(async (_, { headers }) => {
+	// get the authentication token from local storage if it exists
+	const token = await getToken();
+	console.trace(token);
+	console.log("Token:", token);
+	return {
+		headers: {
+			...headers,
+			// auth_token: token
+			// 	? `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTIzNDU2NzgiLCJpYXQiOjE2MTM0MTk0MzQsImV4cCI6MTYxNjAxMTQzNH0.gJMQvTLbWhty0DKGsTVg6LbovEx_gM7EsWRxal05FrU`
+			// 	: "",
+			auth_token: token,
+		},
+	};
+});
+
 const httpLink = new HttpLink({ uri: "https://immense-savannah-88207.herokuapp.com/" });
+const securedLink = authLink.concat(httpLink);
 const client = new ApolloClient({
-	// uri: "https://immense-savannah-88207.herokuapp.com/",
-	link: concat(errorLink, httpLink),
+	link: concat(errorLink, securedLink),
 	cache: new InMemoryCache(),
 });
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();
 	const colorScheme = useColorScheme();
+	const [isLoggedIn, setIsLogged] = React.useState(false);
 
+	console.log("Logged in:", isLoggedIn);
 	if (!isLoadingComplete) {
 		return null;
 	} else {
 		return (
 			<ApolloProvider client={client}>
-				<SafeAreaProvider>
-					<Navigation colorScheme={colorScheme} />
-					<StatusBar />
-				</SafeAreaProvider>
+				<LoggedInProvider value={{ isLoggedIn, setIsLogged }}>
+					<SafeAreaProvider>
+						<Nav isLoggedIn={isLoggedIn} />
+						{/* <Navigation colorScheme={colorScheme} /> */}
+						<StatusBar />
+					</SafeAreaProvider>
+				</LoggedInProvider>
 			</ApolloProvider>
 		);
 	}

@@ -85,7 +85,7 @@ function Booking() {
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
-			console.error(e);
+			// console.error(e);
 		},
 	});
 

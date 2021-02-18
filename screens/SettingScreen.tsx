@@ -1,27 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useContext } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image, Platform } from "react-native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoggedInContext from "../context/loggedInContext";
+import { signOut } from "../util";
 
-function SettingScreen() {
-	const handleLogout = async () => {
-		try {
-			const asyncStorageKeys = await AsyncStorage.getAllKeys();
-			if (asyncStorageKeys.length > 0) {
-				if (Platform.OS === "android") {
-					await AsyncStorage.clear();
-				}
-				if (Platform.OS === "ios") {
-					await AsyncStorage.multiRemove(asyncStorageKeys);
-				}
-			}
-		} catch (e) {
-			// saving error
-			alert("Failed to process requests");
-			console.log(e);
-		}
+function SettingScreen({ navigation }) {
+	// const handleLogout = async () => {
+	// 	signOut();
+	// 	// try {
+	// 	// 	await AsyncStorage.removeItem("auth-token");
+	// 	// } catch (e) {
+	// 	// 	console.log(e);
+	// 	// }
+	// };
+	const { setIsLogged } = useContext(LoggedInContext);
+	const handleSignOut = async () => {
+		await signOut();
+		setIsLogged(false);
 	};
+
 	const itemSize = 50;
 	return (
 		<View style={styles.root}>
@@ -55,7 +54,8 @@ function SettingScreen() {
 						<Text style={styles.textStyle}>Noitfications</Text>
 					</View>
 					<View style={[styles.itemView, { marginRight: 30 }]}>
-						<TouchableOpacity onPress={handleLogout}>
+						<TouchableOpacity onPress={handleSignOut}>
+							{/* <TouchableOpacity onPress={handleLogout}> */}
 							<View>
 								<Ionicons name="log-out-outline" size={itemSize} style={styles.icon} />
 							</View>

@@ -90,7 +90,7 @@ function SignUp({ navigation }) {
 			navigation.navigate("SignIn");
 		},
 		onError: (e) => {
-			console.error(e.message);
+			// console.error(e.message);
 		},
 	});
 

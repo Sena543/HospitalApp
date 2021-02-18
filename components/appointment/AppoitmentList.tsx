@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from "react-native";
 import AppointmentBubble from "./AppointmentBubble";
 import { gql, useQuery } from "@apollo/client";
 
@@ -17,16 +17,20 @@ const GETAPPOINTMENTHISTORY = gql`
 				officeNumber
 			}
 		}
+		getStudentProfile(studentID: $studentID) {
+			studentName
+		}
 	}
 `;
 
 function AppoitmentList() {
 	const { loading, error, data } = useQuery(GETAPPOINTMENTHISTORY, {
-		variables: { studentID: 87654321 },
+		variables: { studentID: 12345678 },
 		onError: (error) => {
 			console.error(error);
 		},
 		onCompleted: (data) => {
+			console.log("data", data);
 			setAppointmentHistory(data?.getAppointmentHistory);
 		},
 	});
@@ -36,7 +40,11 @@ function AppoitmentList() {
 	useEffect(() => {}, [appointmentHistory]);
 
 	if (loading) {
-		<Text>Loading...</Text>;
+		return (
+			<View style={{ justifyContent: "center", alignItems: "center" }}>
+				<ActivityIndicator size="large" color="#5254E0" />
+			</View>
+		);
 	}
 
 	if (error) {
@@ -57,21 +65,38 @@ function AppoitmentList() {
 					Ensure be present 15 minutes before Doctor's appointment or appointment will be cancelled{" "}
 				</Text>
 			</View>
-			{(appointmentHistory || []).map(
-				({ appointmentDate, appointmentStartTime, endTime, doctorID }, index) => {
-					return (
-						<AppointmentBubble
-							date={appointmentDate}
-							location={"Legon Hospital"}
-							officeNumber={doctorID?.officeNumber}
-							doctor={doctorID?.doctorName}
-							time={appointmentStartTime}
-							endTime={endTime}
-							chosenColor={index % 3}
-							index={index}
-						/>
-					);
-				}
+			{appointmentHistory === null || appointmentHistory.length === 0 ? (
+				<View
+					style={{
+						justifyContent: "center",
+						alignItems: "center",
+						marginTop: 50,
+						marginLeft: 10,
+						marginRight: 10,
+						borderWidth: 1,
+						borderColor: "#000",
+						height: 50,
+						borderStyle: "dashed",
+					}}>
+					<Text style={{ fontSize: 20, fontWeight: "bold" }}>No appointmntshave been made</Text>
+				</View>
+			) : (
+				(appointmentHistory || []).map(
+					({ appointmentDate, appointmentStartTime, endTime, doctorID }, index) => {
+						return (
+							<AppointmentBubble
+								date={appointmentDate}
+								location={"Legon Hospital"}
+								officeNumber={doctorID?.officeNumber}
+								doctor={doctorID?.doctorName}
+								time={appointmentStartTime}
+								endTime={endTime}
+								chosenColor={index % 3}
+								index={index}
+							/>
+						);
+					}
+				)
 			)}
 		</ScrollView>
 	);
