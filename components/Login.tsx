@@ -31,7 +31,6 @@ function Login({ navigation }) {
 				signIn(response.loginUser.token);
 				setIsLogged(true);
 			}
-			// console.log(response);
 		},
 	});
 

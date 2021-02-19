@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 
 function RootNavigator() {
 	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
+		<Stack.Navigator screenOptions={{ headerShown: true }}>
 			<Stack.Screen name="Root" component={BottomTabNavigator} />
 			<Stack.Screen
 				name="Settings"

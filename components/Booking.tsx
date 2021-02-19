@@ -127,6 +127,9 @@ function Booking() {
 		setShowComponents({ ...showComponents, datePicker: false });
 	};
 
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	const [selectedTime, setSelectedTime] = useState(null);
+
 	const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Results Collection"];
 	const AvailabeAppointments = ({
 		appTime,
@@ -170,21 +173,6 @@ function Booking() {
 						</Text>
 						{/* <Text style={{ marginLeft: 10 }}>{duration}</Text> */}
 					</View>
-					<Modal
-						animationType="slide"
-						transparent={true}
-						visible={showModal}
-						onRequestClose={() => {
-							Alert.alert("Modal has been closed.");
-						}}>
-						<Confirm
-							doctorID={doctorName}
-							time={appTime}
-							// key={index}
-							showModal={showModal}
-							setShowModal={setShowModal}
-						/>
-					</Modal>
 				</View>
 			</View>
 		);
@@ -308,12 +296,15 @@ function Booking() {
 					<Text style={styles.text}>Time</Text>
 					<Text style={styles.text}>Available Doctors</Text>
 				</View>
+
 				<ScrollView style={{ flex: 2 }}>
 					{(appointmentList || []).map((data, index) => {
 						return (
 							<>
 								<TouchableOpacity
 									onPress={() => {
+										setSelectedDoctor(data.doctorName);
+										setSelectedTime(data.appTime);
 										setShowModal(true);
 									}}>
 									<AvailabeAppointments
@@ -323,24 +314,24 @@ function Booking() {
 										key={index}
 									/>
 								</TouchableOpacity>
-								{/* <Modal
-									animationType="slide"
-									transparent={true}
-									visible={showModal}
-									onRequestClose={() => {
-										Alert.alert("Modal has been closed.");
-									}}>
-									<Confirm
-										doctorID={data.doctorName}
-										time={data.appTime}
-										key={index}
-										showModal={showModal}
-										setShowModal={setShowModal}
-									/>
-								</Modal> */}
 							</>
 						);
 					})}
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={showModal}
+						onRequestClose={() => {
+							Alert.alert("Modal has been closed.");
+						}}>
+						<Confirm
+							doctorID={selectedDoctor}
+							time={selectedTime}
+							// key={index}
+							showModal={showModal}
+							setShowModal={setShowModal}
+						/>
+					</Modal>
 				</ScrollView>
 			</View>
 		</SafeAreaView>

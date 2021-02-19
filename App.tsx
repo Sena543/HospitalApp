@@ -25,8 +25,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const authLink = setContext(async (_, { headers }) => {
 	// get the authentication token from local storage if it exists
 	const token = await getToken();
-	console.trace(token);
-	console.log("Token:", token);
 	return {
 		headers: {
 			...headers,
