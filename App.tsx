@@ -7,9 +7,6 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, ApolloLink, conc
 import { onError } from "@apollo/client/link/error";
 import jwtDecode from "jwt-decode";
 import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
-import Navigation from "./navigation";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Nav from "./navigation/Nav";
 import { getToken } from "./util";
 import { LoggedInProvider } from "./context/loggedInContext";
@@ -42,7 +39,6 @@ const client = new ApolloClient({
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();
-	const colorScheme = useColorScheme();
 	const [isLoggedIn, setIsLogged] = React.useState(false);
 
 	console.log("Logged in:", isLoggedIn);
@@ -54,7 +50,6 @@ export default function App() {
 				<LoggedInProvider value={{ isLoggedIn, setIsLogged }}>
 					<SafeAreaProvider>
 						<Nav isLoggedIn={isLoggedIn} />
-						{/* <Navigation colorScheme={colorScheme} /> */}
 						<StatusBar />
 					</SafeAreaProvider>
 				</LoggedInProvider>

@@ -1,20 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image, Platform } from "react-native";
-
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoggedInContext from "../context/loggedInContext";
 import { signOut } from "../util";
 
-function SettingScreen({ navigation }) {
-	// const handleLogout = async () => {
-	// 	signOut();
-	// 	// try {
-	// 	// 	await AsyncStorage.removeItem("auth-token");
-	// 	// } catch (e) {
-	// 	// 	console.log(e);
-	// 	// }
-	// };
+function SettingScreen({}) {
 	const { setIsLogged } = useContext(LoggedInContext);
 	const handleSignOut = async () => {
 		await signOut();
@@ -30,7 +20,6 @@ function SettingScreen({ navigation }) {
 					flexDirection: "column",
 					justifyContent: "space-around",
 					position: "relative",
-					// bottom: "20%",
 				}}>
 				<View style={styles.iconContianer}>
 					<View style={styles.itemView}>
@@ -55,7 +44,6 @@ function SettingScreen({ navigation }) {
 					</View>
 					<View style={[styles.itemView, { marginRight: 30 }]}>
 						<TouchableOpacity onPress={handleSignOut}>
-							{/* <TouchableOpacity onPress={handleLogout}> */}
 							<View>
 								<Ionicons name="log-out-outline" size={itemSize} style={styles.icon} />
 							</View>

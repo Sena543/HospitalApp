@@ -1,7 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	StyleSheet,
@@ -61,7 +60,6 @@ const SIGNUP_STUDENT = gql`
 			yearAdmitted
 			hallOfResidence
 			phoneNumber
-			# hometown
 		}
 	}
 `;
@@ -82,11 +80,8 @@ function SignUp({ navigation }) {
 		confirmPass: "",
 		phoneNumber: "",
 	});
-	// const [loading, setLoading] = useState(false);
-	const [addNewStudent, { loading, _, data }] = useMutation(SIGNUP_STUDENT, {
+	const [addNewStudent, { loading, __, data }] = useMutation(SIGNUP_STUDENT, {
 		onCompleted: (d) => {
-			// console.trace("data", d);
-			// setLoading(false);
 			navigation.navigate("SignIn");
 		},
 		onError: (e) => {
@@ -162,10 +157,8 @@ function SignUp({ navigation }) {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
-					// flex: 1,
 					justifyContent: "center",
 					alignItems: "center",
-					// marginHorizontal: 20,
 				}}>
 				<View style={styles.formView}>
 					<View>
@@ -334,7 +327,6 @@ function SignUp({ navigation }) {
 							color="#5254E0"
 							title="Sign Up"
 							onPress={() => {
-								// setLoading(true);
 								addNewStudent({ variables: { ...studentData } });
 							}}
 						/>

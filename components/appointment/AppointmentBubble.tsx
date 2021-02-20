@@ -21,7 +21,6 @@ function AppointmentBubble({
 	chosenColor: Number;
 	index: Number;
 }) {
-	const [showModal, setShowModal] = useState();
 	const colors = [
 		{ name: "kindOfRed", dateColor: "#5D002E", bgColor: "#F6E7EC" },
 		{ name: "kindOfGreen", dateColor: "#07B20D", bgColor: "#ECFAEE" },
@@ -36,9 +35,7 @@ function AppointmentBubble({
 				alignItems: "center",
 				justifyContent: "center",
 				margin: 20,
-			}}
-			// key={index}
-		>
+			}}>
 			<View style={{ display: "flex", justifyContent: "center" }}>
 				<Text style={{ color: "#a39bc6", fontSize: 15, fontWeight: "bold" }}>{date}</Text>
 			</View>
