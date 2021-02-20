@@ -1,8 +1,6 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useContext, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-// import Navigation from "../navigation";
 import { signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoggedInContext from "../context/loggedInContext";

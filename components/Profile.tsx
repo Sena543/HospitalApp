@@ -28,6 +28,7 @@ function Profile() {
 			console.error(error);
 		},
 		onCompleted: (data) => {
+			console.log(data);
 			setStudentData(data?.getStudentProfile);
 		},
 	});
@@ -68,8 +69,8 @@ function Profile() {
 						<Text style={styles.data}>{studentData?.yearAdmitted}</Text>
 					</View>
 					<View>
-						<Text style={styles.title}>Hometown</Text>
-						<Text style={styles.data}>{studentData?.hometown}</Text>
+						<Text style={styles.title}>Hall of Residence</Text>
+						<Text style={styles.data}>{studentData?.hallOfResidence}</Text>
 					</View>
 				</View>
 				<View style={{ marginRight: 40 }}>
@@ -79,7 +80,7 @@ function Profile() {
 					</View>
 					<View>
 						<Text style={styles.title}>Residential Status</Text>
-						<Text style={styles.data}>{studentData?.hallOfResidence}</Text>
+						<Text style={styles.data}>{studentData?.residentialStatus}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Room Number</Text>

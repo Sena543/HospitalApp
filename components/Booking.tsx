@@ -74,21 +74,20 @@ function Booking() {
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
 		appointmentDate: moment(new Date()).format("DD/MM/YYYY"),
-		startTime: moment(new Date().getTime()).format("hh:mm"),
+		startTime: moment(new Date().getTime()).format("h:mm"),
 		endTime: "",
 		doctorID: "",
 	});
-	const [docList, setDocList] = useState(null);
+	const [docList, setDocList] = useState([]);
 	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
-		// variables: { timeSelected: bookAppointment.startTime },
 		onCompleted: (d) => {
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
-			// console.error(e);
+			console.error(e);
 		},
 	});
-
+	React.useEffect(() => {}, [docList]);
 	const [confirmAppointment, { data }] = useMutation(BOOK_APPOINTMENT, {
 		variables: {
 			doctorID: bookAppointment.doctorID,
@@ -116,9 +115,11 @@ function Booking() {
 	};
 
 	const handleConfirm = (time: any) => {
-		setBookAppointment({ ...bookAppointment, startTime: moment(time).format("hh:mm") });
+		const startTime = moment(time).format("h:mm");
+		setBookAppointment({ ...bookAppointment, startTime });
 		hideDatePicker();
-		getDocs({ variables: { timeSelected: bookAppointment.startTime } });
+		getDocs({ variables: { timeSelected: startTime } });
+		console.log(startTime);
 	};
 
 	const handleDateConfirm = (date: any) => {
@@ -298,25 +299,44 @@ function Booking() {
 				</View>
 
 				<ScrollView style={{ flex: 2 }}>
-					{(appointmentList || []).map((data, index) => {
-						return (
-							<>
-								<TouchableOpacity
-									onPress={() => {
-										setSelectedDoctor(data.doctorName);
-										setSelectedTime(data.appTime);
-										setShowModal(true);
-									}}>
-									<AvailabeAppointments
-										appTime={data.appTime}
-										doctorName={data.doctorName}
-										duration={data.duration}
-										key={index}
-									/>
-								</TouchableOpacity>
-							</>
-						);
-					})}
+					{docList.length === 0 ? (
+						<View
+							style={{
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: 20,
+								marginLeft: 10,
+								marginRight: 20,
+								borderWidth: 1,
+								borderColor: "#000",
+								height: 50,
+								borderStyle: "dashed",
+							}}>
+							<Text style={{ fontSize: 20, fontWeight: "bold" }}>
+								No Doctors currently available at current time
+							</Text>
+						</View>
+					) : (
+						(docList || []).map((data, index) => {
+							return (
+								<>
+									<TouchableOpacity
+										onPress={() => {
+											setSelectedDoctor(data.doctorName);
+											setSelectedTime(data.appTime);
+											setShowModal(true);
+										}}>
+										<AvailabeAppointments
+											appTime={data.appTime}
+											doctorName={data.doctorName}
+											duration={data.duration}
+											key={index}
+										/>
+									</TouchableOpacity>
+								</>
+							);
+						})
+					)}
 					<Modal
 						animationType="slide"
 						transparent={true}
@@ -327,7 +347,6 @@ function Booking() {
 						<Confirm
 							doctorID={selectedDoctor}
 							time={selectedTime}
-							// key={index}
 							showModal={showModal}
 							setShowModal={setShowModal}
 						/>
