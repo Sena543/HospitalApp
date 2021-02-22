@@ -49,7 +49,7 @@ function AppoitmentList({ appointmentHistory }) {
 				</View>
 			) : (
 				(appointmentHistory || []).map(
-					({ appointmentDate, appointmentStartTime, endTime, doctorID }, index) => {
+					({ appointmentDate, appointmentStartTime, endTime, doctorID }: any, index) => {
 						return (
 							<AppointmentBubble
 								date={appointmentDate}

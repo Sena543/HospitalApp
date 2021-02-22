@@ -23,7 +23,7 @@ const BOOK_APPOINTMENT = gql`
 		$doctorID: ID!
 		$checkupType: String!
 		$appointmentStartTime: String!
-		$endTime: String!
+		# $endTime: String!
 		# $arrivalConfirmation: Boolean
 		$appointmentDate: String!
 	) {
@@ -33,7 +33,7 @@ const BOOK_APPOINTMENT = gql`
 				doctorID: $doctorID
 				checkupType: $checkupType
 				appointmentStartTime: $appointmentStartTime
-				endTime: $endTime
+				# endTime: $endTime
 				appointmentDate: $appointmentDate
 			}
 		) {
@@ -43,9 +43,7 @@ const BOOK_APPOINTMENT = gql`
 			checkupType
 			doctorID {
 				doctorID
-				doctorName
 			}
-			appointmentStartTime
 			endTime
 		}
 	}
@@ -84,6 +82,7 @@ function Booking() {
 	const [docList, setDocList] = useState([]);
 	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
 		onCompleted: (d) => {
+			console.log(d);
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
@@ -95,10 +94,16 @@ function Booking() {
 		variables: {
 			doctorID: bookAppointment.doctorID,
 			checkupType: bookAppointment.checkupType,
-			studentID: 12345678,
+			studentID: globalStudentID,
 			appointmentDate: bookAppointment.appointmentDate,
 			endTime: bookAppointment.endTime,
-			startTime: bookAppointment.startTime,
+			appointmentStartTime: bookAppointment.startTime,
+		},
+		onCompleted: () => {
+			console.log("appointment booked. Be sure to arrive on time");
+		},
+		onError: (e) => {
+			console.log(e);
 		},
 	});
 
@@ -135,6 +140,7 @@ function Booking() {
 		duration: String;
 		key: Number;
 	}) => {
+		console.log("appTime", appTime);
 		const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
 		return (
 			<View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
@@ -163,7 +169,9 @@ function Booking() {
 							}}>
 							{doctorName}
 						</Text>
-						{/* <Text style={{ marginLeft: 10 }}>{duration}</Text> */}
+						<Text style={{ marginLeft: 10, marginBottom: 10 }}>
+							{appTime}-{Number(appTime[0]) + 1}:00
+						</Text>
 					</View>
 				</View>
 			</View>
@@ -309,22 +317,28 @@ function Booking() {
 						</View>
 					) : (
 						(docList || []).map((data, index) => {
+							// console.log(data.doctorID);
 							return (
-								<>
+								<View key={index}>
 									<TouchableOpacity
 										onPress={() => {
 											setSelectedDoctor(data.doctorName);
 											setSelectedTime(data.appTime);
+											setBookAppointment({
+												...bookAppointment,
+												doctorID: data.doctorID,
+											});
 											setShowModal(true);
 										}}>
 										<AvailabeAppointments
-											appTime={data.appTime}
+											appTime={bookAppointment.startTime}
+											// appTime={data.appTime}
 											doctorName={data.doctorName}
 											duration={data.duration}
 											key={index}
 										/>
 									</TouchableOpacity>
-								</>
+								</View>
 							);
 						})
 					)}
@@ -337,9 +351,10 @@ function Booking() {
 						}}>
 						<Confirm
 							doctorID={selectedDoctor}
-							time={selectedTime}
+							time={bookAppointment.startTime}
 							showModal={showModal}
 							setShowModal={setShowModal}
+							confirmApp={confirmAppointment}
 						/>
 					</Modal>
 				</ScrollView>

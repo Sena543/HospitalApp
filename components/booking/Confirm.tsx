@@ -13,12 +13,14 @@ function Confirm({
 	doctorID,
 	time,
 	showModal,
+	confirmApp,
 	setShowModal,
 }: // index,
 {
 	// index: String;
 	doctorID: String;
 	time: String;
+	confirmApp: Function;
 	showModal: Boolean;
 	setShowModal: Function;
 }) {
@@ -61,6 +63,7 @@ function Confirm({
 					title="Confirm Appointment"
 					onPress={() => {
 						// console.log(doctorID);
+						confirmApp();
 						setShowModal(!showModal);
 					}}
 					//   color='#FF0000'
