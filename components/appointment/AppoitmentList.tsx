@@ -4,59 +4,26 @@ import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from "react-nat
 import AppointmentBubble from "./AppointmentBubble";
 import { gql, useQuery } from "@apollo/client";
 
-const GETAPPOINTMENTHISTORY = gql`
-	query($studentID: ID!) {
-		getAppointmentHistory(studentID: $studentID) {
-			appointmentDate
-			appointmentStartTime
-			endTime
-			arrivalConfirmation
-			checkupType
-			doctorID {
-				doctorName
-				officeNumber
-			}
-		}
-		getStudentProfile(studentID: $studentID) {
-			studentName
-		}
-	}
-`;
+// const GETAPPOINTMENTHISTORY = gql`
+// 	query($studentID: ID!) {
+// 		getAppointmentHistory(studentID: $studentID) {
+// 			appointmentDate
+// 			appointmentStartTime
+// 			endTime
+// 			arrivalConfirmation
+// 			checkupType
+// 			doctorID {
+// 				doctorName
+// 				officeNumber
+// 			}
+// 		}
+// 		getStudentProfile(studentID: $studentID) {
+// 			studentName
+// 		}
+// 	}
+// `;
 
-function AppoitmentList() {
-	const { loading, error, data } = useQuery(GETAPPOINTMENTHISTORY, {
-		variables: { studentID: 12345678 },
-		onError: (error) => {
-			console.error(error);
-		},
-		onCompleted: (data) => {
-			console.log("data", data);
-			setAppointmentHistory(data?.getAppointmentHistory);
-		},
-	});
-
-	const [appointmentHistory, setAppointmentHistory] = useState(null);
-
-	useEffect(() => {}, [appointmentHistory]);
-
-	if (loading) {
-		return (
-			<View style={{ justifyContent: "center", alignItems: "center" }}>
-				<ActivityIndicator size="large" color="#5254E0" />
-			</View>
-		);
-	}
-
-	if (error) {
-		return (
-			<>
-				<Text>Error</Text>
-				<Text>{error.message}</Text>
-			</>
-		);
-	}
-
-	// console.log(appointmentHistory)
+function AppoitmentList({ appointmentHistory }) {
 	return (
 		<ScrollView>
 			<View style={styles.warning}>

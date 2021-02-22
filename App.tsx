@@ -5,7 +5,6 @@ import { setContext } from "@apollo/client/link/context";
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, ApolloLink, concat } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
-import jwtDecode from "jwt-decode";
 import useCachedResources from "./hooks/useCachedResources";
 import Nav from "./navigation/Nav";
 import { getToken } from "./util";
@@ -40,14 +39,13 @@ const client = new ApolloClient({
 export default function App() {
 	const isLoadingComplete = useCachedResources();
 	const [isLoggedIn, setIsLogged] = React.useState(false);
-
-	console.log("Logged in:", isLoggedIn);
+	const [globalStudentID, setGlobalStudentID] = React.useState();
 	if (!isLoadingComplete) {
 		return null;
 	} else {
 		return (
 			<ApolloProvider client={client}>
-				<LoggedInProvider value={{ isLoggedIn, setIsLogged }}>
+				<LoggedInProvider value={{ isLoggedIn, setIsLogged, globalStudentID, setGlobalStudentID }}>
 					<SafeAreaProvider>
 						<Nav isLoggedIn={isLoggedIn} />
 						<StatusBar />

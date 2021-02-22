@@ -14,7 +14,7 @@ const LOGIN = gql`
 `;
 
 function Login({ navigation }) {
-	const { setIsLogged } = useContext(LoggedInContext);
+	const { setIsLogged, setGlobalStudentID } = useContext(LoggedInContext);
 	const [studentDetails, setStudentDetails] = useState({
 		studentID: "",
 		password: "",
@@ -28,6 +28,7 @@ function Login({ navigation }) {
 			if (response) {
 				signIn(response.loginUser.token);
 				setIsLogged(true);
+				setGlobalStudentID(studentDetails.studentID);
 			}
 		},
 	});

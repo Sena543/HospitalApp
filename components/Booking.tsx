@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
 	View,
 	Text,
@@ -11,6 +11,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import LoggedInContext from "../context/loggedInContext";
 import Confirm from "./booking/Confirm";
 import moment from "moment";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
@@ -44,6 +45,7 @@ const BOOK_APPOINTMENT = gql`
 				doctorID
 				doctorName
 			}
+			appointmentStartTime
 			endTime
 		}
 	}
@@ -62,9 +64,10 @@ const GET_AVAILABLE_DOCTORS = gql`
 `;
 
 function Booking() {
+	const { globalStudentID } = useContext(LoggedInContext);
 	const [showModal, setShowModal] = useState(false);
 	const [showPurpose, setShowPurpose] = useState(false);
-	// const [showDatePicker, setShowDatePicker] = useState(false);
+
 	const [showComponents, setShowComponents] = useState({
 		datePicker: false,
 		pupropsePicker: false,
@@ -92,23 +95,12 @@ function Booking() {
 		variables: {
 			doctorID: bookAppointment.doctorID,
 			checkupType: bookAppointment.checkupType,
-			studentID: 87654321,
+			studentID: 12345678,
 			appointmentDate: bookAppointment.appointmentDate,
 			endTime: bookAppointment.endTime,
 			startTime: bookAppointment.startTime,
 		},
 	});
-
-	const appointmentList = [
-		{ appTime: "1:00", doctorName: "Michael Frimpong", duration: "8:00-9:00" },
-		{ appTime: "2:00", doctorName: "Eren Yeager", duration: "8:00-9:00" },
-		{ appTime: "3:00", doctorName: "Levi Ackerman", duration: "8:00-9:00" },
-		{ appTime: "4:00", doctorName: "Annie Leonhart", duration: "8:00-9:00" },
-		{ appTime: "5:00", doctorName: "Reiner Frimpong", duration: "8:00-9:00" },
-		{ appTime: "8:00", doctorName: "Michael Jackson", duration: "8:00-9:00" },
-		{ appTime: "9:00", doctorName: "Lionel Messi", duration: "8:00-9:00" },
-		{ appTime: "10:00", doctorName: "Cristiano Ronaldo", duration: "8:00-9:00" },
-	];
 
 	const hideDatePicker = () => {
 		setShowComponents({ ...showComponents, timePicker: false });
@@ -143,10 +135,9 @@ function Booking() {
 		duration: String;
 		key: Number;
 	}) => {
-		// console.log(key);
 		const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
 		return (
-			<View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
+			<View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
 				<Text style={{ color: "#B5B7BB" }}>{appTime}</Text>
 				<View style={{ flexDirection: "row", flex: 1 }}>
 					<View

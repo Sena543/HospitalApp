@@ -1,8 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
+import LoggedInContext from "../context/loggedInContext";
 import { View, Text } from "./Themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import jwtDecode from "jwt-decode";
 const GET_STUDENT_PROFILE = gql`
 	query($studentID: ID!) {
 		getStudentProfile(studentID: $studentID) {
@@ -21,14 +24,21 @@ const GET_STUDENT_PROFILE = gql`
 	}
 `;
 
+// const studentToken = async () => {
+// 	const token = await AsyncStorage.getItem("auth_token");
+// 	return token;
+// };
+
 function Profile() {
+	const { globalStudentID } = useContext(LoggedInContext);
+	// console.log(globalStudentID);
 	const { loading, error, data } = useQuery(GET_STUDENT_PROFILE, {
-		variables: { studentID: 12345678 },
+		variables: { studentID: globalStudentID },
 		onError: (error) => {
 			console.error(error);
 		},
 		onCompleted: (data) => {
-			console.log(data);
+			// console.log(data);
 			setStudentData(data?.getStudentProfile);
 		},
 	});

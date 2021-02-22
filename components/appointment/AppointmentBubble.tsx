@@ -28,6 +28,7 @@ function AppointmentBubble({
 	];
 	return (
 		<View
+			key={Number(index)}
 			style={{
 				flex: 1,
 				backgroundColor: `${colors[Number(chosenColor)].bgColor}`,
@@ -50,7 +51,6 @@ function AppointmentBubble({
 						<Text>{location}</Text>
 					</View>
 					<View style={styles.bubbleText}>
-						{/* <Ionicons name="location-outline"/> */}
 						<Text>Room {officeNumber}</Text>
 					</View>
 				</View>
@@ -64,7 +64,6 @@ function AppointmentBubble({
 						<Text>{doctor}</Text>
 					</View>
 					<View style={styles.bubbleText}>
-						{/* <Ionicons name="location-outline"/> */}
 						<Text>
 							{time} - {endTime}
 						</Text>
