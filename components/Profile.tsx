@@ -22,7 +22,6 @@ const GET_STUDENT_PROFILE = gql`
 	}
 `;
 
-
 function Profile() {
 	const { globalStudentID } = useContext(LoggedInContext);
 	const { loading, error, data } = useQuery(GET_STUDENT_PROFILE, {
@@ -57,7 +56,7 @@ function Profile() {
 				<Image style={styles.image} source={require("../assets/images/moon.jpg")} />
 			</View>
 			<View style={styles.profileDetails}>
-				<View style={{ marginLeft: 40 }}>
+				<View style={{ marginLeft: 20 }}>
 					<View>
 						<Text style={styles.title}>Name</Text>
 						<Text style={styles.data}>{studentData?.studentName}</Text>

@@ -84,11 +84,11 @@ function Booking() {
 	const [docList, setDocList] = useState([]);
 	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
 		onCompleted: (d) => {
-			console.log(d);
+			// console.log(d);
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
-			console.error(e);
+			// console.error(e);
 		},
 	});
 	React.useEffect(() => {}, [docList]);
@@ -105,7 +105,7 @@ function Booking() {
 			setShowComponents({ ...showComponents, appointmentBooked: true });
 		},
 		onError: (e) => {
-			console.log(e);
+			// console.log(e);
 		},
 	});
 
@@ -118,7 +118,7 @@ function Booking() {
 		setBookAppointment({ ...bookAppointment, startTime });
 		hideDatePicker();
 		getDocs({ variables: { timeSelected: startTime } });
-		console.log(startTime);
+		// console.log(startTime);
 	};
 
 	const handleDateConfirm = (date: any) => {
@@ -142,7 +142,7 @@ function Booking() {
 		duration: String;
 		key: Number;
 	}) => {
-		console.log("appTime", appTime);
+		// console.log("appTime", appTime);
 		const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
 		return (
 			<View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
