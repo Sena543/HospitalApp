@@ -9,6 +9,7 @@ import {
 	Modal,
 	ScrollView,
 	TouchableOpacity,
+	Button,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import LoggedInContext from "../context/loggedInContext";
@@ -71,6 +72,7 @@ function Booking() {
 		pupropsePicker: false,
 		confirmAppointment: false,
 		timePicker: false,
+		appointmentBooked: false,
 	});
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
@@ -100,7 +102,7 @@ function Booking() {
 			appointmentStartTime: bookAppointment.startTime,
 		},
 		onCompleted: () => {
-			console.log("appointment booked. Be sure to arrive on time");
+			setShowComponents({ ...showComponents, appointmentBooked: true });
 		},
 		onError: (e) => {
 			console.log(e);
@@ -342,13 +344,7 @@ function Booking() {
 							);
 						})
 					)}
-					<Modal
-						animationType="slide"
-						transparent={true}
-						visible={showModal}
-						onRequestClose={() => {
-							Alert.alert("Modal has been closed.");
-						}}>
+					<Modal animationType="slide" transparent={true} visible={showModal}>
 						<Confirm
 							doctorID={selectedDoctor}
 							time={bookAppointment.startTime}
@@ -356,6 +352,22 @@ function Booking() {
 							setShowModal={setShowModal}
 							confirmApp={confirmAppointment}
 						/>
+					</Modal>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={showComponents.appointmentBooked}>
+						<View style={styles.confirmAppView}>
+							<Text style={{ fontSize: 20, fontWeight: "bold" }}>
+								Appointment was booked successfully
+							</Text>
+							<Button
+								onPress={() =>
+									setShowComponents({ ...showComponents, appointmentBooked: false })
+								}
+								title="Okay"
+							/>
+						</View>
 					</Modal>
 				</ScrollView>
 			</View>
@@ -404,6 +416,26 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		height: "50%",
 		width: "90%",
+	},
+	confirmAppView: {
+		position: "relative",
+		top: "20%",
+		margin: 20,
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 20,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.55,
+		shadowRadius: 3.84,
+		elevation: 5,
+		justifyContent: "flex-start",
+		height: "20%",
+		// width:"70%"
 	},
 });
 
