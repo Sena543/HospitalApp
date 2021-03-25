@@ -76,7 +76,7 @@ function Booking() {
 	});
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
-		appointmentDate: moment(new Date()).format("DD/MM/YYYY"),
+		appointmentDate: moment(new Date()).format("DD-MM-YYYY"),
 		startTime: moment(new Date().getTime()).format("h:mm"),
 		endTime: "",
 		doctorID: "",

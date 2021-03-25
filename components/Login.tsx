@@ -4,6 +4,7 @@ import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "re
 import { signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoggedInContext from "../context/loggedInContext";
+import { idText } from "typescript";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
@@ -19,7 +20,7 @@ function Login({ navigation }) {
 		studentID: "",
 		password: "",
 	});
-
+	const [errorMsg, setErrorMsgs] = useState("");
 	const [login, { loading, error, data }] = useMutation(LOGIN, {
 		onError: (e) => {
 			console.trace(e);
@@ -32,6 +33,17 @@ function Login({ navigation }) {
 			}
 		},
 	});
+
+	const handleLoggin = () => {
+		if (!studentDetails.password || !studentDetails.studentID) {
+			setErrorMsgs("ID and password are required");
+			return;
+		} else if (studentDetails.studentID.length !== 8) {
+			setErrorMsgs("ID is incorrect.  Please check and try again");
+			return;
+		}
+		login({ variables: { ...studentDetails } });
+	};
 
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
@@ -67,6 +79,9 @@ function Login({ navigation }) {
 					/>
 				</View>
 			</View>
+			<View>
+				<Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>{errorMsg}</Text>
+			</View>
 			<View style={{ flex: 0.5, position: "relative", bottom: 5, top: 0 }}>
 				{loading ? (
 					<ActivityIndicator size="large" color="#5254E0" />
@@ -76,6 +91,7 @@ function Login({ navigation }) {
 						title="Sign In"
 						onPress={() => {
 							login({ variables: { ...studentDetails } });
+							// handleLoggin;
 						}}
 					/>
 				)}

@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 function ImageComp({ name }) {
+	console.log(name)
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageView}>

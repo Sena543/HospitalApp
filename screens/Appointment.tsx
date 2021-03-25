@@ -6,11 +6,11 @@ import { Text, View } from "../components/Themed";
 import LoggedInContext from "../context/loggedInContext";
 
 export default function Appointment() {
-	const { studentID } = React.useContext(LoggedInContext);
-	console.log(studentID);
+	const { globalStudentID } = React.useContext(LoggedInContext);
+	console.log("loggedID", globalStudentID);
 	return (
 		<SafeAreaView style={styles.container}>
-			<EditScreenInfo path="/screens/Appointment.tsx" />
+			<EditScreenInfo path="/screens/Appointment.tsx" studentID={globalStudentID} />
 		</SafeAreaView>
 	);
 }

@@ -66,11 +66,11 @@ const SIGNUP_STUDENT = gql`
 
 function SignUp({ navigation }) {
 	const [studentData, setStudentData] = useState({
-		dateOfBirth: moment(new Date()).format("DD/MM/YYYY"),
+		dateOfBirth: moment(new Date()).format("DD-MM-YYYY"),
 		email: "",
 		gender: "Male",
 		hallOfResidence: "",
-		residentialStatus: "",
+		residentialStatus: "Non Resident",
 		roomNumber: "",
 		studentID: "",
 		studentName: "",
@@ -99,7 +99,7 @@ function SignUp({ navigation }) {
 	};
 
 	const handleDateConfirm = (date: any) => {
-		setStudentData({ ...studentData, dateOfBirth: moment(date).format("DD/MM/YYYY") });
+		setStudentData({ ...studentData, dateOfBirth: moment(date).format("DD-MM-YYYY") });
 		hideDatePicker();
 	};
 	const halls = [
@@ -202,7 +202,9 @@ function SignUp({ navigation }) {
 						) : null}
 						<TextInput
 							value={studentData.phoneNumber}
-							onChangeText={(text) => setStudentData({ ...studentData, phoneNumber: text })}
+							onChangeText={(text) =>
+								setStudentData({ ...studentData, phoneNumber: text.trimEnd() })
+							}
 							placeholder="Phone Number"
 							keyboardType="number-pad"
 							maxLength={10}
@@ -210,7 +212,9 @@ function SignUp({ navigation }) {
 						/>
 						<TextInput
 							value={studentData.studentType}
-							onChangeText={(text) => setStudentData({ ...studentData, studentType: text })}
+							onChangeText={(text) =>
+								setStudentData({ ...studentData, studentType: text.trimEnd() })
+							}
 							placeholder="Degree Type eg Bachelors, Masters, Phd"
 							maxLength={10}
 							style={styles.input}

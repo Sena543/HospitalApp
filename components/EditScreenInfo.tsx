@@ -23,9 +23,9 @@ const GETAPPOINTMENTHISTORY = gql`
 		}
 	}
 `;
-export default function EditScreenInfo({ path }: { path: string }) {
+export default function EditScreenInfo({ path, studentID }: { path: string; studentID: string }) {
 	const { loading, error, data } = useQuery(GETAPPOINTMENTHISTORY, {
-		variables: { studentID: 12345678 },
+		variables: { studentID },
 		onError: (error) => {
 			console.error(error);
 		},
@@ -57,7 +57,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
 
 	return (
 		<ScrollView style={styles.container}>
-			<ImageComp name={data?.getStudentProfile.studentName} />
+			<ImageComp name={data?.getStudentProfile?.studentName} />
 			<AppoitmentList appointmentHistory={appointmentHistory} />
 		</ScrollView>
 	);
