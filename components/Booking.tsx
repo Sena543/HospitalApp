@@ -19,6 +19,7 @@ import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Months from "./booking/Months";
 import BookingKeys from "./booking/BookingKeys";
+import Purpose from "./booking/Purpose";
 
 const BOOK_APPOINTMENT = gql`
 	mutation(
@@ -184,7 +185,7 @@ function Booking() {
 
 	return (
 		<SafeAreaView style={{ flex: 1, width: "100%", marginLeft: 25 }}>
-			<View style={{ flex: 0.1, marginBottom: 30, marginTop: 30, marginLeft: 20 }}>
+			{/* <View style={{ flex: 0.1, marginBottom: 30, marginTop: 30, marginLeft: 20 }}>
 				<TouchableOpacity
 					onPress={() => {
 						setShowPurpose(true);
@@ -225,7 +226,8 @@ function Booking() {
 						</Picker>
 					</View>
 				</Modal>
-			</View>
+			</View> */}
+			<Purpose bookAppointment={bookAppointment} setBookAppointment={setBookAppointment} />
 			<Months />
 			<BookingKeys />
 			<View

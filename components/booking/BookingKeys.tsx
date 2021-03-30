@@ -7,7 +7,7 @@ export default function BookingKeys() {
 		<View
 			style={{
 				position: "relative",
-				bottom: 60,
+				bottom: 75,
 				flexDirection: "row",
 				marginLeft: 20,
 				marginRight: 20,
