@@ -17,6 +17,8 @@ import Confirm from "./booking/Confirm";
 import moment from "moment";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Months from "./booking/Months";
+import BookingKeys from "./booking/BookingKeys";
 
 const BOOK_APPOINTMENT = gql`
 	mutation(
@@ -189,7 +191,13 @@ function Booking() {
 					}}>
 					<View style={{ height: 20 }}>
 						<Text>Select Appointment Purpose</Text>
-						<Text style={{ fontStyle: "normal", fontWeight: "bold", fontSize: 20 }}>
+						<Text
+							style={{
+								fontStyle: "normal",
+								fontWeight: "bold",
+								fontSize: 20,
+								color: "#3036FF",
+							}}>
 							{bookAppointment.checkupType}
 						</Text>
 					</View>
@@ -218,35 +226,8 @@ function Booking() {
 					</View>
 				</Modal>
 			</View>
-			<View style={{ flex: 0.5, flexDirection: "row", marginLeft: 20, marginRight: 20 }}>
-				<View style={{ flex: 1, flexDirection: "row" }}>
-					<Ionicons
-						name="radio-button-on-outline"
-						size={10}
-						color="#FF0000"
-						style={{ marginTop: 3, marginRight: 5 }}
-					/>
-					<Text>Full Booked</Text>
-				</View>
-				<View style={{ flex: 1, flexDirection: "row" }}>
-					<Ionicons
-						name="radio-button-on-outline"
-						size={10}
-						color="#FF6F00"
-						style={{ marginTop: 3, marginRight: 5 }}
-					/>
-					<Text>Almost Full</Text>
-				</View>
-				<View style={{ flex: 1, flexDirection: "row", marginLeft: 10 }}>
-					<Ionicons
-						name="radio-button-on-outline"
-						size={10}
-						color="#23FF1B"
-						style={{ marginTop: 3, marginRight: 5 }}
-					/>
-					<Text>Available</Text>
-				</View>
-			</View>
+			<Months />
+			<BookingKeys />
 			<View
 				style={{
 					flex: 0.8,

@@ -89,7 +89,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		const handle = setInterval(() => {
 			console.log("Refetching...");
 			fetchData();
-		}, 5000);
+		}, 10000);
 		return () => clearInterval(handle);
 	}, []);
 
