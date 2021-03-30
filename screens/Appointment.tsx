@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
+// import { Text, View } from "../components/Themed";
 import LoggedInContext from "../context/loggedInContext";
 
 export default function Appointment() {

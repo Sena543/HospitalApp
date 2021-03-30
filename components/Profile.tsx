@@ -7,17 +7,24 @@ import { View, Text } from "./Themed";
 const GET_STUDENT_PROFILE = gql`
 	query($studentID: ID!) {
 		getStudentProfile(studentID: $studentID) {
+			# dateOfBirth
+			# email
+			# gender
+			# hallOfResidence
+			# phoneNumber
+			# residentialStatus
+			# roomNumber
+			# studentID
+			# studentName
+			# studentType
+			# yearAdmitted
 			dateOfBirth
+			department
 			email
 			gender
-			hallOfResidence
 			phoneNumber
-			residentialStatus
-			roomNumber
 			studentID
 			studentName
-			studentType
-			yearAdmitted
 		}
 	}
 `;
@@ -62,19 +69,23 @@ function Profile() {
 						<Text style={styles.data}>{studentData?.studentName}</Text>
 					</View>
 					<View>
+						<Text style={styles.title}>Staff ID</Text>
+						<Text style={styles.data}>{studentData?.studentID}</Text>
+					</View>
+					<View>
 						<Text style={styles.title}>Gender</Text>
 						<Text style={styles.data}>{studentData?.gender}</Text>
 					</View>
-					<View>
+					{/* <View>
 						<Text style={styles.title}>Student Level</Text>
 						<Text style={styles.data}>{studentData?.yearAdmitted}</Text>
 					</View>
 					<View>
 						<Text style={styles.title}>Hall of Residence</Text>
 						<Text style={styles.data}>{studentData?.hallOfResidence}</Text>
-					</View>
+					</View> */}
 				</View>
-				<View style={{ marginRight: 40 }}>
+				{/* <View style={{ marginRight: 40 }}>
 					<View>
 						<Text style={styles.title}>Student Type</Text>
 						<Text style={styles.data}>{studentData?.studentType}</Text>
@@ -91,6 +102,24 @@ function Profile() {
 						<Text style={styles.title}>Last Appointment</Text>
 						<Text style={styles.data}>{studentData?.lastApointment}</Text>
 					</View>
+				</View> */}
+				<View style={{ marginRight: 40 }}>
+					<View>
+						<Text style={styles.title}>Phone Number</Text>
+						<Text style={styles.data}>{studentData?.phoneNumber}</Text>
+					</View>
+					<View>
+						<Text style={styles.title}>Department</Text>
+						<Text style={styles.data}>{studentData?.department}</Text>
+					</View>
+					<View>
+						<Text style={styles.title}>Birth Date</Text>
+						<Text style={styles.data}>{studentData?.dateOfBirth}</Text>
+					</View>
+					{/* <View>
+						<Text style={styles.title}>Last Appointment</Text>
+						<Text style={styles.data}>{studentData?.lastApointment}</Text>
+					</View> */}
 				</View>
 			</View>
 		</View>

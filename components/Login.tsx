@@ -1,10 +1,10 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useContext, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
-import { signIn } from "../util";
+import { getToken, signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoggedInContext from "../context/loggedInContext";
-import { idText } from "typescript";
+// import jwtDecode from "jwt-decode";
 
 const LOGIN = gql`
 	mutation($studentID: ID!, $password: String!) {
@@ -29,13 +29,16 @@ function Login({ navigation }) {
 			if (response) {
 				signIn(response.loginUser.token);
 				setIsLogged(true);
+				// const token = getToken();
+				// const { user } = jwtDecode(token);
+				// console.log("userID form token:", user);
 				setGlobalStudentID(studentDetails.studentID);
 			}
 		},
 	});
 
 	const handleLoggin = () => {
-		if (!studentDetails.password || !studentDetails.studentID) {
+		if (studentDetails.password === "" || studentDetails.studentID === "") {
 			setErrorMsgs("ID and password are required");
 			return;
 		} else if (studentDetails.studentID.length !== 8) {
@@ -64,7 +67,7 @@ function Login({ navigation }) {
 					<TextInput
 						style={styles.input}
 						value={studentDetails.studentID}
-						placeholder="Student ID"
+						placeholder="Staff ID"
 						keyboardType="number-pad"
 						onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
 					/>
@@ -79,9 +82,12 @@ function Login({ navigation }) {
 					/>
 				</View>
 			</View>
-			<View>
-				<Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>{errorMsg}</Text>
-			</View>
+			{Boolean(errorMsg) ? (
+				<View style={{ height: 50 }}>
+					<Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>{errorMsg}</Text>
+				</View>
+			) : null}
+			{/* <Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>ghghgh</Text> */}
 			<View style={{ flex: 0.5, position: "relative", bottom: 5, top: 0 }}>
 				{loading ? (
 					<ActivityIndicator size="large" color="#5254E0" />
@@ -89,10 +95,11 @@ function Login({ navigation }) {
 					<Button
 						color="#5254E0"
 						title="Sign In"
-						onPress={() => {
-							login({ variables: { ...studentDetails } });
-							// handleLoggin;
-						}}
+						// onPress={() => {
+						// 	login({ variables: { ...studentDetails } });
+						// 	// handleLoggin;
+						// }}
+						onPress={handleLoggin}
 					/>
 				)}
 			</View>

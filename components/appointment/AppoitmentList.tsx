@@ -24,6 +24,7 @@ import { gql, useQuery } from "@apollo/client";
 // `;
 
 function AppoitmentList({ appointmentHistory }) {
+	// console.log("Appointment history:", JSON.stringify(appointmentHistory));
 	return (
 		<ScrollView>
 			<View style={styles.warning}>
@@ -45,7 +46,7 @@ function AppoitmentList({ appointmentHistory }) {
 						height: 50,
 						borderStyle: "dashed",
 					}}>
-					<Text style={{ fontSize: 20, fontWeight: "bold" }}>No appointmntshave been made</Text>
+					<Text style={{ fontSize: 20, fontWeight: "bold" }}>No appointments have been made</Text>
 				</View>
 			) : (
 				(appointmentHistory || []).map(
@@ -60,6 +61,7 @@ function AppoitmentList({ appointmentHistory }) {
 								endTime={endTime}
 								chosenColor={index % 3}
 								index={index}
+								key={String(index)}
 							/>
 						);
 					}

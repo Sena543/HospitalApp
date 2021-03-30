@@ -4,8 +4,10 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, Text } from "react-nat
 import AppoitmentList from "./appointment/AppoitmentList";
 import ImageComp from "./appointment/ImageComp";
 import { gql, useQuery } from "@apollo/client";
+import { getToken } from "../util";
+import jwtDecode from "jwt-decode";
 
-const GETAPPOINTMENTHISTORY = gql`
+const GETAPPOINTMENTHISTORY = `
 	query($studentID: ID!) {
 		getAppointmentHistory(studentID: $studentID) {
 			appointmentDate
@@ -23,20 +25,73 @@ const GETAPPOINTMENTHISTORY = gql`
 		}
 	}
 `;
+
 export default function EditScreenInfo({ path, studentID }: { path: string; studentID: string }) {
-	const { loading, error, data } = useQuery(GETAPPOINTMENTHISTORY, {
-		variables: { studentID },
-		onError: (error) => {
-			console.error(error);
-		},
-		onCompleted: (data) => {
-			setAppointmentHistory(data?.getAppointmentHistory);
-		},
-	});
+	// const { loading, error, data, refetch } = useQuery(GETAPPOINTMENTHISTORY, {
+	// 	variables: { studentID },
+	// 	// fetchPolicy: "no-cache",
+	// 	pollInterval: 2000,
+	// 	onError: (error) => {
+	// 		console.error(error);
+	// 	},
+	// 	onCompleted: (data) => {
+	// 		console.log(data.getAppointmentHistory);
+	// 		setAppointmentHistory(data?.getAppointmentHistory);
+	// 	},
+	// });
 
-	const [appointmentHistory, setAppointmentHistory] = useState(null);
+	const [data, setData]: [any, any] = useState({});
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [appointmentHistory, setAppointmentHistory] = useState([]);
 
-	useEffect(() => {}, [appointmentHistory]);
+	async function fetchData() {
+		const token = await getToken();
+		const { user } = jwtDecode(token);
+		console.log("userID form token:", user);
+		console.log("STUDENT ID:", studentID);
+		if (!user) {
+			console.log("Student ID is undefined. Skipping...");
+			return;
+		}
+
+		setError(null);
+
+		fetch("https://immense-savannah-88207.herokuapp.com", {
+			method: "POST",
+			headers: {
+				auth_token: token,
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				query: String(GETAPPOINTMENTHISTORY),
+				variables: { studentID: user },
+			}),
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				console.log(result);
+				setData(result.data);
+				if (result.errors) setError(new Error("An error occurred. Please try again later."));
+			})
+			.catch((err) => {
+				setError(err);
+				console.error(err);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	}
+
+	useEffect(() => {
+		fetchData();
+		const handle = setInterval(() => {
+			console.log("Refetching...");
+			fetchData();
+		}, 5000);
+		return () => clearInterval(handle);
+	}, []);
 
 	if (loading) {
 		return (
@@ -58,7 +113,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 	return (
 		<ScrollView style={styles.container}>
 			<ImageComp name={data?.getStudentProfile?.studentName} />
-			<AppoitmentList appointmentHistory={appointmentHistory} />
+			<AppoitmentList appointmentHistory={data?.getAppointmentHistory} />
 		</ScrollView>
 	);
 }

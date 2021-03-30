@@ -84,14 +84,14 @@ function Booking() {
 	const [docList, setDocList] = useState([]);
 	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
 		onCompleted: (d) => {
-			// console.log(d);
+			console.log(d);
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
 			// console.error(e);
 		},
 	});
-	React.useEffect(() => {}, [docList]);
+	React.useEffect(() => {}, [docList, availableDocs]);
 	const [confirmAppointment, { data }] = useMutation(BOOK_APPOINTMENT, {
 		variables: {
 			doctorID: bookAppointment.doctorID,

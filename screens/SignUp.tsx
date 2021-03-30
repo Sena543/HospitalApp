@@ -25,11 +25,12 @@ const SIGNUP_STUDENT = gql`
 		$email: String!
 		$dateOfBirth: String!
 		$gender: String!
-		$roomNumber: String
-		$yearAdmitted: String
-		$studentType: String!
-		$residentialStatus: String!
-		$hallOfResidence: String
+		$department: String!
+		# $roomNumber: String
+		# $yearAdmitted: String
+		# $studentType: String!
+		# $residentialStatus: String!
+		# $hallOfResidence: String
 		$password: String!
 		$phoneNumber: String
 	) {
@@ -39,13 +40,14 @@ const SIGNUP_STUDENT = gql`
 				studentID: $studentID
 				email: $email
 				gender: $gender
-				studentType: $studentType
-				residentialStatus: $residentialStatus
+				# studentType: $studentType
+				# residentialStatus: $residentialStatus
+				department: $department
 				password: $password
 				dateOfBirth: $dateOfBirth
-				roomNumber: $roomNumber
-				yearAdmitted: $yearAdmitted
-				hallOfResidence: $hallOfResidence
+				# roomNumber: $roomNumber
+				# yearAdmitted: $yearAdmitted
+				# hallOfResidence: $hallOfResidence
 				phoneNumber: $phoneNumber
 			}
 		) {
@@ -53,12 +55,12 @@ const SIGNUP_STUDENT = gql`
 			studentID
 			email
 			gender
-			studentType
-			residentialStatus
+			# studentType
+			# residentialStatus
 			dateOfBirth
-			roomNumber
-			yearAdmitted
-			hallOfResidence
+			# roomNumber
+			# yearAdmitted
+			# hallOfResidence
 			phoneNumber
 		}
 	}
@@ -69,13 +71,14 @@ function SignUp({ navigation }) {
 		dateOfBirth: moment(new Date()).format("DD-MM-YYYY"),
 		email: "",
 		gender: "Male",
-		hallOfResidence: "",
-		residentialStatus: "Non Resident",
-		roomNumber: "",
+		// hallOfResidence: "",
+		// residentialStatus: "Non Resident",
+		// roomNumber: "",
 		studentID: "",
+		department: "",
 		studentName: "",
-		studentType: "",
-		yearAdmitted: "",
+		// studentType: "",
+		// yearAdmitted: "",
 		password: "",
 		confirmPass: "",
 		phoneNumber: "",
@@ -102,42 +105,43 @@ function SignUp({ navigation }) {
 		setStudentData({ ...studentData, dateOfBirth: moment(date).format("DD-MM-YYYY") });
 		hideDatePicker();
 	};
-	const halls = [
-		{ name: "Alexander Kwapong Hall" },
-		{ name: "Akuafo Hall" },
-		{ name: "Bani Hostel" },
-		{ name: "Commonwealth Hall" },
-		{ name: "Elizabeth Hall" },
-		{ name: "Evandy Hostel" },
-		{ name: "Hilla Limann hall" },
-		{ name: "Jubilee Hall" },
-		{ name: "James Topp Nelson (TF Hostel)" },
-		{ name: "Jean Nelson Ackah Hall" },
-		{ name: "Legon hall" },
-		{ name: "Mensah Sarbah Hall" },
-		{ name: "Pentagon (African Union Hostel)" },
-		{ name: "Volta Hall" },
-		{ name: "International Student Hostel" },
-	];
+	// const halls = [
+	// 	{ name: "Alexander Kwapong Hall" },
+	// 	{ name: "Akuafo Hall" },
+	// 	{ name: "Bani Hostel" },
+	// 	{ name: "Commonwealth Hall" },
+	// 	{ name: "Elizabeth Hall" },
+	// 	{ name: "Evandy Hostel" },
+	// 	{ name: "Hilla Limann hall" },
+	// 	{ name: "Jubilee Hall" },
+	// 	{ name: "James Topp Nelson (TF Hostel)" },
+	// 	{ name: "Jean Nelson Ackah Hall" },
+	// 	{ name: "Legon hall" },
+	// 	{ name: "Mensah Sarbah Hall" },
+	// 	{ name: "Pentagon (African Union Hostel)" },
+	// 	{ name: "Volta Hall" },
+	// 	{ name: "International Student Hostel" },
+	// ];
 
 	const validateEmail = (email) => {
 		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(email);
 	};
 
-	const renderHalls = ({ item }) => {
-		return (
-			<View style={{ height: 25, borderBottomWidth: 0.4 }}>
-				<TouchableOpacity
-					onPress={() => {
-						setStudentData({ ...studentData, hallOfResidence: item.name });
-						setSelectItem({ ...selectItems, selectHall: false });
-					}}>
-					<Text>{item.name}</Text>
-				</TouchableOpacity>
-			</View>
-		);
-	};
+	// const renderHalls = ({ item }) => {
+	// 	return (
+	// 		<View style={{ height: 25, borderBottomWidth: 0.4 }}>
+	// 			<TouchableOpacity
+	// 				onPress={() => {
+	// 					setStudentData({ ...studentData, hallOfResidence: item.name });
+	// 					setSelectItem({ ...selectItems, selectHall: false });
+	// 				}}>
+	// 				<Text>{item.name}</Text>
+	// 			</TouchableOpacity>
+	// 		</View>
+	// 	);
+	// };
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -170,15 +174,17 @@ function SignUp({ navigation }) {
 						/>
 						<TextInput
 							value={studentData.studentID}
-							onChangeText={(text) => setStudentData({ ...studentData, studentID: text })}
-							placeholder="Student ID"
+							onChangeText={(text) =>
+								setStudentData({ ...studentData, studentID: text.trimEnd() })
+							}
+							placeholder="Staff ID"
 							keyboardType="number-pad"
 							style={styles.input}
 						/>
 
 						<TextInput
 							value={studentData.email}
-							onChangeText={(text) => setStudentData({ ...studentData, email: text })}
+							onChangeText={(text) => setStudentData({ ...studentData, email: text.trimEnd() })}
 							placeholder="Email"
 							style={styles.input}
 						/>
@@ -210,7 +216,7 @@ function SignUp({ navigation }) {
 							maxLength={10}
 							style={styles.input}
 						/>
-						<TextInput
+						{/* <TextInput
 							value={studentData.studentType}
 							onChangeText={(text) =>
 								setStudentData({ ...studentData, studentType: text.trimEnd() })
@@ -218,13 +224,15 @@ function SignUp({ navigation }) {
 							placeholder="Degree Type eg Bachelors, Masters, Phd"
 							maxLength={10}
 							style={styles.input}
-						/>
+						/> */}
 						<TextInput
-							value={studentData.yearAdmitted}
-							onChangeText={(text) => setStudentData({ ...studentData, yearAdmitted: text })}
-							placeholder="Year Admitted"
-							keyboardType="number-pad"
-							maxLength={10}
+							value={studentData.department}
+							onChangeText={(text) =>
+								setStudentData({ ...studentData, department: text.trimEnd() })
+							}
+							placeholder="Department"
+							// keyboardType="number-pad"
+							// maxLength={10}
 							style={styles.input}
 						/>
 					</View>
@@ -266,7 +274,7 @@ function SignUp({ navigation }) {
 							}}
 						/>
 					</View>
-					<View>
+					{/* <View>
 						<View>
 							<View
 								style={{
@@ -321,9 +329,9 @@ function SignUp({ navigation }) {
 								/>
 							</View>
 						) : null}
-					</View>
+					</View> */}
 				</View>
-				<View style={{ position: "relative", top: "0%", marginBottom: 30 }}>
+				<View style={{ position: "relative", top: "3%", marginBottom: 30 }}>
 					{loading ? (
 						<ActivityIndicator size="large" color="#5254E0" />
 					) : (
