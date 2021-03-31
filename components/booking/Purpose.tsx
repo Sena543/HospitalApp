@@ -3,16 +3,8 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, Alert } from "react-na
 import { Picker } from "@react-native-picker/picker";
 
 function Purpose({ bookAppointment, setBookAppointment }) {
-	// const [selectPurpose, setSelectPurpose] = useState()
 	const [showPurpose, setShowPurpose] = useState(false);
-
-	const purposes = [
-		{ label: "Regular Checkup", value: "Regular" },
-		{ label: "Dental Checkup", value: "Dental" },
-		{ label: "Results Collection", value: "Results Collection" },
-		{ label: "Medication", value: "Medication" },
-		{ label: "Surgery", value: "Surgery" },
-	];
+	const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Results Collection"];
 
 	return (
 		<View style={{ flex: 0.1, marginBottom: 30, marginTop: 10, marginLeft: 5 }}>
@@ -51,7 +43,7 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 							setShowPurpose(!showPurpose);
 						}}>
 						{purposes.map((purpose) => {
-							return <Picker.Item label={purpose.label} value={purpose.value} />;
+							return <Picker.Item label={purpose} value={purpose} />;
 						})}
 					</Picker>
 				</View>
@@ -81,6 +73,5 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		justifyContent: "flex-start",
 		height: "30%",
-		// width:"70%"
 	},
 });

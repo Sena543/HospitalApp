@@ -20,6 +20,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Months from "./booking/Months";
 import BookingKeys from "./booking/BookingKeys";
 import Purpose from "./booking/Purpose";
+import AvailabeAppointments from "./booking/AvailableAppointment";
 
 const BOOK_APPOINTMENT = gql`
 	mutation(
@@ -133,100 +134,8 @@ function Booking() {
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 	const [selectedTime, setSelectedTime] = useState(null);
 
-	const purposes = ["Regular Checkup", "Medical Checkup", "Dental Checkup", "Results Collection"];
-	const AvailabeAppointments = ({
-		appTime,
-		doctorName,
-		duration,
-		key,
-	}: {
-		appTime: String;
-		doctorName: String;
-		duration: String;
-		key: Number;
-	}) => {
-		// console.log("appTime", appTime);
-		const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
-		return (
-			<View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
-				<Text style={{ color: "#B5B7BB" }}>{appTime}</Text>
-				<View style={{ flexDirection: "row", flex: 1 }}>
-					<View
-						style={{
-							marginBottom: 10,
-							backgroundColor: "#E9E9FF",
-							marginLeft: 50,
-							width: 30,
-							borderRadius: 5,
-							alignItems: "center",
-							justifyContent: "flex-end",
-						}}>
-						<Ionicons name="refresh-circle-outline" color={colors[2]} size={15} />
-					</View>
-					<View>
-						<Text
-							style={{
-								marginBottom: 20,
-								marginLeft: 10,
-								fontWeight: "bold",
-								fontSize: 15,
-								color: "#000000",
-							}}>
-							{doctorName}
-						</Text>
-						<Text style={{ marginLeft: 10, marginBottom: 10 }}>
-							{appTime}-{Number(appTime[0]) + 1}:00
-						</Text>
-					</View>
-				</View>
-			</View>
-		);
-	};
-
 	return (
 		<SafeAreaView style={{ flex: 1, width: "100%", marginLeft: 25 }}>
-			{/* <View style={{ flex: 0.1, marginBottom: 30, marginTop: 30, marginLeft: 20 }}>
-				<TouchableOpacity
-					onPress={() => {
-						setShowPurpose(true);
-					}}>
-					<View style={{ height: 20 }}>
-						<Text>Select Appointment Purpose</Text>
-						<Text
-							style={{
-								fontStyle: "normal",
-								fontWeight: "bold",
-								fontSize: 20,
-								color: "#3036FF",
-							}}>
-							{bookAppointment.checkupType}
-						</Text>
-					</View>
-				</TouchableOpacity>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={showPurpose}
-					onRequestClose={() => {
-						Alert.alert("Modal has been closed.");
-					}}>
-					<View style={styles.modalView}>
-						<View>
-							<Text style={{ textDecorationLine: "underline" }}>Appointment Purpose</Text>
-						</View>
-						<Picker
-							style={{ height: 50, width: 100, position: "relative", bottom: 70 }}
-							onValueChange={(itemValue, itemIndex) => {
-								setBookAppointment({ ...bookAppointment, checkupType: `${itemValue}` });
-								setShowPurpose(!showPurpose);
-							}}>
-							{purposes.map((purpose) => {
-								return <Picker.Item label={purpose} value={purpose} />;
-							})}
-						</Picker>
-					</View>
-				</Modal>
-			</View> */}
 			<Purpose bookAppointment={bookAppointment} setBookAppointment={setBookAppointment} />
 			<Months />
 			<BookingKeys />
