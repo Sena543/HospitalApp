@@ -4,8 +4,12 @@ import Moment from "moment";
 import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
-export default function Months() {
-	const [selectedMonth, setSelectedMonth] = useState();
+export default function Months({ appointmentDate, setAppointmentDate }) {
+	// const [appointmentDate, setAppointmentDate] = useState({
+	// 	selectedMonth: "",
+	// 	selectedDay: "",
+	// 	year: new Date().getFullYear(),
+	// });
 	const months = [
 		"January",
 		"February",
@@ -29,7 +33,17 @@ export default function Months() {
 
 	// const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][todayDate];
 	// console.log(dayNames);
+	const handleSetDate = (item: any) => {
+		setTodayDate(item);
+		setAppointmentDate({ ...appointmentDate, selectedDay: item });
+	};
 
+	const handleSetMonth = (item: any) => {
+		const monthFunc = (ele) => ele === item;
+		const index = months.findIndex(monthFunc) + 1;
+		setRenderedMonth(item);
+		setAppointmentDate({ ...appointmentDate, selectedMonth: index });
+	};
 	const renderDays = ({ item }) => {
 		const bgColor = todayDate == item ? "#0910FF" : "#FFFFFF";
 		const textColor = todayDate == item ? "#FFFFFF" : "#000000";
@@ -43,9 +57,8 @@ export default function Months() {
 					justifyContent: "center",
 					display: "flex",
 					alignItems: "center",
-					margin: 2,
 				}}>
-				<TouchableOpacity onPress={() => setTodayDate(item)}>
+				<TouchableOpacity onPress={() => handleSetDate(item)}>
 					<Text
 						style={{
 							fontStyle: "normal",
@@ -64,7 +77,7 @@ export default function Months() {
 		const selectedColor = renderedMonths === item ? "#3036FF" : "#BFBFBF";
 		return (
 			<>
-				<TouchableOpacity onPress={() => setRenderedMonth(item)}>
+				<TouchableOpacity onPress={() => handleSetMonth(item)}>
 					<Text
 						style={{
 							fontStyle: "normal",
@@ -88,13 +101,15 @@ export default function Months() {
 				renderItem={renderMonths}
 				keyExtractor={(item) => item}
 			/>
-			<FlatList
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				data={days}
-				renderItem={renderDays}
-				keyExtractor={(item) => item}
-			/>
+			<View style={{ marginRight: 20 }}>
+				<FlatList
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}
+					data={days}
+					renderItem={renderDays}
+					keyExtractor={(item) => item}
+				/>
+			</View>
 		</ScrollView>
 	);
 }
