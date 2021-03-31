@@ -49,7 +49,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		const token = await getToken();
 		const { user } = jwtDecode(token);
 		console.log("userID form token:", user);
-		console.log("STUDENT ID:", studentID);
+		// console.log("STUDENT ID:", studentID);
 		if (!user) {
 			console.log("Student ID is undefined. Skipping...");
 			return;
@@ -71,7 +71,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		})
 			.then((response) => response.json())
 			.then((result) => {
-				console.log(result);
+				// console.log(result);
 				setData(result.data);
 				if (result.errors) setError(new Error("An error occurred. Please try again later."));
 			})

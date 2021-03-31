@@ -26,7 +26,9 @@ export default function Months() {
 	const days = Array.from({ length: moment(moment().format("YYYY-MM")).daysInMonth() }, (x, i) =>
 		moment().startOf("month").add(i, "days").format("D")
 	);
-	// console.log("days in month", days);
+
+	// const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][todayDate];
+	// console.log(dayNames);
 
 	const renderDays = ({ item }) => {
 		const bgColor = todayDate == item ? "#0910FF" : "#FFFFFF";
@@ -41,16 +43,14 @@ export default function Months() {
 					justifyContent: "center",
 					display: "flex",
 					alignItems: "center",
-					marginLeft: 5,
-					marginRight: 5,
+					margin: 2,
 				}}>
 				<TouchableOpacity onPress={() => setTodayDate(item)}>
 					<Text
 						style={{
 							fontStyle: "normal",
 							fontWeight: "bold",
-							fontSize: 30,
-							// margin: 2,
+							fontSize: 25,
 							color: textColor,
 						}}>
 						{item}

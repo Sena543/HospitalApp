@@ -21,6 +21,7 @@ import Months from "./booking/Months";
 import BookingKeys from "./booking/BookingKeys";
 import Purpose from "./booking/Purpose";
 import AvailabeAppointments from "./booking/AvailableAppointment";
+import ErrorMessage from "./booking/ErrorMessage";
 
 const BOOK_APPOINTMENT = gql`
 	mutation(
@@ -71,6 +72,11 @@ function Booking() {
 	const [showModal, setShowModal] = useState(false);
 	const [showPurpose, setShowPurpose] = useState(false);
 
+	const [error, setShowError] = useState({
+		errorModal: false,
+		errorMessage: "",
+	});
+
 	const [showComponents, setShowComponents] = useState({
 		datePicker: false,
 		pupropsePicker: false,
@@ -92,7 +98,7 @@ function Booking() {
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
-			// console.error(e);
+			console.error("erroe:", e);
 		},
 	});
 	React.useEffect(() => {}, [docList, availableDocs]);
@@ -109,7 +115,12 @@ function Booking() {
 			setShowComponents({ ...showComponents, appointmentBooked: true });
 		},
 		onError: (e) => {
-			// console.log(e);
+			console.log("error:", e);
+			setShowError({
+				errorModal: true,
+				errorMessage:
+					"Appointment time not available with selected doctor. Select another time or doctor",
+			});
 		},
 	});
 
@@ -141,9 +152,12 @@ function Booking() {
 			<BookingKeys />
 			<View
 				style={{
-					flex: 0.8,
+					display: "flex",
+					flex: 0.7,
+					position: "relative",
+					bottom: 50,
 					flexDirection: "row",
-					justifyContent: "space-evenly",
+					justifyContent: "space-between",
 					marginLeft: 10,
 					marginRight: 30,
 				}}>
@@ -185,8 +199,8 @@ function Booking() {
 					</View>
 				</TouchableOpacity>
 			</View>
-			<View style={{ flex: 2 }}>
-				<View style={{ flex: 0.1, flexDirection: "row", marginBottom: 10 }}>
+			<View style={{ flex: 2, position: "relative", bottom: 60, marginLeft: 10 }}>
+				<View style={{ flex: 0.2, flexDirection: "row", marginBottom: 10 }}>
 					<Text style={styles.text}>Time</Text>
 					<Text style={styles.text}>Available Doctors</Text>
 				</View>
@@ -199,7 +213,7 @@ function Booking() {
 								alignItems: "center",
 								marginTop: 20,
 								marginLeft: 10,
-								marginRight: 20,
+								marginRight: 30,
 								borderWidth: 1,
 								borderColor: "#000",
 								height: 50,
@@ -261,6 +275,7 @@ function Booking() {
 							/>
 						</View>
 					</Modal>
+					<ErrorMessage error={error} setShowError={setShowError} />
 				</ScrollView>
 			</View>
 		</SafeAreaView>
