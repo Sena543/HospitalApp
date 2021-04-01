@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { Ionicons } from "@expo/vector-icons";
 
 function Purpose({ bookAppointment, setBookAppointment }) {
 	const [showPurpose, setShowPurpose] = useState(false);
@@ -14,15 +15,28 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 				}}>
 				<View style={{ height: 20 }}>
 					<Text>Select Appointment Purpose</Text>
-					<Text
+					<View
 						style={{
-							fontStyle: "normal",
-							fontWeight: "bold",
-							fontSize: 20,
-							color: "#3036FF",
+							backgroundColor: "#ECECFF",
+							width: 150,
+							borderRadius: 5,
+							justifyContent: "center",
+							flexDirection: "row",
 						}}>
-						{bookAppointment.checkupType}
-					</Text>
+						<Text
+							style={{
+								fontStyle: "normal",
+								fontWeight: "bold",
+								fontSize: 20,
+								color: "#3036FF",
+							}}>
+							{bookAppointment.checkupType}
+						</Text>
+						<Ionicons
+							name="chevron-down"
+							style={{ position: "relative", top: 4, backgroundColor: "#fff", left: 15 }}
+						/>
+					</View>
 				</View>
 			</TouchableOpacity>
 			<Modal

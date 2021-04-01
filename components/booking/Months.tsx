@@ -75,6 +75,7 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 
 	const renderMonths = ({ item }) => {
 		const selectedColor = renderedMonths === item ? "#3036FF" : "#BFBFBF";
+		const bgColor = renderedMonths === item ? "#ECECFF" : "#FFF";
 		return (
 			<>
 				<TouchableOpacity onPress={() => handleSetMonth(item)}>
@@ -84,7 +85,9 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 							fontWeight: "bold",
 							fontSize: 15,
 							margin: 5,
+							borderRadius: 5,
 							color: selectedColor,
+							backgroundColor: bgColor,
 						}}>
 						{item}
 					</Text>

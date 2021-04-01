@@ -15,11 +15,26 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
 	const colorScheme = useColorScheme();
+	const activeColor = "#0E14FF";
 
 	return (
 		<BottomTab.Navigator
 			initialRouteName="TabOne"
-			tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+			tabBarOptions={{
+				activeTintColor: activeColor,
+				activeBackgroundColor: "#E9E9FF",
+				style: {
+					borderWidth: 0.5,
+					borderBottomWidth: 1,
+					// backgroundColor: "orange",
+					borderTopLeftRadius: 5,
+					borderTopRightRadius: 5,
+					borderColor: "transparent",
+					overflow: "hidden",
+				},
+			}}
+			// tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+		>
 			<BottomTab.Screen
 				name="Appointment"
 				component={AppointmentNavigator}
@@ -48,7 +63,7 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>["name"]; color: string }) {
-	return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+	return <Ionicons size={22} style={{ marginBottom: 2, marginLeft: 2.5 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

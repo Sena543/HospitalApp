@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
 	},
 	data: {
 		color: "#000000",
-		fontSize: 15,
+		fontSize: 16,
+		fontWeight: "bold",
 		margin: 5,
 	},
 	image: {
