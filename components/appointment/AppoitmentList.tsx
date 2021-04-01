@@ -49,8 +49,9 @@ function AppoitmentList({ appointmentHistory }) {
 					<Text style={{ fontSize: 20, fontWeight: "bold" }}>No appointments have been made</Text>
 				</View>
 			) : (
-				(appointmentHistory || []).map(
-					({ appointmentDate, appointmentStartTime, endTime, doctorID }: any, index) => {
+				(appointmentHistory || [])
+					.sort((a: any, b: any) => new Date(b.appointmentDate) - new Date(a.appointmentDate))
+					.map(({ appointmentDate, appointmentStartTime, endTime, doctorID }: any, index) => {
 						return (
 							<AppointmentBubble
 								date={appointmentDate}
@@ -64,8 +65,7 @@ function AppoitmentList({ appointmentHistory }) {
 								key={String(index)}
 							/>
 						);
-					}
-				)
+					})
 			)}
 		</ScrollView>
 	);
