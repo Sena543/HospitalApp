@@ -43,7 +43,7 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 							setShowPurpose(!showPurpose);
 						}}>
 						{purposes.map((purpose) => {
-							return <Picker.Item label={purpose} value={purpose} />;
+							return <Picker.Item label={purpose} value={purpose} key={purpose} />;
 						})}
 					</Picker>
 				</View>

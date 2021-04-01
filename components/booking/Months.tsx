@@ -35,7 +35,7 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 	// console.log(dayNames);
 	const handleSetDate = (item: any) => {
 		setTodayDate(item);
-		setAppointmentDate({ ...appointmentDate, selectedDay: item });
+		setAppointmentDate({ ...appointmentDate, selectedDay: Number(item) });
 	};
 
 	const handleSetMonth = (item: any) => {
@@ -92,6 +92,7 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 			</>
 		);
 	};
+	// console.log(appointmentDate);
 	return (
 		<ScrollView>
 			<FlatList

@@ -11,10 +11,10 @@ import { getToken } from "./util";
 import { LoggedInProvider } from "./context/loggedInContext";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-	if (graphQLErrors)
-		graphQLErrors.map(({ message, locations, path }) =>
-			console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-		);
+	// if (graphQLErrors)
+	// 	graphQLErrors.map(({ message, locations, path }) =>
+	// 		console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+	// 	);
 	if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
@@ -29,7 +29,8 @@ const authLink = setContext(async (_, { headers }) => {
 	};
 });
 
-const httpLink = new HttpLink({ uri: "https://immense-savannah-88207.herokuapp.com" });
+const uri = "https://immense-savannah-88207.herokuapp.com";
+const httpLink = new HttpLink({ uri });
 const securedLink = authLink.concat(httpLink);
 const client = new ApolloClient({
 	link: concat(errorLink, securedLink),

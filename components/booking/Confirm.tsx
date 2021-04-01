@@ -1,23 +1,13 @@
 import React from "react";
 import { Button, StyleSheet, Text, View, Modal } from "react-native";
 
-// type Appointment = {
-// 	doctorID: String;
-// 	appointmentDate: String;
-// 	startTime: String;
-// 	endTime: String;
-// 	studentID: String;
-// };
-
 function Confirm({
 	doctorID,
 	time,
 	showModal,
 	confirmApp,
 	setShowModal,
-}: // index,
-{
-	// index: String;
+}: {
 	doctorID: String;
 	time: String;
 	confirmApp: Function;
@@ -62,11 +52,9 @@ function Confirm({
 				<Button
 					title="Confirm Appointment"
 					onPress={() => {
-						// console.log(doctorID);
 						confirmApp();
 						setShowModal(!showModal);
 					}}
-					//   color='#FF0000'
 				/>
 			</View>
 		</View>

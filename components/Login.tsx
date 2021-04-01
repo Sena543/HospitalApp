@@ -23,7 +23,8 @@ function Login({ navigation }) {
 	const [errorMsg, setErrorMsgs] = useState("");
 	const [login, { loading, error, data }] = useMutation(LOGIN, {
 		onError: (e) => {
-			console.trace(e);
+			// console.log(e.message);
+			setErrorMsgs(e.message);
 		},
 		onCompleted: (response) => {
 			if (response) {
@@ -78,6 +79,7 @@ function Login({ navigation }) {
 						value={studentDetails.password}
 						placeholder="Password"
 						secureTextEntry={true}
+						keyboardType="number-pad"
 						onChangeText={(text) => setStudentDetails({ ...studentDetails, password: text })}
 					/>
 				</View>

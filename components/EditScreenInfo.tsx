@@ -43,12 +43,12 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 	const [data, setData]: [any, any] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [appointmentHistory, setAppointmentHistory] = useState([]);
+	// const [appointmentHistory, setAppointmentHistory] = useState([]);
 
 	async function fetchData() {
 		const token = await getToken();
 		const { user } = jwtDecode(token);
-		console.log("userID form token:", user);
+		// console.log("userID form token:", user);
 		// console.log("STUDENT ID:", studentID);
 		if (!user) {
 			console.log("Student ID is undefined. Skipping...");
@@ -71,7 +71,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		})
 			.then((response) => response.json())
 			.then((result) => {
-				// console.log(result);
+				// console.log(result.data)
 				setData(result.data);
 				if (result.errors) setError(new Error("An error occurred. Please try again later."));
 			})
@@ -89,7 +89,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		const handle = setInterval(() => {
 			console.log("Refetching...");
 			fetchData();
-		}, 10000);
+		}, 20000);
 		return () => clearInterval(handle);
 	}, []);
 

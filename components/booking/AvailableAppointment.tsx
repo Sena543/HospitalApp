@@ -6,17 +6,16 @@ const AvailabeAppointments = ({
 	appTime,
 	doctorName,
 	duration,
-	key,
 }: {
 	appTime: String;
 	doctorName: String;
 	duration: String;
-	key: Number;
 }) => {
 	// console.log("appTime", appTime);
 	const colors = ["#AB14F8", "#07B20D", "#07ADB2", "#FF0000"];
 	return (
-		<View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
+		<View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
+			{/* <View key={Number(key)} style={{ flex: 1, flexDirection: "row", marginTop: 10 }}> */}
 			<Text style={{ color: "#B5B7BB" }}>{appTime}</Text>
 			<View style={{ flexDirection: "row", flex: 1 }}>
 				<View

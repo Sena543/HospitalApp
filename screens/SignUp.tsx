@@ -192,6 +192,7 @@ function SignUp({ navigation }) {
 							value={studentData.password}
 							onChangeText={(text) => setStudentData({ ...studentData, password: text })}
 							placeholder="Password"
+							keyboardType="number-pad"
 							secureTextEntry={true}
 							style={styles.input}
 						/>
@@ -199,6 +200,7 @@ function SignUp({ navigation }) {
 							value={studentData.confirmPass}
 							onChangeText={(text) => setStudentData({ ...studentData, confirmPass: text })}
 							placeholder="Confirm Password"
+							keyboardType="number-pad"
 							secureTextEntry={true}
 							// textContentType="password"
 							style={styles.input}

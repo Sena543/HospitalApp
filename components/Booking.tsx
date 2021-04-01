@@ -70,13 +70,13 @@ const GET_AVAILABLE_DOCTORS = gql`
 function Booking() {
 	const { globalStudentID } = useContext(LoggedInContext);
 	const [showModal, setShowModal] = useState(false);
-	// const [showPurpose, setShowPurpose] = useState(false);
+
 	const [appointmentDate, setAppointmentDate] = useState({
+		year: new Date().getFullYear(),
 		selectedMonth: new Date().getMonth() + 1,
 		selectedDay: new Date().getDate(),
-		year: new Date().getFullYear(),
 	});
-	console.log(appointmentDate);
+
 	const [error, setShowError] = useState({
 		errorModal: false,
 		errorMessage: "",
@@ -91,11 +91,12 @@ function Booking() {
 	});
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
-		appointmentDate: moment(
-			new Date(
-				`${appointmentDate.year}-0${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`
-			)
-		).format("DD-MM-YYYY"),
+		// appointmentDate: moment(
+		// 	new Date(
+		// 		`${appointmentDate.year}-${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`
+		// 	)
+		// ).format("DD-MM-YYYY"),
+		appointmentDate: moment(new Date()).format("YYYY-MM-DD"),
 		// appointmentDate: moment(new Date()).format("DD-MM-YYYY"),
 		startTime: moment(new Date().getTime()).format("h:mm"),
 		endTime: "",
@@ -104,33 +105,27 @@ function Booking() {
 	const [docList, setDocList] = useState([]);
 	const [getDocs, { loading, data: availableDocs }] = useLazyQuery(GET_AVAILABLE_DOCTORS, {
 		onCompleted: (d) => {
-			// console.log(d);
-			// console.log(
-			// 	`${appointmentDate.selectedDay}-0${appointmentDate.selectedMonth}-${appointmentDate.year}`
-			// );
 			setDocList(d.getAvailableDoctors);
 		},
 		onError: (e) => {
-			console.error("erroe:", e);
+			console.error(`error: ${e}`);
 		},
 	});
 
-	React.useEffect(() => {}, [docList, availableDocs]);
+	// React.useEffect(() => {}, [docList]);
 	const [confirmAppointment, { data }] = useMutation(BOOK_APPOINTMENT, {
-		variables: {
-			doctorID: bookAppointment.doctorID,
-			checkupType: bookAppointment.checkupType,
-			studentID: globalStudentID,
-			appointmentDate: bookAppointment.appointmentDate,
-			endTime: bookAppointment.endTime,
-			appointmentStartTime: bookAppointment.startTime,
-		},
+		// variables: {
+		// 	doctorID: bookAppointment.doctorID,
+		// 	checkupType: bookAppointment.checkupType,
+		// 	studentID: globalStudentID,
+		// 	appointmentDate: bookAppointment.appointmentDate,
+		// 	endTime: bookAppointment.endTime,
+		// 	appointmentStartTime: bookAppointment.startTime,
+		// },
 		onCompleted: () => {
 			setShowComponents({ ...showComponents, appointmentBooked: true });
 		},
 		onError: (e) => {
-			console.log("error:", e);
-			console.log(bookAppointment);
 			setShowError({
 				errorModal: true,
 				errorMessage:
@@ -148,11 +143,11 @@ function Booking() {
 		setBookAppointment({ ...bookAppointment, startTime });
 		hideDatePicker();
 		getDocs({ variables: { timeSelected: startTime } });
-		// console.log(startTime);
 	};
 
 	const handleDateConfirm = (date: any) => {
-		const currentDate = moment(date).format("DD/MM/YYYY");
+		const currentDate = moment(date).format("YYYY-MM-DD");
+		// const currentDate = moment(date).format("DD/MM/YYYY");
 		setBookAppointment({ ...bookAppointment, appointmentDate: currentDate });
 		setShowComponents({ ...showComponents, datePicker: false });
 	};
@@ -160,6 +155,19 @@ function Booking() {
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 	const [selectedTime, setSelectedTime] = useState(null);
 
+	const bookAppointmentHandler = () => {
+		console.log("run", appointmentDate);
+		confirmAppointment({
+			variables: {
+				doctorID: bookAppointment.doctorID,
+				checkupType: bookAppointment.checkupType,
+				studentID: globalStudentID,
+				appointmentDate: bookAppointment.appointmentDate,
+				endTime: bookAppointment.endTime,
+				appointmentStartTime: bookAppointment.startTime,
+			},
+		});
+	};
 	return (
 		<SafeAreaView style={{ flex: 1, width: "100%", marginLeft: 25 }}>
 			<Purpose bookAppointment={bookAppointment} setBookAppointment={setBookAppointment} />
@@ -176,9 +184,8 @@ function Booking() {
 					marginLeft: 10,
 					marginRight: 30,
 				}}>
-				{/* <TouchableOpacity
+				<TouchableOpacity
 					onPress={() => {
-						// setShowDatePicker(true);
 						setShowComponents({ ...showComponents, datePicker: true });
 					}}>
 					<View style={{ height: 50 }}>
@@ -195,7 +202,7 @@ function Booking() {
 							}}
 						/>
 					</View>
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
 						setShowComponents({ ...showComponents, timePicker: true });
@@ -240,7 +247,6 @@ function Booking() {
 						</View>
 					) : (
 						(docList || []).map((data, index) => {
-							// console.log(data.doctorID);
 							return (
 								<View key={index}>
 									<TouchableOpacity
@@ -255,10 +261,8 @@ function Booking() {
 										}}>
 										<AvailabeAppointments
 											appTime={bookAppointment.startTime}
-											// appTime={data.appTime}
 											doctorName={data.doctorName}
 											duration={data.duration}
-											key={index}
 										/>
 									</TouchableOpacity>
 								</View>
@@ -271,7 +275,8 @@ function Booking() {
 							time={bookAppointment.startTime}
 							showModal={showModal}
 							setShowModal={setShowModal}
-							confirmApp={confirmAppointment}
+							confirmApp={bookAppointmentHandler}
+							// confirmApp={confirmAppointment}
 						/>
 					</Modal>
 					<Modal
