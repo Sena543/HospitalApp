@@ -56,3 +56,5 @@ export default function App() {
 		);
 	}
 }
+
+// "image": "./assets/images/HospitalSplash.png",

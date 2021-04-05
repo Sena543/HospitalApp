@@ -91,13 +91,11 @@ function Booking() {
 	});
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
-		// appointmentDate: moment(
-		// 	new Date(
-		// 		`${appointmentDate.year}-${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`
-		// 	)
-		// ).format("DD-MM-YYYY"),
-		appointmentDate: moment(new Date()).format("YYYY-MM-DD"),
-		// appointmentDate: moment(new Date()).format("DD-MM-YYYY"),
+		appointmentDate: moment(
+			new Date(
+				`${appointmentDate.year}-${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`
+			)
+		).format("DD-MM-YYYY"),
 		startTime: moment(new Date().getTime()).format("h:mm"),
 		endTime: "",
 		doctorID: "",
@@ -114,14 +112,6 @@ function Booking() {
 
 	// React.useEffect(() => {}, [docList]);
 	const [confirmAppointment, { data }] = useMutation(BOOK_APPOINTMENT, {
-		// variables: {
-		// 	doctorID: bookAppointment.doctorID,
-		// 	checkupType: bookAppointment.checkupType,
-		// 	studentID: globalStudentID,
-		// 	appointmentDate: bookAppointment.appointmentDate,
-		// 	endTime: bookAppointment.endTime,
-		// 	appointmentStartTime: bookAppointment.startTime,
-		// },
 		onCompleted: () => {
 			setShowComponents({ ...showComponents, appointmentBooked: true });
 		},
@@ -157,12 +147,16 @@ function Booking() {
 
 	const bookAppointmentHandler = () => {
 		console.log("run", appointmentDate);
+		const date = moment(
+			new Date(appointmentDate.year, appointmentDate.selectedMonth - 1, appointmentDate.selectedDay)
+		).format("DD-MM-YYYY");
+		console.log(date);
 		confirmAppointment({
 			variables: {
 				doctorID: bookAppointment.doctorID,
 				checkupType: bookAppointment.checkupType,
 				studentID: globalStudentID,
-				appointmentDate: bookAppointment.appointmentDate,
+				appointmentDate: date,
 				endTime: bookAppointment.endTime,
 				appointmentStartTime: bookAppointment.startTime,
 			},
@@ -184,7 +178,7 @@ function Booking() {
 					marginLeft: 10,
 					marginRight: 30,
 				}}>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					onPress={() => {
 						setShowComponents({ ...showComponents, datePicker: true });
 					}}>
@@ -202,7 +196,7 @@ function Booking() {
 							}}
 						/>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 				<TouchableOpacity
 					onPress={() => {
 						setShowComponents({ ...showComponents, timePicker: true });

@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { ActivityIndicator, Image, StyleSheet } from "react-native";
 import LoggedInContext from "../context/loggedInContext";
 import { View, Text } from "./Themed";
 
@@ -45,7 +45,11 @@ function Profile() {
 	useEffect(() => {}, [studentData]);
 
 	if (loading) {
-		return <Text>Loading...</Text>;
+		return (
+			<View style={styles.loading}>
+				<ActivityIndicator size="large" color="#0910FF" />
+			</View>
+		);
 	}
 
 	if (error) {
@@ -134,6 +138,12 @@ const styles = StyleSheet.create({
 		alignContent: "center",
 		display: "flex",
 		backgroundColor: "#fff",
+	},
+	loading: {
+		width: "100%",
+		height: "100%",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	title: {
 		color: "#818181",

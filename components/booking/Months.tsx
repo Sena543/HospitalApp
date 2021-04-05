@@ -83,7 +83,7 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 						style={{
 							fontStyle: "normal",
 							fontWeight: "bold",
-							fontSize: 15,
+							fontSize: 18,
 							margin: 5,
 							borderRadius: 5,
 							color: selectedColor,

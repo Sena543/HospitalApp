@@ -55,7 +55,6 @@ export default function DoctorList({
 									// appTime={data.appTime}
 									doctorName={data.doctorName}
 									duration={data.duration}
-									key={index}
 								/>
 							</TouchableOpacity>
 						</View>
