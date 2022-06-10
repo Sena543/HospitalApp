@@ -6,13 +6,12 @@ function ImageComp({ name }) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageView}>
-				{/* <Image source={require("../../assets/images/moon.jpg")} style={styles.image} /> */}
 				<Ionicons name="person-circle-outline" style={styles.image} size={85} />
-				<View style={{ marginTop: 5, marginLeft: 50 }}>
+				<View style={{ position: "relative", alignItems: "center", justifyContent: "center" }}>
 					<Text style={styles.fontStyle}>Hello, {name}</Text>
 				</View>
 				<View>
-					<Text style={styles.fontStyle}>Appointment you have Booked</Text>
+					<Text style={styles.fontStyle}>Appointments you have Booked</Text>
 				</View>
 			</View>
 		</View>
@@ -20,16 +19,20 @@ function ImageComp({ name }) {
 }
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	image: {
-		marginTop: 10,
-		marginRight: 40,
+		flex: 1,
+		marginTop: "5%",
+		marginRight: "5%",
 		width: 80,
 		height: 80,
 		borderRadius: 50,
 		position: "relative",
+		alignItems: "center",
+		justifyContent: "center",
 		left: 50,
 	},
 	imageView: {

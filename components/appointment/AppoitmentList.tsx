@@ -30,7 +30,7 @@ function AppoitmentList({ appointmentHistory }) {
 			<View style={styles.warning}>
 				<Ionicons name="ios-warning-outline" size={24} color="red" />
 				<Text style={styles.warningFont}>
-					Ensure be present 15 minutes before Doctor's appointment or appointment will be cancelled{" "}
+					Be sure present 15 minutes before Doctor's appointment or appointment will be cancelled{" "}
 				</Text>
 			</View>
 			{appointmentHistory === null || appointmentHistory.length === 0 ? (
@@ -45,12 +45,16 @@ function AppoitmentList({ appointmentHistory }) {
 						borderColor: "#000",
 						height: 50,
 						borderStyle: "dashed",
-					}}>
+					}}
+				>
 					<Text style={{ fontSize: 20, fontWeight: "bold" }}>No appointments have been made</Text>
 				</View>
 			) : (
 				(appointmentHistory || [])
-					.sort((a: any, b: any) => new Date(b.appointmentDate) - new Date(a.appointmentDate))
+					.sort(
+						(a: any, b: any) =>
+							new Date(b.appointmentDate).valueOf() - new Date(a.appointmentDate).valueOf()
+					)
 					.map(({ appointmentDate, appointmentStartTime, endTime, doctorID }: any, index) => {
 						return (
 							<AppointmentBubble
@@ -76,12 +80,15 @@ const styles = StyleSheet.create({
 	warning: {
 		display: "flex",
 		flexDirection: "row",
-
-		margin: 10,
+		position: "relative",
+		alignItems: "center",
+		justifyContent: "center",
+		margin: "5%",
 	},
 	warningFont: {
 		color: "red",
-		marginLeft: 4,
+		margin: "3%",
+		fontSize: 15,
 	},
 });
 

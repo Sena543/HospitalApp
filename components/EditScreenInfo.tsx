@@ -47,9 +47,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 
 	async function fetchData() {
 		const token = await getToken();
-		const { user } = jwtDecode(token);
-		// console.log("userID form token:", user);
-		// console.log("STUDENT ID:", studentID);
+		const { user }: any = jwtDecode(token);
 		if (!user) {
 			console.log("Student ID is undefined. Skipping...");
 			return;
@@ -115,12 +113,6 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 			<ImageComp name={data?.getStudentProfile?.studentName} />
 			<AppoitmentList appointmentHistory={data?.getAppointmentHistory} />
 		</ScrollView>
-	);
-}
-
-function handleHelpPress() {
-	WebBrowser.openBrowserAsync(
-		"https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet"
 	);
 }
 
