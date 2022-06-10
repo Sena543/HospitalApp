@@ -20,10 +20,10 @@ export default function BottomTabNavigator() {
 	return (
 		<BottomTab.Navigator
 			initialRouteName="TabOne"
-			tabBarOptions={{
-				activeTintColor: activeColor,
-				activeBackgroundColor: "#E9E9FF",
-				style: {
+			screenOptions={{
+				tabBarActiveTintColor: activeColor,
+				tabBarActiveBackgroundColor: "#E9E9FF",
+				tabBarStyle: {
 					borderWidth: 0.5,
 					borderBottomWidth: 1,
 					// backgroundColor: "orange",
@@ -33,6 +33,7 @@ export default function BottomTabNavigator() {
 					overflow: "hidden",
 				},
 			}}
+			// tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
 			// tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
 		>
 			<BottomTab.Screen
@@ -84,7 +85,8 @@ function AppointmentNavigator({ navigation }) {
 								onPress={() => {
 									navigation.navigate("Settings");
 								}}
-								style={{ marginRight: 10 }}>
+								style={{ marginRight: 10 }}
+							>
 								<Ionicons name="settings-outline" size={20} />
 							</TouchableOpacity>
 						);
@@ -99,11 +101,7 @@ const ProfileStack = createStackNavigator<ProfileParamList>();
 function ProfileNavigator() {
 	return (
 		<ProfileStack.Navigator>
-			<AppointmentStack.Screen
-				name="Profile"
-				component={Profile}
-				options={{ headerTitle: "User Profile" }}
-			/>
+			<AppointmentStack.Screen name="Profile" component={Profile} options={{ headerTitle: "User Profile" }} />
 		</ProfileStack.Navigator>
 	);
 }
