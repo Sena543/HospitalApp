@@ -105,12 +105,13 @@ function Login({ navigation }) {
 					justifyContent: "center",
 					alignItems: "center",
 					flex: 0.5,
+					width: "100%",
 					flexDirection: "row",
 					position: "relative",
 					bottom: "0%",
 				}}
 			>
-				<Text style={{ color: "#CCCCCC", marginLeft: 20, fontSize: 20 }}>Don't have an account?</Text>
+				<Text style={{ color: "#CCCCCC", marginLeft: 5, fontSize: 20 }}>Don't have an account?</Text>
 				<TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
 					<Text style={{ color: "#5254E0", fontSize: 20 }}> Sign Up</Text>
 				</TouchableOpacity>
