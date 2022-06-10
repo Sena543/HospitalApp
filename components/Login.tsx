@@ -1,13 +1,22 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from "react-native";
+import {
+	View,
+	Text,
+	TextInput,
+	Button,
+	StyleSheet,
+	ActivityIndicator,
+	KeyboardAvoidingView,
+	Pressable,
+} from "react-native";
 import { getToken, signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoggedInContext from "../context/loggedInContext";
 // import jwtDecode from "jwt-decode";
 
 const LOGIN = gql`
-	mutation($studentID: ID!, $password: String!) {
+	mutation ($studentID: ID!, $password: String!) {
 		loginUser(studentID: $studentID, password: $password) {
 			token
 		}
@@ -23,16 +32,12 @@ function Login({ navigation }) {
 	const [errorMsg, setErrorMsgs] = useState("");
 	const [login, { loading, error, data }] = useMutation(LOGIN, {
 		onError: (e) => {
-			// console.log(e.message);
 			setErrorMsgs(e.message);
 		},
 		onCompleted: (response) => {
 			if (response) {
 				signIn(response.loginUser.token);
 				setIsLogged(true);
-				// const token = getToken();
-				// const { user } = jwtDecode(token);
-				// console.log("userID form token:", user);
 				setGlobalStudentID(studentDetails.studentID);
 			}
 		},
@@ -50,39 +55,35 @@ function Login({ navigation }) {
 	};
 
 	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
-			<View style={{}}>
-				<Text
-					style={{
-						color: "#5254E0",
-						fontSize: 20,
-						fontWeight: "bold",
-						position: "relative",
-						right: 90,
-					}}>
-					Sign In
-				</Text>
+		<KeyboardAvoidingView style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
+			<View style={{ flex: 0.15, marginTop: "20%" }}>
+				<Text style={styles.signInStyle}>Sign In</Text>
 			</View>
-			<View style={{ flex: 0.4, width: 150 }}>
-				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.5 }}>
-					<TextInput
-						style={styles.input}
-						value={studentDetails.studentID}
-						placeholder="Staff ID"
-						keyboardType="number-pad"
-						onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
-					/>
-				</View>
-				<View style={{ justifyContent: "center", alignItems: "center", flex: 0.5 }}>
-					<TextInput
-						style={styles.input}
-						value={studentDetails.password}
-						placeholder="Password"
-						secureTextEntry={true}
-						keyboardType="number-pad"
-						onChangeText={(text) => setStudentDetails({ ...studentDetails, password: text })}
-					/>
-				</View>
+			<View
+				style={{
+					flex: 0.8,
+					width: "100%",
+					position: "relative",
+					justifyContent: "center",
+					alignContent: "space-between",
+					alignItems: "center",
+				}}
+			>
+				<TextInput
+					style={styles.input}
+					value={studentDetails.studentID}
+					placeholder="Staff ID"
+					keyboardType="number-pad"
+					onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
+				/>
+				<TextInput
+					style={styles.input}
+					value={studentDetails.password}
+					placeholder="Password"
+					secureTextEntry={true}
+					keyboardType="number-pad"
+					onChangeText={(text) => setStudentDetails({ ...studentDetails, password: text })}
+				/>
 			</View>
 			{Boolean(errorMsg) ? (
 				<View style={{ height: 50 }}>
@@ -94,15 +95,9 @@ function Login({ navigation }) {
 				{loading ? (
 					<ActivityIndicator size="large" color="#5254E0" />
 				) : (
-					<Button
-						color="#5254E0"
-						title="Sign In"
-						// onPress={() => {
-						// 	login({ variables: { ...studentDetails } });
-						// 	// handleLoggin;
-						// }}
-						onPress={handleLoggin}
-					/>
+					<Pressable style={styles.buttonStyle} onPress={handleLoggin}>
+						<Text style={styles.buttonText}>SIGN IN</Text>
+					</Pressable>
 				)}
 			</View>
 			<View
@@ -113,13 +108,14 @@ function Login({ navigation }) {
 					flexDirection: "row",
 					position: "relative",
 					bottom: "0%",
-				}}>
+				}}
+			>
 				<Text style={{ color: "#CCCCCC", marginLeft: 20, fontSize: 20 }}>Don't have an account?</Text>
 				<TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-					<Text style={{ color: "#5254E0", fontSize: 20 }}>Sign Up</Text>
+					<Text style={{ color: "#5254E0", fontSize: 20 }}> Sign Up</Text>
 				</TouchableOpacity>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 }
 
@@ -127,9 +123,36 @@ export default Login;
 
 const styles = StyleSheet.create({
 	input: {
-		width: "150%",
-		height: 30,
+		width: "80%",
+		height: "20%",
+		margin: "2%",
 		borderRadius: 5,
-		borderWidth: 1,
+		borderWidth: 1.5,
+	},
+	buttonStyle: {
+		alignItems: "center",
+		justifyContent: "center",
+		paddingVertical: 12,
+		paddingHorizontal: 32,
+		borderRadius: 4,
+		elevation: 3,
+		backgroundColor: "#5254E0",
+		color: "#fff",
+	},
+	signInStyle: {
+		color: "#5254E0",
+		fontSize: 35,
+		fontWeight: "bold",
+		marginBottom: "1%",
+		position: "relative",
+		justifyContent: "center",
+		alignContent: "center",
+	},
+	buttonText: {
+		fontSize: 16,
+		lineHeight: 21,
+		fontWeight: "bold",
+		letterSpacing: 0.25,
+		color: "white",
 	},
 });
