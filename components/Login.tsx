@@ -73,6 +73,7 @@ function Login({ navigation }) {
 					style={styles.input}
 					value={studentDetails.studentID}
 					placeholder="Staff ID"
+					autoFocus
 					keyboardType="number-pad"
 					onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
 				/>

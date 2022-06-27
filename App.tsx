@@ -1,9 +1,9 @@
+import { BACKEND_URI } from "@env";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { setContext } from "@apollo/client/link/context";
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, ApolloLink, concat } from "@apollo/client";
-
+import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import useCachedResources from "./hooks/useCachedResources";
 import Nav from "./navigation/Nav";
@@ -30,7 +30,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const uri = "https://immense-savannah-88207.herokuapp.com";
-const httpLink = new HttpLink({ uri });
+const httpLink = new HttpLink({ uri: BACKEND_URI });
 const securedLink = authLink.concat(httpLink);
 const client = new ApolloClient({
 	link: concat(errorLink, securedLink),
