@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet, Alert } from "react-native";
+import { TouchableOpacity, Modal, StyleSheet, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
+import { View, Text } from "../Themed";
 
 function Purpose({ bookAppointment, setBookAppointment }) {
 	const [showPurpose, setShowPurpose] = useState(false);
@@ -12,8 +13,9 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 			<TouchableOpacity
 				onPress={() => {
 					setShowPurpose(true);
-				}}>
-				<View style={{ height: 20 }}>
+				}}
+			>
+				<View style={{ height: 30 }}>
 					<Text>Select Appointment Purpose</Text>
 					<View
 						style={{
@@ -22,19 +24,27 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 							borderRadius: 5,
 							justifyContent: "center",
 							flexDirection: "row",
-						}}>
+						}}
+					>
 						<Text
 							style={{
 								fontStyle: "normal",
 								fontWeight: "bold",
 								fontSize: 20,
 								color: "#3036FF",
-							}}>
+							}}
+						>
 							{bookAppointment.checkupType}
 						</Text>
 						<Ionicons
 							name="chevron-down"
-							style={{ position: "relative", top: 4, backgroundColor: "#fff", left: 15 }}
+							style={{
+								position: "relative",
+								backgroundColor: "#fff",
+								left: 25,
+								justifyContent: "center",
+								alignItems: "center",
+							}}
 						/>
 					</View>
 				</View>
@@ -45,17 +55,21 @@ function Purpose({ bookAppointment, setBookAppointment }) {
 				visible={showPurpose}
 				onRequestClose={() => {
 					Alert.alert("Modal has been closed.");
-				}}>
+				}}
+			>
 				<View style={styles.modalView}>
 					<View>
-						<Text style={{ textDecorationLine: "underline" }}>Appointment Purpose</Text>
+						<Text style={{ textDecorationLine: "underline", fontSize: 25, fontWeight: "bold" }}>
+							Appointment Purpose
+						</Text>
 					</View>
 					<Picker
-						style={{ height: 50, width: 100, position: "relative", bottom: 70 }}
+						style={{ height: 30, width: 100, position: "relative", bottom: 70 }}
 						onValueChange={(itemValue, itemIndex) => {
 							setBookAppointment({ ...bookAppointment, checkupType: `${itemValue}` });
 							setShowPurpose(!showPurpose);
-						}}>
+						}}
+					>
 						{purposes.map((purpose) => {
 							return <Picker.Item label={purpose} value={purpose} key={purpose} />;
 						})}
@@ -73,7 +87,7 @@ const styles = StyleSheet.create({
 		position: "relative",
 		top: "15%",
 		margin: 20,
-		backgroundColor: "white",
+		// backgroundColor: "white",
 		borderRadius: 20,
 		padding: 20,
 		alignItems: "center",

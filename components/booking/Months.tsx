@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { FlatList, ScrollView, TouchableOpacity, Text, View } from "react-native";
+import { FlatList, ScrollView, TouchableOpacity } from "react-native";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import { View, Text } from "../Themed";
 
 const moment = extendMoment(Moment);
 export default function Months({ appointmentDate, setAppointmentDate }) {
@@ -45,37 +46,40 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 		setAppointmentDate({ ...appointmentDate, selectedMonth: index });
 	};
 	const renderDays = ({ item }) => {
-		const bgColor = todayDate == item ? "#0910FF" : "#FFFFFF";
+		const bgColor = todayDate == item ? "#0910FF" : "#033c57";
 		const textColor = todayDate == item ? "#FFFFFF" : "#000000";
 		return (
-			<View
-				style={{
-					backgroundColor: bgColor,
-					height: 55,
-					width: 45,
-					borderRadius: 12,
-					justifyContent: "center",
-					display: "flex",
-					alignItems: "center",
-				}}>
-				<TouchableOpacity onPress={() => handleSetDate(item)}>
+			<TouchableOpacity onPress={() => handleSetDate(item)}>
+				<View
+					style={{
+						backgroundColor: bgColor,
+						margin: 3,
+						height: 55,
+						width: 50,
+						borderRadius: 12,
+						justifyContent: "center",
+						display: "flex",
+						alignItems: "center",
+					}}
+				>
 					<Text
 						style={{
 							fontStyle: "normal",
 							fontWeight: "bold",
 							fontSize: 25,
 							color: textColor,
-						}}>
+						}}
+					>
 						{item}
 					</Text>
-				</TouchableOpacity>
-			</View>
+				</View>
+			</TouchableOpacity>
 		);
 	};
 
 	const renderMonths = ({ item }) => {
 		const selectedColor = renderedMonths === item ? "#3036FF" : "#BFBFBF";
-		const bgColor = renderedMonths === item ? "#ECECFF" : "#FFF";
+		const bgColor = renderedMonths === item ? "#ECECFF" : null;
 		return (
 			<>
 				<TouchableOpacity onPress={() => handleSetMonth(item)}>
@@ -88,7 +92,8 @@ export default function Months({ appointmentDate, setAppointmentDate }) {
 							borderRadius: 5,
 							color: selectedColor,
 							backgroundColor: bgColor,
-						}}>
+						}}
+					>
 						{item}
 					</Text>
 				</TouchableOpacity>

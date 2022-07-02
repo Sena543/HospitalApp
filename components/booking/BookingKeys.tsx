@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native";
+import { View, Text } from "../Themed";
 
 export default function BookingKeys() {
 	return (
@@ -11,7 +11,8 @@ export default function BookingKeys() {
 				flexDirection: "row",
 				marginLeft: 20,
 				marginRight: 20,
-			}}>
+			}}
+		>
 			<View style={{ flex: 1, flexDirection: "row" }}>
 				<Ionicons
 					name="radio-button-on-outline"

@@ -10,6 +10,7 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	Button,
+	useColorScheme,
 } from "react-native";
 // import { Picker } from "@react-native-picker/picker";
 import LoggedInContext from "../context/loggedInContext";
@@ -71,7 +72,8 @@ const GET_AVAILABLE_DOCTORS = gql`
 function Booking() {
 	const { globalStudentID } = useContext(LoggedInContext);
 	const [showModal, setShowModal] = useState(false);
-
+	const theme = useColorScheme();
+	console.log("theme", theme);
 	const [appointmentDate, setAppointmentDate] = useState({
 		year: new Date().getFullYear(),
 		selectedMonth: new Date().getMonth() + 1,
@@ -294,7 +296,12 @@ function Booking() {
 }
 
 const styles = StyleSheet.create({
-	text: { fontSize: 20, fontStyle: "normal", fontWeight: "bold", marginRight: 20 },
+	text: {
+		fontSize: 20,
+		fontStyle: "normal",
+		fontWeight: "bold",
+		marginRight: 20,
+	},
 	modalView: {
 		position: "relative",
 		top: "20%",
