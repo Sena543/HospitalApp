@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useContext } from "react";
 import {
-	View,
-	Text,
+	// View,
+	// Text,
 	Alert,
 	StyleSheet,
 	SafeAreaView,
@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	Button,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+// import { Picker } from "@react-native-picker/picker";
 import LoggedInContext from "../context/loggedInContext";
 import Confirm from "./booking/Confirm";
 import moment from "moment";
@@ -22,9 +22,10 @@ import BookingKeys from "./booking/BookingKeys";
 import Purpose from "./booking/Purpose";
 import AvailabeAppointments from "./booking/AvailableAppointment";
 import ErrorMessage from "./booking/ErrorMessage";
+import { View, Text } from "./Themed";
 
 const BOOK_APPOINTMENT = gql`
-	mutation(
+	mutation (
 		$studentID: ID!
 		$doctorID: ID!
 		$checkupType: String!
@@ -56,7 +57,7 @@ const BOOK_APPOINTMENT = gql`
 `;
 
 const GET_AVAILABLE_DOCTORS = gql`
-	query($timeSelected: String) {
+	query ($timeSelected: String) {
 		getAvailableDoctors(timeSelected: $timeSelected) {
 			doctorID
 			doctorName
@@ -92,9 +93,7 @@ function Booking() {
 	const [bookAppointment, setBookAppointment] = useState({
 		checkupType: "Regular Checkup",
 		appointmentDate: moment(
-			new Date(
-				`${appointmentDate.year}-${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`
-			)
+			new Date(`${appointmentDate.year}-${appointmentDate.selectedMonth}-${appointmentDate.selectedDay}`)
 		).format("DD-MM-YYYY"),
 		startTime: moment(new Date().getTime()).format("h:mm"),
 		endTime: "",
@@ -118,8 +117,7 @@ function Booking() {
 		onError: (e) => {
 			setShowError({
 				errorModal: true,
-				errorMessage:
-					"Appointment time not available with selected doctor. Select another time or doctor",
+				errorMessage: "Appointment time not available with selected doctor. Select another time or doctor",
 			});
 		},
 	});
@@ -177,7 +175,8 @@ function Booking() {
 					justifyContent: "space-between",
 					marginLeft: 10,
 					marginRight: 30,
-				}}>
+				}}
+			>
 				{/* <TouchableOpacity
 					onPress={() => {
 						setShowComponents({ ...showComponents, datePicker: true });
@@ -200,7 +199,8 @@ function Booking() {
 				<TouchableOpacity
 					onPress={() => {
 						setShowComponents({ ...showComponents, timePicker: true });
-					}}>
+					}}
+				>
 					<View style={{ height: 50 }}>
 						<Text>Select Time</Text>
 						<Text style={{ fontStyle: "normal", fontWeight: "bold", fontSize: 20 }}>
@@ -234,7 +234,8 @@ function Booking() {
 								borderColor: "#000",
 								height: 50,
 								borderStyle: "dashed",
-							}}>
+							}}
+						>
 							<Text style={{ fontSize: 20, fontWeight: "bold" }}>
 								No Doctors currently available at current time
 							</Text>
@@ -252,7 +253,8 @@ function Booking() {
 												doctorID: data.doctorID,
 											});
 											setShowModal(true);
-										}}>
+										}}
+									>
 										<AvailabeAppointments
 											appTime={bookAppointment.startTime}
 											doctorName={data.doctorName}
@@ -273,18 +275,13 @@ function Booking() {
 							// confirmApp={confirmAppointment}
 						/>
 					</Modal>
-					<Modal
-						animationType="slide"
-						transparent={true}
-						visible={showComponents.appointmentBooked}>
+					<Modal animationType="slide" transparent={true} visible={showComponents.appointmentBooked}>
 						<View style={styles.confirmAppView}>
 							<Text style={{ fontSize: 20, fontWeight: "bold" }}>
 								Appointment was booked successfully
 							</Text>
 							<Button
-								onPress={() =>
-									setShowComponents({ ...showComponents, appointmentBooked: false })
-								}
+								onPress={() => setShowComponents({ ...showComponents, appointmentBooked: false })}
 								title="Okay"
 							/>
 						</View>

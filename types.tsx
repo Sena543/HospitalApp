@@ -9,7 +9,7 @@ export type BottomTabParamList = {
 };
 
 export type TabOneParamList = {
-	TabOneScreen: undefined;
+	AppointmentScreen: undefined;
 };
 
 export type TabTwoParamList = {

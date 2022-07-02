@@ -19,7 +19,7 @@ import RadioGroup from "react-native-radio-buttons-group";
 import moment from "moment";
 
 const SIGNUP_STUDENT = gql`
-	mutation(
+	mutation (
 		$studentName: String!
 		$studentID: ID!
 		$email: String!
@@ -83,12 +83,12 @@ function SignUp({ navigation }) {
 		confirmPass: "",
 		phoneNumber: "",
 	});
-	const [addNewStudent, { loading, __, data }] = useMutation(SIGNUP_STUDENT, {
+	const [addNewStudent, { loading, data }] = useMutation(SIGNUP_STUDENT, {
 		onCompleted: (d) => {
 			navigation.navigate("SignIn");
 		},
 		onError: (e) => {
-			// console.error(e.message);
+			console.error(e.message);
 		},
 	});
 
@@ -124,7 +124,8 @@ function SignUp({ navigation }) {
 	// ];
 
 	const validateEmail = (email) => {
-		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		var re =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(email);
 	};
 
@@ -143,9 +144,7 @@ function SignUp({ navigation }) {
 	// };
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			style={styles.container}>
+		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
 			<View style={{ marginTop: 30, padding: 0, marginBottom: 10 }}>
 				<Text
 					style={{
@@ -154,7 +153,8 @@ function SignUp({ navigation }) {
 						fontWeight: "bold",
 						position: "relative",
 						right: 95,
-					}}>
+					}}
+				>
 					Sign up
 				</Text>
 			</View>
@@ -163,7 +163,8 @@ function SignUp({ navigation }) {
 				contentContainerStyle={{
 					justifyContent: "center",
 					alignItems: "center",
-				}}>
+				}}
+			>
 				<View style={styles.formView}>
 					<View>
 						<TextInput
@@ -174,9 +175,7 @@ function SignUp({ navigation }) {
 						/>
 						<TextInput
 							value={studentData.studentID}
-							onChangeText={(text) =>
-								setStudentData({ ...studentData, studentID: text.trimEnd() })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, studentID: text.trimEnd() })}
 							placeholder="Staff ID"
 							keyboardType="number-pad"
 							style={styles.input}
@@ -210,9 +209,7 @@ function SignUp({ navigation }) {
 						) : null}
 						<TextInput
 							value={studentData.phoneNumber}
-							onChangeText={(text) =>
-								setStudentData({ ...studentData, phoneNumber: text.trimEnd() })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, phoneNumber: text.trimEnd() })}
 							placeholder="Phone Number"
 							keyboardType="number-pad"
 							maxLength={10}
@@ -229,9 +226,7 @@ function SignUp({ navigation }) {
 						/> */}
 						<TextInput
 							value={studentData.department}
-							onChangeText={(text) =>
-								setStudentData({ ...studentData, department: text.trimEnd() })
-							}
+							onChangeText={(text) => setStudentData({ ...studentData, department: text.trimEnd() })}
 							placeholder="Department"
 							// keyboardType="number-pad"
 							// maxLength={10}
@@ -243,8 +238,8 @@ function SignUp({ navigation }) {
 						<View style={{ position: "relative", bottom: 10 }}>
 							<RadioGroup
 								radioButtons={[
-									{ label: "Male", value: "Male" },
-									{ label: "Female", value: "Female" },
+									{ label: "Male", value: "Male", id: "male" },
+									{ label: "Female", value: "Female", id: "female" },
 								]}
 								flexDirection="row"
 								color={"#5254E0"}
@@ -263,7 +258,8 @@ function SignUp({ navigation }) {
 							<TouchableOpacity
 								onPress={() => {
 									setSelectItem({ ...selectItems, pickDOB: true });
-								}}>
+								}}
+							>
 								<Text>{studentData.dateOfBirth}</Text>
 							</TouchableOpacity>
 						</View>
@@ -352,14 +348,13 @@ function SignUp({ navigation }) {
 						alignItems: "center",
 						flexDirection: "row",
 						position: "relative",
-					}}>
+					}}
+				>
 					<Text style={{ color: "#CCCCCC", marginLeft: 20, fontSize: 20, marginBottom: 30 }}>
 						Already have an account?
 					</Text>
 					<TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-						<Text style={{ color: "#5254E0", marginLeft: 5, fontSize: 20, marginBottom: 30 }}>
-							Sign In
-						</Text>
+						<Text style={{ color: "#5254E0", marginLeft: 5, fontSize: 20, marginBottom: 30 }}>Sign In</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>

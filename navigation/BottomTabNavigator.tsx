@@ -101,7 +101,8 @@ const ProfileStack = createStackNavigator<ProfileParamList>();
 function ProfileNavigator() {
 	return (
 		<ProfileStack.Navigator>
-			<AppointmentStack.Screen name="Profile" component={Profile} options={{ headerTitle: "Your Profile" }} />
+			<AppointmentStack.Screen name="Your Profile" component={Profile} />
+			{/* <AppointmentStack.Screen name="Profile" component={Profile} options={{ headerTitle: "Your Profile" }} /> */}
 		</ProfileStack.Navigator>
 	);
 }

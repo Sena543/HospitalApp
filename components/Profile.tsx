@@ -5,7 +5,7 @@ import LoggedInContext from "../context/loggedInContext";
 import { View, Text } from "./Themed";
 
 const GET_STUDENT_PROFILE = gql`
-	query($studentID: ID!) {
+	query ($studentID: ID!) {
 		getStudentProfile(studentID: $studentID) {
 			# dateOfBirth
 			# email
@@ -31,6 +31,7 @@ const GET_STUDENT_PROFILE = gql`
 
 function Profile() {
 	const { globalStudentID } = useContext(LoggedInContext);
+	const [studentData, setStudentData] = useState(null);
 	const { loading, error, data } = useQuery(GET_STUDENT_PROFILE, {
 		variables: { studentID: globalStudentID },
 		onError: (error) => {
@@ -40,7 +41,6 @@ function Profile() {
 			setStudentData(data?.getStudentProfile);
 		},
 	});
-	const [studentData, setStudentData] = useState(null);
 
 	useEffect(() => {}, [studentData]);
 
