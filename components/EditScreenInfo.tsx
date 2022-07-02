@@ -6,6 +6,7 @@ import ImageComp from "./appointment/ImageComp";
 import { gql, useQuery } from "@apollo/client";
 import { getToken } from "../util";
 import jwtDecode from "jwt-decode";
+import { BACKEND_URI } from "@env";
 
 const GETAPPOINTMENTHISTORY = `
 	query($studentID: ID!) {
@@ -43,7 +44,6 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 	const [data, setData]: [any, any] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	// const [appointmentHistory, setAppointmentHistory] = useState([]);
 
 	async function fetchData() {
 		const token = await getToken();
@@ -55,7 +55,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 
 		setError(null);
 
-		fetch("https://immense-savannah-88207.herokuapp.com", {
+		fetch(BACKEND_URI, {
 			method: "POST",
 			headers: {
 				auth_token: token,
@@ -69,7 +69,7 @@ export default function EditScreenInfo({ path, studentID }: { path: string; stud
 		})
 			.then((response) => response.json())
 			.then((result) => {
-				// console.log(result.data)
+				// console.log(result);
 				setData(result.data);
 				if (result.errors) setError(new Error("An error occurred. Please try again later."));
 			})

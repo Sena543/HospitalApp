@@ -33,7 +33,7 @@ function AppoitmentList({ appointmentHistory }) {
 					Be sure present 15 minutes before Doctor's appointment or appointment will be cancelled{" "}
 				</Text>
 			</View>
-			{appointmentHistory === null || appointmentHistory.length === 0 ? (
+			{appointmentHistory === null || appointmentHistory?.length === 0 || !appointmentHistory ? (
 				<View
 					style={{
 						justifyContent: "center",
