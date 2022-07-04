@@ -13,11 +13,7 @@ const Stack = createStackNavigator();
 function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen
-				name="Root"
-				// options={{ headerStyle: { backgroundColor: "#000" } }}
-				component={BottomTabNavigator}
-			/>
+			<Stack.Screen name="Root" component={BottomTabNavigator} />
 			<Stack.Screen
 				name="Settings"
 				component={SettingScreen}

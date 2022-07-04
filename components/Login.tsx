@@ -1,18 +1,20 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useContext, useState } from "react";
 import {
-	View,
-	Text,
+	// View,
+	// Text,
+	// KeyboardAvoidingView,
 	TextInput,
 	Button,
 	StyleSheet,
 	ActivityIndicator,
-	KeyboardAvoidingView,
 	Pressable,
 } from "react-native";
 import { getToken, signIn } from "../util";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoggedInContext from "../context/loggedInContext";
+import { View, Text, KeyboardAvoidingView } from "./Themed";
+import useColorScheme from "../hooks/useColorScheme";
 // import jwtDecode from "jwt-decode";
 
 const LOGIN = gql`
@@ -24,6 +26,9 @@ const LOGIN = gql`
 `;
 
 function Login({ navigation }) {
+	const colorScheme = useColorScheme();
+	const inputBorderToggle = colorScheme === "dark" ? "#fff" : "#000";
+	const inputTextBorderToggle = colorScheme === "dark" ? "#fff" : "#000";
 	const { setIsLogged, setGlobalStudentID } = useContext(LoggedInContext);
 	const [studentDetails, setStudentDetails] = useState({
 		studentID: "",
@@ -55,7 +60,7 @@ function Login({ navigation }) {
 	};
 
 	return (
-		<KeyboardAvoidingView style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", marginTop: 60 }}>
+		<KeyboardAvoidingView style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}>
 			<View style={{ flex: 0.15, marginTop: "20%" }}>
 				<Text style={styles.signInStyle}>Sign In</Text>
 			</View>
@@ -70,7 +75,8 @@ function Login({ navigation }) {
 				}}
 			>
 				<TextInput
-					style={styles.input}
+					style={[{ borderColor: inputBorderToggle }, styles.input]}
+					// ={{ colors: { text: inputBorderToggle } }}
 					value={studentDetails.studentID}
 					placeholder="Staff ID"
 					autoFocus
@@ -78,7 +84,8 @@ function Login({ navigation }) {
 					onChangeText={(text) => setStudentDetails({ ...studentDetails, studentID: text })}
 				/>
 				<TextInput
-					style={styles.input}
+					style={[{ borderColor: inputBorderToggle }, styles.input]}
+					// theme={{ colors: { text: inputBorderToggle } }}
 					value={studentDetails.password}
 					placeholder="Password"
 					secureTextEntry={true}

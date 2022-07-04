@@ -1,21 +1,21 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import {
-	View,
-	Text,
 	StyleSheet,
 	TextInput,
 	ScrollView,
-	Modal,
-	FlatList,
 	TouchableOpacity,
 	Platform,
 	Button,
-	KeyboardAvoidingView,
 	ActivityIndicator,
+	useColorScheme,
+	// KeyboardAvoidingView,
+	// View,
+	// Text,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RadioGroup from "react-native-radio-buttons-group";
+import { View, Text, KeyboardAvoidingView } from "../components/Themed";
 import moment from "moment";
 
 const SIGNUP_STUDENT = gql`
@@ -67,6 +67,8 @@ const SIGNUP_STUDENT = gql`
 `;
 
 function SignUp({ navigation }) {
+	const colorScheme = useColorScheme();
+	const inputBorderToggle = colorScheme === "dark" ? "#fff" : "#000";
 	const [studentData, setStudentData] = useState({
 		dateOfBirth: moment(new Date()).format("DD-MM-YYYY"),
 		email: "",
@@ -169,7 +171,8 @@ function SignUp({ navigation }) {
 					<View>
 						<TextInput
 							placeholder="Full Name"
-							style={styles.input}
+							// style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
 							value={studentData.studentName}
 							onChangeText={(text) => setStudentData({ ...studentData, studentName: text })}
 						/>
@@ -178,14 +181,16 @@ function SignUp({ navigation }) {
 							onChangeText={(text) => setStudentData({ ...studentData, studentID: text.trimEnd() })}
 							placeholder="Staff ID"
 							keyboardType="number-pad"
-							style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
+							// style={styles.input}
 						/>
 
 						<TextInput
 							value={studentData.email}
 							onChangeText={(text) => setStudentData({ ...studentData, email: text.trimEnd() })}
 							placeholder="Email"
-							style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
+							// style={styles.input}
 						/>
 						<TextInput
 							value={studentData.password}
@@ -193,7 +198,8 @@ function SignUp({ navigation }) {
 							placeholder="Password"
 							keyboardType="number-pad"
 							secureTextEntry={true}
-							style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
+							// style={styles.input}
 						/>
 						<TextInput
 							value={studentData.confirmPass}
@@ -202,7 +208,8 @@ function SignUp({ navigation }) {
 							keyboardType="number-pad"
 							secureTextEntry={true}
 							// textContentType="password"
-							style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
+							// style={styles.input}
 						/>
 						{studentData.password !== studentData.confirmPass ? (
 							<Text style={{ color: "red" }}>Passwords not equal</Text>
@@ -213,7 +220,8 @@ function SignUp({ navigation }) {
 							placeholder="Phone Number"
 							keyboardType="number-pad"
 							maxLength={10}
-							style={styles.input}
+							// style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
 						/>
 						{/* <TextInput
 							value={studentData.studentType}
@@ -230,7 +238,8 @@ function SignUp({ navigation }) {
 							placeholder="Department"
 							// keyboardType="number-pad"
 							// maxLength={10}
-							style={styles.input}
+							// style={styles.input}
+							style={[{ borderColor: inputBorderToggle }, styles.input]}
 						/>
 					</View>
 					<View style={{ flexDirection: "row" }}>
@@ -238,11 +247,20 @@ function SignUp({ navigation }) {
 						<View style={{ position: "relative", bottom: 10 }}>
 							<RadioGroup
 								radioButtons={[
-									{ label: "Male", value: "Male", id: "male" },
-									{ label: "Female", value: "Female", id: "female" },
+									{
+										// label: <Text style={{ color: inputBorderToggle }}>{"Male"}</Text>,
+										label: "Male",
+										value: "Male",
+										id: "male",
+									},
+									{
+										// label: <Text style={{ color: inputBorderToggle }}>Female</Text>,
+										label: "Female",
+										value: "Female",
+										id: "female",
+									},
 								]}
-								flexDirection="row"
-								color={"#5254E0"}
+								// color={inputBorderToggle}
 								onPress={(data) => {
 									const sel = data.find((d) => {
 										return d.selected == true;
@@ -272,62 +290,6 @@ function SignUp({ navigation }) {
 							}}
 						/>
 					</View>
-					{/* <View>
-						<View>
-							<View
-								style={{
-									// flexDirection: "row",
-									justifyContent: "space-between",
-									alignItems: "center",
-									margin: 20,
-								}}>
-								<Text>Residential Status</Text>
-								<RadioGroup
-									radioButtons={[
-										{ label: "Non Resident", value: "Non Resident" },
-										{ label: "Resident", value: "Resident" },
-									]}
-									flexDirection="row"
-									color={"#5254E0"}
-									onPress={(data) => {
-										const sel = data.find((d) => {
-											return d.selected == true;
-										});
-										setStudentData({ ...studentData, residentialStatus: sel.value });
-									}}
-								/>
-							</View>
-						</View>
-						{studentData.residentialStatus === "Resident" ? (
-							<View style={{ justifyContent: "center", alignItems: "center" }}>
-								<View>
-									<TextInput
-										style={styles.input}
-										placeholder="Select Hall"
-										onFocus={() => setSelectItem({ ...selectItems, selectHall: true })}
-										value={studentData.hallOfResidence}
-									/>
-								</View>
-								<Modal visible={selectItems.selectHall}>
-									<View style={styles.modalView}>
-										<FlatList
-											data={halls}
-											renderItem={renderHalls}
-											keyExtractor={(item) => item.name}
-										/>
-									</View>
-								</Modal>
-								<TextInput
-									value={studentData.roomNumber}
-									onChangeText={(text) =>
-										setStudentData({ ...studentData, roomNumber: text })
-									}
-									placeholder="Room Number"
-									style={styles.input}
-								/>
-							</View>
-						) : null}
-					</View> */}
 				</View>
 				<View style={{ position: "relative", top: "3%", marginBottom: 30 }}>
 					{loading ? (
@@ -369,7 +331,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#fff",
+		// backgroundColor: "#fff",
 	},
 	input: {
 		width: 260,
