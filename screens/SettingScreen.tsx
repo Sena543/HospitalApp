@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useContext } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Image, Platform } from "react-native";
+import { TouchableOpacity, StyleSheet, Image, Platform } from "react-native";
+import { View, Text } from "../components/Themed";
 import LoggedInContext from "../context/loggedInContext";
 import { signOut } from "../util";
 
@@ -20,7 +21,8 @@ function SettingScreen({}) {
 					flexDirection: "column",
 					justifyContent: "space-around",
 					position: "relative",
-				}}>
+				}}
+			>
 				<View style={styles.iconContianer}>
 					<View style={styles.itemView}>
 						<View>
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 	},
 	itemView: {
-		backgroundColor: "#F4F2F8",
+		// backgroundColor: "#F4F2F8",
 		width: "45%",
 		borderRadius: 20,
 		height: "45%",
@@ -93,7 +95,5 @@ const styles = StyleSheet.create({
 		width: 60,
 		height: 30,
 		// borderRadius: 50,
-		// position: "relative",
-		// left: 75,
 	},
 });

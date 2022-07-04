@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Image, StyleSheet } from "react-native";
 import LoggedInContext from "../context/loggedInContext";
@@ -29,7 +30,7 @@ const GET_STUDENT_PROFILE = gql`
 	}
 `;
 
-function Profile() {
+function ProfileScreen() {
 	const { globalStudentID } = useContext(LoggedInContext);
 	const [studentData, setStudentData] = useState(null);
 	const { loading, error, data } = useQuery(GET_STUDENT_PROFILE, {
@@ -64,7 +65,8 @@ function Profile() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageView}>
-				<Image style={styles.image} source={require("../assets/images/moon.jpg")} />
+				<Ionicons name="person-circle-outline" style={styles.image} size={170} />
+				{/* <Image style={styles.image} source={require("../assets/images/moon.jpg")} /> */}
 			</View>
 			<View style={styles.profileDetails}>
 				<View style={{ marginLeft: 20 }}>
@@ -80,33 +82,8 @@ function Profile() {
 						<Text style={styles.title}>Gender</Text>
 						<Text style={styles.data}>{studentData?.gender}</Text>
 					</View>
-					{/* <View>
-						<Text style={styles.title}>Student Level</Text>
-						<Text style={styles.data}>{studentData?.yearAdmitted}</Text>
-					</View>
-					<View>
-						<Text style={styles.title}>Hall of Residence</Text>
-						<Text style={styles.data}>{studentData?.hallOfResidence}</Text>
-					</View> */}
 				</View>
-				{/* <View style={{ marginRight: 40 }}>
-					<View>
-						<Text style={styles.title}>Student Type</Text>
-						<Text style={styles.data}>{studentData?.studentType}</Text>
-					</View>
-					<View>
-						<Text style={styles.title}>Residential Status</Text>
-						<Text style={styles.data}>{studentData?.residentialStatus}</Text>
-					</View>
-					<View>
-						<Text style={styles.title}>Room Number</Text>
-						<Text style={styles.data}>{studentData?.roomNumber}</Text>
-					</View>
-					<View>
-						<Text style={styles.title}>Last Appointment</Text>
-						<Text style={styles.data}>{studentData?.lastApointment}</Text>
-					</View>
-				</View> */}
+
 				<View style={{ marginRight: 40 }}>
 					<View>
 						<Text style={styles.title}>Phone Number</Text>
@@ -120,24 +97,20 @@ function Profile() {
 						<Text style={styles.title}>Birth Date</Text>
 						<Text style={styles.data}>{studentData?.dateOfBirth}</Text>
 					</View>
-					{/* <View>
-						<Text style={styles.title}>Last Appointment</Text>
-						<Text style={styles.data}>{studentData?.lastApointment}</Text>
-					</View> */}
 				</View>
 			</View>
 		</View>
 	);
 }
 
-export default Profile;
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignContent: "center",
 		display: "flex",
-		backgroundColor: "#fff",
+		// backgroundColor: "#fff",
 	},
 	loading: {
 		width: "100%",
@@ -151,7 +124,7 @@ const styles = StyleSheet.create({
 		margin: 5,
 	},
 	data: {
-		color: "#000000",
+		// color: "#000000",
 		fontSize: 16,
 		fontWeight: "bold",
 		margin: 5,
@@ -162,6 +135,11 @@ const styles = StyleSheet.create({
 	},
 	imageView: {
 		flex: 1,
+		display: "flex",
+		position: "relative",
+		justifyContent: "center",
+		alignItems: "center",
+		left: "25%",
 	},
 	profileDetails: {
 		flex: 2,

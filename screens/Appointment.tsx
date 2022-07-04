@@ -5,21 +5,15 @@ import EditScreenInfo from "../components/EditScreenInfo";
 // import { Text, View } from "../components/Themed";
 import LoggedInContext from "../context/loggedInContext";
 
-export default function Appointment() {
+export default function AppointmentScreen() {
 	const { globalStudentID } = React.useContext(LoggedInContext);
 	console.log("loggedID", globalStudentID);
-	return (
-		<SafeAreaView style={styles.container}>
-			<EditScreenInfo path="/screens/Appointment.tsx" studentID={globalStudentID} />
-		</SafeAreaView>
-	);
+	return <EditScreenInfo path="/screens/Appointment.tsx" studentID={globalStudentID} />;
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// alignItems: 'center',
-		// justifyContent: 'center',
 	},
 	title: {
 		fontSize: 20,

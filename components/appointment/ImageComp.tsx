@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import { Image, StyleSheet } from "react-native";
+import { View, Text } from "../Themed";
 function ImageComp({ name }) {
 	// console.log(name)
 	return (
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		flex: 1,
-		marginTop: "5%",
+		marginTop: "10%",
 		marginRight: "5%",
 		width: 80,
 		height: 80,
@@ -34,6 +35,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		left: 50,
+		marginLeft: "5%",
+		marginBottom: "5%",
 	},
 	imageView: {
 		flex: 1,

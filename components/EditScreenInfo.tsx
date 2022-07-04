@@ -1,12 +1,13 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView, ActivityIndicator, View, Text } from "react-native";
+import { StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import AppoitmentList from "./appointment/AppoitmentList";
 import ImageComp from "./appointment/ImageComp";
 import { gql, useQuery } from "@apollo/client";
 import { getToken } from "../util";
 import jwtDecode from "jwt-decode";
 import { BACKEND_URI } from "@env";
+import { View, Text } from "./Themed";
 
 const GETAPPOINTMENTHISTORY = `
 	query($studentID: ID!) {
@@ -121,6 +122,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignContent: "center",
 		display: "flex",
-		backgroundColor: "#fff",
+		// backgroundColor: "#fff",
 	},
 });

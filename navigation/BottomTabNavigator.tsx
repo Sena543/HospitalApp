@@ -2,14 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import Profile from "../components/Profile";
+import ProfileScreen from "../components/Profile";
 import { TouchableOpacity } from "react-native";
-import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import Appointment from "../screens/Appointment";
+import AppointmentScreen from "../screens/Appointment";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import { BottomTabParamList, ProfileParamList, TabOneParamList, TabTwoParamList } from "../types";
-import Navigation from ".";
+// import Navigation from ".";
+// import Colors from "../constants/Colors";
+// import { color } from "react-native-reanimated";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -17,24 +18,25 @@ export default function BottomTabNavigator() {
 	const colorScheme = useColorScheme();
 	const activeColor = "#0E14FF";
 
+	const bottomTabDarkModeToggle = colorScheme === "dark" ? "#303030" : "#fff";
+	const textDarkModeToggle = colorScheme === "dark" ? "#fff" : "#000";
+	const headerDarkModeToggle = colorScheme === "dark" ? "#303030" : "#fff";
 	return (
 		<BottomTab.Navigator
 			initialRouteName="TabOne"
 			screenOptions={{
 				tabBarActiveTintColor: activeColor,
 				tabBarActiveBackgroundColor: "#E9E9FF",
+				tabBarLabelStyle: { color: textDarkModeToggle },
 				tabBarStyle: {
 					borderWidth: 0.5,
 					borderBottomWidth: 1,
-					// backgroundColor: "orange",
+					backgroundColor: bottomTabDarkModeToggle,
 					borderTopLeftRadius: 5,
 					borderTopRightRadius: 5,
-					borderColor: "transparent",
 					overflow: "hidden",
 				},
 			}}
-			// tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
-			// tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
 		>
 			<BottomTab.Screen
 				name="Appointment"
@@ -76,9 +78,10 @@ function AppointmentNavigator({ navigation }) {
 		<AppointmentStack.Navigator>
 			<AppointmentStack.Screen
 				name="AppointmentScreen"
-				component={Appointment}
+				component={AppointmentScreen}
 				options={{
-					headerTitle: "Appointment History",
+					title: "Appointment History",
+					headerTintColor: "#000",
 					headerRight: () => {
 						return (
 							<TouchableOpacity
@@ -101,7 +104,7 @@ const ProfileStack = createStackNavigator<ProfileParamList>();
 function ProfileNavigator() {
 	return (
 		<ProfileStack.Navigator>
-			<AppointmentStack.Screen name="Your Profile" component={Profile} />
+			<AppointmentStack.Screen name="Your Profile" component={ProfileScreen} />
 			{/* <AppointmentStack.Screen name="Profile" component={Profile} options={{ headerTitle: "Your Profile" }} /> */}
 		</ProfileStack.Navigator>
 	);

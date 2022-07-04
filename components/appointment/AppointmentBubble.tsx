@@ -1,6 +1,7 @@
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+// import { Text } from "../Themed";
 
 function AppointmentBubble({
 	date,
@@ -35,8 +36,12 @@ function AppointmentBubble({
 				borderRadius: 20,
 				alignItems: "center",
 				justifyContent: "center",
-				margin: 20,
-			}}>
+				marginLeft: "5%",
+				marginRight: "5%",
+				marginBottom: "15%",
+				marginTop: "1%",
+			}}
+		>
 			<View style={{ display: "flex", justifyContent: "center" }}>
 				<Text style={{ color: "#a39bc6", fontSize: 15, fontWeight: "bold" }}>{date}</Text>
 			</View>
